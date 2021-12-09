@@ -15,5 +15,5 @@ echo "开始安装ServerlessFramework";
 sudo npm install -g serverless;
 sudo mkdir tmp/;
 shopt -s extglob;
-sudo mv !(tmp|serverless|code|.github|.git) ./tmp;
+sudo mv !(tmp|serverless|public|code|.github|.git) ./tmp;
 sudo mv ./serverless/serverless.yml ./tmp;

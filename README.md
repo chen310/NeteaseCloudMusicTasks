@@ -24,9 +24,9 @@ fork之后，点击右上方`settings`，在页面点击`Secrets`，然后点击
 | Name | Value | 是否必填 |
 | :--- | :--- | :--- |
 | SECRET_ID | 填写之前获取的 SecretId | 必填 |
-| SECRET_KEY | 填写之前获取的 SecretKey | 必填
+| SECRET_KEY | 填写之前获取的 SecretKey | 必填|
 | CRON | 定时触发器的时间 | 选填 |
-| REGION | 地域，默认未广州 | 选填 |
+| REGION | 地域，默认为广州 | 选填 |
 
 CRON 默认为 `0 30 0 * * * *` 表示每天0点30分触发，可自行更改。比如：`0 20 12 * * * *` 表示每天12点20分触发，`0 0 12,16 * * * *` 表示每天12点和16点各触发一次。
 
@@ -279,7 +279,7 @@ CRON 默认为 `0 30 0 * * * *` 表示每天0点30分触发，可自行更改。
 }
 ```
 
-默认会在网易云音乐中关注我，不喜欢的可自行取消，欢迎点击底部的打赏。
+默认会在网易云音乐中关注我，不喜欢的可自行取消。
 
 ### 测试
 修改完代码后，按ctrl+s保存代码，然后点击编辑器右上角的`部署`（每次修改完都要重新部署），左下角的`部署`也行。部署完成后点击部署旁边的测试按钮，观察结果，如果失败则检查修改代码。
@@ -290,7 +290,7 @@ CRON 默认为 `0 30 0 * * * *` 表示每天0点30分触发，可自行更改。
 [计费方式](https://cloud.tencent.com/document/product/628/39300)
 
 ### 更新代码
-在GitHub项目页面点击`Fetch unstream` - `Fetch and merge`，然后再[部署](#部署)。重新部署之后，配置文件自动同步，无需再次填写。
+在GitHub项目页面点击`Fetch upstream` - `Fetch and merge`，然后再[部署](#部署)。重新部署之后，配置文件自动同步，无需再次填写。
 
 ## 二、本地运行
 ### 下载
@@ -352,6 +352,13 @@ python index.py
 </table>
 
 详见[计费概述](https://cloud.tencent.com/document/product/583/17299)
+
+### 赞赏
+<p align="left">微信</p> <img width="300" height="300" src="./public/img/wechat.png" />
+
+### 声明
+- 本仓库中的脚本仅用于测试和学习目的，请勿用于商业或非法目的，否则后果自负
+- 如果您认为该项目的脚本可能涉嫌侵犯您的权利，应及时通知，我们将在确认后及时删除
 
 ### 灵感来源
 1. [网易云音乐 API](https://github.com/Binaryify/NeteaseCloudMusicApi)
