@@ -1,0 +1,19 @@
+app: NeteaseCloudMusicTasks
+component: scf
+name: NeteaseCloudMusicTasks
+
+inputs:
+  name: NeteaseCloudMusicTasks
+  description: 网易云音乐自动任务
+  src: ./
+  handler: index.main_handler
+  runtime: Python3.6
+  region: ap-guangzhou
+  memorySize: 128
+  timeout: 900
+  events:
+    - timer:
+        name: timer-default
+        parameters:
+          cronExpression: '0 30 0 * * * *'
+          enable: true
