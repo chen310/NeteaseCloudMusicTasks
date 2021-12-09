@@ -9,7 +9,8 @@ def copy_config(src, dst):
     if isinstance(src, dict):
         for key in src:
             if key in target:
-                target[key] = copy_config(src[key], target[key])
+                if key != 'version':
+                    target[key] = copy_config(src[key], target[key])
             else:
                 target[key] = src[key]
     elif isinstance(src, list):
