@@ -354,7 +354,7 @@ python index.py
 详见[计费概述](https://cloud.tencent.com/document/product/583/17299)
 
 ### 赞赏
-<p align="left">微信</p> <img width="300" height="300" src="./public/img/wechat.png" />
+<p align="left">微信</p> <img width="300" height="300" src="https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/wechat.png" />
 
 ### 声明
 - 本仓库中的脚本仅用于测试和学习目的，请勿用于商业或非法目的，否则后果自负
