@@ -24,5 +24,4 @@ try:
     print(resp.Url)
 
 except TencentCloudSDKException as err:
-    # print(err)
-    pass
+    print("ERROR:" + str(err))
