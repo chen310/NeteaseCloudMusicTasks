@@ -10,7 +10,8 @@ else
 fi
 url=`python ./serverless/geturl.py $TENCENT_SECRET_ID $TENCENT_SECRET_KEY $arg_fn $arg_region`;
 if [ -n "$url" ]; then
-	wget --no-check-certificate -O code.zip "$url" >> /dev/null;
+	echo "正在下载代码文件";
+	wget --no-check-certificate -q -O code.zip "$url";
 	echo "已下载代码文件";
 	sudo apt install -y unzip  >> /dev/null;
 	echo "正在解压"
@@ -23,7 +24,7 @@ else
 	echo "未获取到下载链接，如已部署，配置将被覆盖";
 fi
 echo "开始安装ServerlessFramework";
-sudo npm install -g serverless >> /dev/null;
+sudo npm install -g serverless;
 sudo mkdir tmp/;
 shopt -s extglob;
 sudo mv !(tmp|serverless|public|code|.github|.git) ./tmp;
