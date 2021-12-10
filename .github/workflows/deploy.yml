@@ -33,7 +33,14 @@ jobs:
             sudo sed -i "s/NeteaseCloudMusicTasks/${FUNCTION_NAME}/g" ./serverless.yml
           fi
           echo "开始部署到腾讯云函数"
-          sls deploy --debug
+          result=`sls deploy --debug`
+          success=$(echo $result | grep "执行成功")
+          if [[ "$success" != "" ]]
+          then
+            echo "部署成功"
+          else
+            echo $result
+          fi
         fi        
       env:
         STAGE: dev
