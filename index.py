@@ -10,10 +10,10 @@ from wecom import WeComAlert
 def md2text(data):
     data = re.sub(r'\n\n', r'\n', data)
     data = re.sub(r'\[(.*?)\]\((.*?)\)', r'\1: \2 ', data)
-    data = re.sub(r'- ', r'  ', data)
-    data = re.sub(r'#### ', r'', data)
+    data = re.sub(r'- ', r'  ➢ ', data)
+    data = re.sub(r'#### (.*?)\n', r'【\1】\n', data)
     data = re.sub(r'### ', r'\n', data)
-    data = re.sub(r'用户(\d+)', r'(\1)用户\1', data)
+    data = re.sub(r'用户(\d+)', r'用户\1', data)
     return data
 
 
