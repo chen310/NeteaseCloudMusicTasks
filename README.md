@@ -19,16 +19,21 @@
 在GitHub上fork[本项目](https://github.com/chen310/NeteaseCloudMusicTasks)
 
 ### 创建 Secrets
-fork之后，点击右上方`settings`，在页面点击`Secrets`，然后点击`New repository secret` 创建新的secret。一共有4个secret，前两个是必须要创建的，后两个可不创建
+fork之后，点击右上方`settings`，在页面点击`Secrets`，然后点击`New repository secret` 创建新的secret。一共有5个secret，前2个是必须要创建的，后3个可不创建
 
 | Name | Value | 是否必填 |
 | :--- | :--- | :--- |
 | SECRET_ID | 填写之前获取的 SecretId | 必填 |
 | SECRET_KEY | 填写之前获取的 SecretKey | 必填|
+| FUNCTION_NAME | 自定义函数名 | 选填 |
 | CRON | 定时触发器的时间 | 选填 |
 | REGION | 地域，默认为广州 | 选填 |
 
+FUNCTION_NAME 为函数名，不填写默认为`NeteaseCloudMusicTasks`。如需更改，则创建此secret，并填写自定义的函数名，命名规则：只能包含字母、数字、下划线、连字符，以字母开头，以数字或字母结尾，2~60个字符
+
 CRON 默认为 `0 30 0 * * * *` 表示每天0点30分触发，可自行更改。比如：`0 20 12 * * * *` 表示每天12点20分触发，`0 0 12,16 * * * *` 表示每天12点和16点各触发一次。
+
+REGION 默认为`ap-guangzhou` ，可不更改
 
 ### 部署
 点击项目上方的`Actions`，点击`All workflows`下方的`deploy`，再点击右侧`Run workflow`，在弹出的页面再次点击`Run workflow`，等待部署完成
@@ -290,7 +295,7 @@ CRON 默认为 `0 30 0 * * * *` 表示每天0点30分触发，可自行更改。
 [计费方式](https://cloud.tencent.com/document/product/628/39300)
 
 ### 更新代码
-在GitHub项目页面点击`Fetch upstream` - `Fetch and merge`，然后再[部署](#部署)。重新部署之后，配置文件自动同步，无需再次填写。
+在GitHub项目页面点击`Fetch upstream` - `Fetch and merge`，然后再[部署](#部署)。重新部署之后，配置文件自动同步，无需再次填写。重新部署完后，再次进入云函数中，如果提醒“检测到当前工作区函数和已部署函数不一致，重新加载已部署函数?”，点击`确认`即可。
 
 ## 二、本地运行
 ### 下载

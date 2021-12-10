@@ -31,6 +31,9 @@ jobs:
           if [ -n "$REGION" ]; then
             sudo sed -i "s/ap-guangzhou/${REGION}/g" ./serverless.yml
           fi
+          if [ -n "$FUNCTION_NAME" ]; then
+            sudo sed -i "s/NeteaseCloudMusicTasks/${FUNCTION_NAME}/g" ./serverless.yml
+          fi
           echo "开始部署到腾讯云函数"
           sls deploy --debug
         fi        
@@ -41,6 +44,7 @@ jobs:
         TENCENT_SECRET_KEY: ${{ secrets.SECRET_KEY }}
         CRON: ${{ secrets.CRON }}
         REGION: ${{ secrets.REGION }}
+        FUNCTION_NAME: ${{ FUNCTION_NAME }}
 
 
 

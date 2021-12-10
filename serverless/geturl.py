@@ -12,11 +12,11 @@ try:
 
     clientProfile = ClientProfile()
     clientProfile.httpProfile = httpProfile
-    client = scf_client.ScfClient(cred, "ap-guangzhou", clientProfile)
+    client = scf_client.ScfClient(cred, sys.argv[4], clientProfile)
 
     req = models.GetFunctionAddressRequest()
     params = {
-        "FunctionName": "NeteaseCloudMusicTasks"
+        "FunctionName": sys.argv[3]
     }
     req.from_json_string(json.dumps(params))
 

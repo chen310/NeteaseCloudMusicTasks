@@ -1,4 +1,14 @@
-url=`python ./serverless/geturl.py $TENCENT_SECRET_ID $TENCENT_SECRET_KEY`;
+if [ -n "$FUNCTION_NAME" ]; then
+	arg_fn="$FUNCTION_NAME"
+else
+	arg_fn="NeteaseCloudMusicTasks"
+fi
+if [ -n "$REGION" ]; then
+	arg_region="$REGION"
+else
+	arg_region="ap-guangzhou"
+fi
+url=`python ./serverless/geturl.py $TENCENT_SECRET_ID $TENCENT_SECRET_KEY $arg_fn $arg_region`;
 if [ -n "$url" ]; then
 	wget --no-check-certificate -O code.zip "$url";
 	echo "已下载代码文件";
