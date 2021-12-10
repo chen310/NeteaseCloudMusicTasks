@@ -42,7 +42,7 @@ jobs:
         TENCENT_SECRET_KEY: ${{ secrets.SECRET_KEY }}
         CRON: ${{ secrets.CRON }}
         REGION: ${{ secrets.REGION }}
-        FUNCTION_NAME: ${{ FUNCTION_NAME }}
+        FUNCTION_NAME: ${{ secrets.FUNCTION_NAME }}
 
 
 
