@@ -1,6 +1,7 @@
 if [ -z "$TENCENT_SECRET_ID" ] || [ -z "$TENCENT_SECRET_KEY" ]; then
 	echo "请配置SECRET_ID和SECRET_KEY两个secrets";
-	exit 0
+	echo -e "\033[1;31m 部署失败 \033[0m"
+	exit 1
 fi
 if [ -z "$FUNCTION_NAME" ]; then
 	FUNCTION_NAME="NeteaseCloudMusicTasks";
@@ -15,8 +16,8 @@ if [[ $url == *ERROR* ]]; then
 		echo "函数尚未创建"
 	else
 		echo $url
-		echo "发生错误，退出部署"
-		exit 0	
+		echo -e "\033[1;31m 部署失败 \033[0m"
+		exit 1
 	fi
 else
 	echo "正在下载代码文件";
@@ -51,8 +52,10 @@ fi
 echo "开始部署到腾讯云函数";
 result=`sls deploy --debug`;
 if [[ $result == *执行成功* ]]; then
-	echo "部署成功";
+	echo -e "\033[1;32m 部署成功 \033[0m"
 else
 	echo $result;
+	echo -e "\033[1;31m 部署失败 \033[0m"
+	exit 1;
 fi
 

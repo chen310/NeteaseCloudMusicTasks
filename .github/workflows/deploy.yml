@@ -17,7 +17,11 @@ jobs:
     - name: Install python dependencies
       run: pip install tencentcloud-sdk-python json5
     - name: deploy
-      run: bash ./serverless/deploy.sh       
+      run: |
+        bash ./serverless/deploy.sh
+        if [ $? -ne 0 ]; then
+          exit 1;
+        fi
       env:
         STAGE: dev
         SERVERLESS_PLATFORM_VENDOR: tencent
