@@ -1,4 +1,9 @@
 # 网易云打卡升级
+<p>
+  <a href="https://music.163.com/#/user/home?id=347837981"><img alt="网易云音乐关注数" src="https://img.shields.io/badge/dynamic/json?color=e60026&label=%E7%BD%91%E6%98%93%E4%BA%91%E9%9F%B3%E4%B9%90&query=%24.profile.followeds&url=http%3A%2F%2Fmusic.163.com%2Fapi%2Fv1%2Fuser%2Fdetail%2F347837981"></a>
+  <a href="http://www.coolapk.com/u/3189084"><img alt="酷安关注数" src="https://img.shields.io/badge/dynamic/json?color=0eb066&label=%E9%85%B7%E5%AE%89&query=%24.data.totalSubs&url=https%3A%2F%2Fapi.spencerwoo.com%2Fsubstats%2F%3Fsource%3Dcoolapk%26queryKey%3D3189084"></a>
+</p>
+
 ## 功能
 1. 签到领云贝
 2. 自动完成云贝任务，并领取云贝
@@ -29,14 +34,14 @@ fork之后，点击右上方`settings`，在页面点击`Secrets`，然后点击
 | CRON | 定时触发器的时间 | 选填 |
 | REGION | 地域，默认为广州 | 选填 |
 
-FUNCTION_NAME 为函数名，不填写默认为`NeteaseCloudMusicTasks`。如需更改，则创建此secret，并填写自定义的函数名，命名规则：只能包含字母、数字、下划线、连字符，以字母开头，以数字或字母结尾，2~60个字符
+FUNCTION_NAME 为函数名，不填写默认为`NeteaseCloudMusicTasks`。如需更改，则创建此secret，并填写自定义的函数名，命名规则：只能包含字母、数字、下划线、连字符，以字母开头，以数字或字母结尾，2~60个字符。
 
 CRON 默认为 `0 30 0 * * * *` 表示每天0点30分触发，可自行更改。比如：`0 20 12 * * * *` 表示每天12点20分触发，`0 0 12,16 * * * *` 表示每天12点和16点各触发一次。
 
-REGION 默认为`ap-guangzhou` ，可不更改
+REGION 默认为`ap-guangzhou` ，可不更改。
 
 ### 部署
-点击项目上方的`Actions`，点击`All workflows`下方的`deploy`，再点击右侧`Run workflow`，在弹出的页面再次点击`Run workflow`，等待部署完成
+点击项目上方的`Actions`，点击`All workflows`下方的`deploy`（移动端要先点击`Select workflow`），再点击右侧`Run workflow`，在弹出的页面再次点击`Run workflow`，等待部署完成。
 
 ### 添加依赖
 在[这里](https://chen10.lanzoui.com/b01npw2ji)下载`dependencies.zip`这个文件，密码 6gck ，也可以自己用pip下载依赖，然后打包。然后在[高级能力](https://console.cloud.tencent.com/scf/layer)新建`层`，`层名称`可以自己任意填写，然后上传刚刚下载的压缩包，点击`添加运行环境`，选择`Python3.6`。在[函数服务](https://console.cloud.tencent.com/scf/list)点进刚刚创建的函数，点击上方的`层管理`，点击`绑定`，选择刚刚创建的层。
