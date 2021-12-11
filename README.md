@@ -41,13 +41,13 @@ CRON 默认为 `0 30 0 * * * *` 表示每天0点30分触发，可自行更改。
 REGION 默认为`ap-guangzhou` ，可不更改。
 
 ### 部署
-点击项目上方的`Actions`，点击`All workflows`下方的`deploy`（移动端要先点击`Select workflow`），再点击右侧`Run workflow`，在弹出的页面再次点击`Run workflow`，等待部署完成。
+点击项目上方的`Actions`，点击`All workflows`下方的`deploy`（移动端要先点击`Select workflow`），再点击右侧`Run workflow`，在弹出的页面再次点击`Run workflow`，将会运行新的workflow，点进这个workflow，可以查看部署进度。
 
 ### 添加依赖
 在[这里](https://chen10.lanzoui.com/b01npw2ji)下载`dependencies.zip`这个文件，密码 6gck ，也可以自己用pip下载依赖，然后打包。然后在[高级能力](https://console.cloud.tencent.com/scf/layer)新建`层`，`层名称`可以自己任意填写，然后上传刚刚下载的压缩包，点击`添加运行环境`，选择`Python3.6`。在[函数服务](https://console.cloud.tencent.com/scf/list)点进刚刚创建的函数，点击上方的`层管理`，点击`绑定`，选择刚刚创建的层。
 
 ### 修改配置
-在[函数服务](https://console.cloud.tencent.com/scf/list)点进刚刚创建的函数，在编辑器里点击`config.json`这个文件进行配置，下拉到编辑器的右下角，点击`JSON`来更改语言模式，选择`JSON with Comments`，这样就不会报错了。
+在[函数服务](https://console.cloud.tencent.com/scf/list)点进刚刚创建的函数，在编辑器里点击`config.json`这个文件进行配置，可以看到文件中有红色波浪线的错误提示，可以忽略不管，也可以下拉到编辑器的右下角，点击`JSON`来更改语言模式，选择`JSON with Comments`，这样就可以消除错误提示。在`config.json`里进行如下的账号配置
 
 #### 账号密码
 ``` json
@@ -73,7 +73,7 @@ REGION 默认为`ap-guangzhou` ，可不更改。
 }
 ```
 
-签到默认开启，连续签到每天可获取8云贝。
+签到默认开启，连续签到可以获得更多云贝。
 
 #### 刷听歌量
 ``` json
