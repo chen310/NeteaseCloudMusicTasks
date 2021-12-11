@@ -397,3 +397,14 @@ class NetEase(object):
     def vip_reward_getall(self):
         path = "/weapi/vipnewcenter/app/level/task/reward/getall"
         return self.request("POST", path)
+
+    # 云贝过期提醒
+    def expire_attention(self):
+        path = "/weapi/usertool/yunbei/center/attention"
+        return self.request("POST", path)
+
+    # 签到进度
+    def signin_progress(self, moduleId):
+        path = "/weapi/act/modules/signin/v2/progress"
+        params = dict(moduleId=moduleId)
+        return self.request("POST", path, params)

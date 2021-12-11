@@ -2,6 +2,7 @@
 import time
 import random
 import math
+import re
 from hashlib import md5
 from api import NetEase
 
@@ -102,6 +103,13 @@ class User(object):
                 "%Y-%m-%d %H:%M:%S", time.localtime(vip_resp['data']['musicPackage']['expireTime']/1000)))
 
         self.taskInfo('云贝数量', resp['userPoint']['balance'])
+
+        attention_resp = self.music.expire_attention()
+        if attention_resp.get('code', -1) == 200 and attention_resp['data']['expiringYunbei'] > 0:
+            remainingTime = attention_resp['data']['remainingTime']
+            self.taskInfo('过期提醒', str(
+                attention_resp['data']['expiringYunbei']) + '云贝将在' + str(remainingTime)+'天后过期，请尽快使用')
+
         self.taskInfo('粉丝数量', resp['profile']['followeds'])
         self.taskInfo('听歌总数', self.listenSongs)
         self.taskInfo('歌单数', resp['profile']['playlistCount'])
@@ -360,26 +368,42 @@ class User(object):
 
     def sign(self):
         self.taskTitle('签到信息')
-        # 手机端签到
-        sign_phone = self.music.daily_task(True)
-        code_phone = sign_phone["code"]
-        if code_phone == 200:
-            self.taskInfo('手机端', '云贝+' + str(sign_phone["point"]))
-        elif code_phone == -2:
-            self.taskInfo('手机端', '重复签到')
-        else:
-            self.taskInfo('手机端', '签到失败:' + str(sign_phone))
 
-        # 桌面端签到
-        sign_pc = self.music.daily_task(False)
-        code_pc = sign_pc["code"]
-        if code_pc == 200:
-            self.taskInfo('PC端', '云贝+' + str(sign_pc["point"]))
-        elif code_pc == -2:
-            self.taskInfo('PC端', '重复签到')
-        else:
-            self.taskInfo('PC端', '签到失败:' + str(sign_pc))
+        progress = self.music.signin_progress('1207signin-1207signin')
+        if progress.get('code', -1) != 200:
+            self.taskInfo('签到进度获取失败')
+            self.music.daily_task(True)
+            # PC端签到，好像已经失效
+            self.music.daily_task(False)
+            self.taskInfo('签到成功')
+            self.finishTask()
+            return
 
+        if progress['data']['today']['todaySignedIn'] == True:
+            self.taskInfo('今天已经签到过了')
+            self.finishTask()
+            return
+
+        self.music.daily_task(True)
+        # PC端签到，好像已经失效
+        self.music.daily_task(False)
+        time.sleep(1)
+        progress = self.music.signin_progress('1207signin-1207signin')
+        if progress['data']['today']['todaySignedIn'] == False:
+            self.taskInfo('无法确定是否签到成功，请稍后到云贝中心检查云贝是否到账')
+            self.finishTask()
+            return
+
+        stats = progress['data']['today']['todayStats']
+        for stat in stats:
+            desp = stat['description']
+            desp = re.sub(r'（.*?）', '', desp)
+            desp = re.sub(r'\(.*?\)', '', desp)
+            currentProgress = stat['currentProgress']
+            for prize in stat['prizes']:
+                if prize['obtained'] == True and prize['progress'] == currentProgress:
+                    self.taskInfo(
+                        desp, '云贝+' + str(prize['amount']) + ' 已签到'+str(currentProgress)+'天')
         self.finishTask()
 
     def musician_task(self):
