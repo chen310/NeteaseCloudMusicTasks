@@ -1,6 +1,6 @@
 if [ -z "$TENCENT_SECRET_ID" ] || [ -z "$TENCENT_SECRET_KEY" ]; then
 	echo "请配置SECRET_ID和SECRET_KEY两个secrets";
-	echo -e "\033[1;31m 部署失败 \033[0m"
+	echo -e "\033[1;31m部署失败 \033[0m"
 	exit 1
 fi
 if [ -z "$FUNCTION_NAME" ]; then
@@ -16,7 +16,7 @@ if [[ $url == *ERROR* ]]; then
 		echo "函数尚未创建"
 	else
 		echo $url
-		echo -e "\033[1;31m 部署失败 \033[0m"
+		echo -e "\033[1;31m部署失败 \033[0m"
 		exit 1
 	fi
 else
@@ -36,13 +36,13 @@ else
 		python ./serverless/loadconfig.py $config_file $old_config_file
 		if [ $? -ne 0 ]; then
 			echo "配置文件复制错误，请检查config.json文件是否填写正确"
-			echo -e "\033[1;31m 部署失败 \033[0m"
+			echo -e "\033[1;31m部署失败 \033[0m"
 			exit 1
         fi
 		echo "已加载配置文件"
 	else
 		echo "配置文件不存在，请检查FUNCTION_NAME填写是否正确，避免覆盖其他函数"
-		echo -e "\033[1;31m 部署失败 \033[0m"
+		echo -e "\033[1;31m部署失败 \033[0m"
 		exit 1
 	fi
 fi
@@ -67,10 +67,10 @@ fi
 echo "开始部署到腾讯云函数";
 result=`sls deploy --debug`;
 if [[ $result == *执行成功* ]]; then
-	echo -e "\033[1;32m 部署成功 \033[0m"
+	echo -e "\033[1;32m部署成功 \033[0m"
 else
 	echo $result;
-	echo -e "\033[1;31m 部署失败 \033[0m"
+	echo -e "\033[1;31m部署失败 \033[0m"
 	exit 1;
 fi
 

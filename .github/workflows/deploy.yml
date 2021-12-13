@@ -5,6 +5,7 @@ on:
 
 concurrency:
   group: deploy-workflow
+  cancel-in-progress: true
 
 jobs:
   deploy-to-scf:
