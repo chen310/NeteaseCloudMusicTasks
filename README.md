@@ -17,6 +17,11 @@
 10. 支持腾讯云函数&本地运行
 
 ## 一、部署到腾讯云函数
+### 开通服务
+首次使用云函数，依次登录 [SCF 云函数控制台](https://console.cloud.tencent.com/scf) 和 [SLS 控制台](https://console.cloud.tencent.com/sls) 开通相关服务，确保账户下已开通服务并创建相应[服务角色](https://console.cloud.tencent.com/cam/role) **SCF_QcsRole、SLS_QcsRole**
+
+> 注意！为了确保权限足够，获取这两个参数时不要使用子账户！此外，腾讯云账户需要[实名认证](https://console.cloud.tencent.com/developer/auth)。
+
 ### 获取密钥
 在腾讯云[API密钥管理](https://console.cloud.tencent.com/cam/capi)新建密钥，获取 SecretId 和 SecretKey
 
@@ -371,7 +376,7 @@ python index.py
 
 ### 声明
 - 本仓库中的脚本仅用于测试和学习目的，请勿用于商业或非法目的，否则后果自负
-- 如果您认为该项目的脚本可能涉嫌侵犯您的权利，应及时通知，我们将在确认后及时删除
+- 如果您认为该项目的脚本可能涉嫌侵犯您的权利，请及时通知，我们将在确认后及时删除
 
 ### 灵感来源
 1. [网易云音乐 API](https://github.com/Binaryify/NeteaseCloudMusicApi)
