@@ -25,8 +25,9 @@ class User(object):
         self.listenSongs = 0
         self.vipType = 0
 
-    def setUser(self, username, password, isMd5=False, user_setting={}, No=0, ip=""):
-        self.music = self.login_check(username, password, isMd5, ip)
+    def setUser(self, username, password, isMd5=False, countrycode='', user_setting={}, No=0, ip=""):
+        self.music = self.login_check(
+            username, password, isMd5, countrycode, ip)
         self.taskUser(No)
         if self.music.uid != 0:
             self.isLogined = True
@@ -39,7 +40,7 @@ class User(object):
             self.taskInfo('登录失败，请检查账号、密码')
             self.finishTask()
 
-    def login_check(self, username, pwd='', is_md5=True, ip=""):
+    def login_check(self, username, pwd='', is_md5=True, countrycode='', ip=""):
         music = NetEase(username)
         if len(ip) > 0:
             music.header["X-Real-IP"] = ip
@@ -52,7 +53,7 @@ class User(object):
         else:
             if not is_md5:
                 pwd = md5(pwd.encode(encoding='UTF-8')).hexdigest()
-            login_resp = music.login(username, pwd)
+            login_resp = music.login(username, pwd, countrycode)
             if login_resp['code'] == 200:
                 music.uid = login_resp['profile']['userId']
                 music.nickname = login_resp['profile']['nickname']

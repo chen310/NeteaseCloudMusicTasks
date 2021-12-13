@@ -27,9 +27,24 @@ else
 	echo "正在解压"
 	unzip -o code.zip -d code/  >> /dev/null;
 	rm -f code.zip;
-	sudo mv ./code/config.json ./oldconfig.json;
-	python ./serverless/loadconfig.py;
-	echo "已加载配置文件";		
+	config_file="./config.json"
+	old_config_file="./config.old.json"
+	example_config_file="./config.example.json"
+	if [ -e "./code/config.json" ]; then
+		sudo mv ./code/config.json $old_config_file
+		sudo cp $config_file $example_config_file
+		python ./serverless/loadconfig.py $config_file $old_config_file
+		if [ $? -ne 0 ]; then
+			echo "配置文件复制错误，请检查config.json文件是否填写正确"
+			echo -e "\033[1;31m 部署失败 \033[0m"
+			exit 1
+        fi
+		echo "已加载配置文件"
+	else
+		echo "配置文件不存在，请检查FUNCTION_NAME填写是否正确，避免覆盖其他函数"
+		echo -e "\033[1;31m 部署失败 \033[0m"
+		exit 1
+	fi
 fi
 
 echo "开始安装ServerlessFramework";

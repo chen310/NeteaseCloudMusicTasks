@@ -4,6 +4,8 @@
         {
             /* 填写手机号或邮箱 */
             "username": "",
+            /* 如果使用非中国大陆的手机号登录则需填写 countrycode，其他情况都不用填写 */
+            "countrycode": "",
             /* 是否使用md5密码，若为false，请使用原密码，若为true，请使用md5加密后的密码 */
             "md5": false,
             /* 填写密码 */
@@ -131,7 +133,7 @@
             /* 满级时自动停止 */
             "full_stop": true,
             /* 歌曲数 */
-            "song_number": 500,
+            "song_number": 300,
             /* 休眠时间 */
             "sleep_time": 10,
             "upload_num": 300

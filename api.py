@@ -118,7 +118,7 @@ class NetEase(object):
         finally:
             return data
 
-    def login(self, username, password):
+    def login(self, username, password, countrycode='86'):
         username = str(username)
         cookie_file = self.get_cookie_file(username)
         if len(cookie_file) > 0:
@@ -132,8 +132,10 @@ class NetEase(object):
 
         if username.isdigit():
             path = "/weapi/login/cellphone"
-            params = dict(phone=username, password=password,
-                          rememberLogin="true")
+            if len(countrycode) == 0:
+                countrycode = '86'
+            params = dict(phone=username, countrycode=countrycode,
+                          password=password, rememberLogin="true")
         else:
             # magic token for login
             # see https://github.com/Binaryify/NeteaseCloudMusicApi/blob/master/router/login.js#L15

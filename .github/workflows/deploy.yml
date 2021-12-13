@@ -3,9 +3,12 @@ name: 'deploy'
 on:
   workflow_dispatch:
 
+concurrency:
+  group: deploy-workflow
+
 jobs:
   deploy-to-scf:
-    name: Deploy to scf
+    name: Deploy to Tencent Cloud Serverless Cloud Function
     runs-on: ubuntu-latest
     steps:
     - name: clone local repository

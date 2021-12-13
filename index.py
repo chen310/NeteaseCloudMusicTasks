@@ -37,8 +37,8 @@ def start(event, context):
                 user_setting[key] = user_config['setting'][key]
 
         user = User()
-        user.setUser(username=user_config['username'], password=user_config['password'],
-                     isMd5=user_config['md5'], user_setting=user_setting, No=user_count, ip=user_config['X-Real-IP'])
+        user.setUser(username=user_config['username'], password=user_config['password'], isMd5=user_config['md5'],
+                     countrycode=user_config['countrycode'], user_setting=user_setting, No=user_count, ip=user_config['X-Real-IP'])
         if user.isLogined:
             user.userInfo()
 
