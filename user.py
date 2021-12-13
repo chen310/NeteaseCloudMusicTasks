@@ -63,9 +63,6 @@ class User(object):
                 music.nickname = ''
         return music
 
-    # def getMd5(self, str):
-    #     return hashlib.md5(str.encode(encoding='UTF-8')).hexdigest()
-
     def taskUser(self, No):
         self.msg += '### 用户' + str(No) + '\n'
         print('### 用户' + str(No))
@@ -381,7 +378,14 @@ class User(object):
             return
 
         if progress['data']['today']['todaySignedIn'] == True:
-            self.taskInfo('今天已经签到过了')
+            stats = progress['data']['today']['todayStats']
+            totalYunbei = 0
+            for stat in stats:
+                currentProgress = stat['currentProgress']
+                for prize in stat['prizes']:
+                    if prize['obtained'] == True and prize['progress'] == currentProgress:
+                        totalYunbei += prize['amount']
+            self.taskInfo('重复签到', '今天签到共获取' + str(totalYunbei) + '云贝')
             self.finishTask()
             return
 
