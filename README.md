@@ -57,7 +57,7 @@ REGION 默认为`ap-guangzhou` ，可不更改，可选的地域详见[地域列
 在[函数服务](https://console.cloud.tencent.com/scf/list)点进刚刚创建的函数，在编辑器里点击`config.json`这个文件进行配置，可以看到文件中有红色波浪线的错误提示，可以忽略不管，也可以下拉到编辑器的右下角，点击`JSON`来更改语言模式，选择`JSON with Comments`，这样就可以消除错误提示。在`config.json`里进行如下的账号配置
 
 #### 账号密码
-``` json
+``` json5
 "users":[
     {
         "username": "188xxxx8888",
@@ -73,7 +73,7 @@ REGION 默认为`ap-guangzhou` ，可不更改，可选的地域详见[地域列
 `username`里填写手机号或邮箱，`password`里填写账号密码，`countrycode`为手机号前缀，使用非中国大陆的手机号登录需填写。如果使用的是加密后的密码，则需要将`md5`的`false`改成`true`，`X-Real-IP`里填写国内任意IP，否则可能会有无法登录等情况出现，可填写本机IP，查看方法为：百度搜索ip，填写显示的ip即可。
 
 #### 签到
-``` json
+``` json5
 "setting":{
     // ...
     "sign": true,
@@ -84,7 +84,7 @@ REGION 默认为`ap-guangzhou` ，可不更改，可选的地域详见[地域列
 签到默认开启，连续签到可以获得更多云贝。
 
 #### 刷听歌量
-``` json
+``` json5
 "setting":{
     // ...
     "daka":{
@@ -100,7 +100,7 @@ REGION 默认为`ap-guangzhou` ，可不更改，可选的地域详见[地域列
 每个账号每天最多只计算300首的听歌量，而且必须是没有听过的歌曲。`enable`表示开启刷听歌量的任务，`full_stop`表示满级后自动停止任务，无需手动将`enable`设为`false`。`song_number`表示每次要刷的歌曲数量，账号等级较低的时候可以设置得小一点，不然等级高的时候就难刷了，可能较难刷满300首。
 
 #### 云贝任务
-``` json
+``` json5
 "setting":{
     // ...
     "yunbei_task": {
@@ -134,7 +134,7 @@ REGION 默认为`ap-guangzhou` ，可不更改，可选的地域详见[地域列
 `云贝推歌`任务使用云贝对喜欢的歌曲进行推荐，可获得10云贝。`songId`填写喜欢的歌曲id，如`[65528, 64634]`，程序将会随机挑选一首歌，`yunbeiNum`是要使用的云贝数量，一般为`10`，`reason`填写推歌理由。
 
 #### 音乐人任务
-``` json
+``` json5
 "setting": {
     // ...
     "musician_task": {
@@ -183,7 +183,7 @@ REGION 默认为`ap-guangzhou` ，可不更改，可选的地域详见[地域列
 4. pushPlus
 
 使用API网关触发时默认关闭所有推送，您可以自行设置
-``` json
+``` json5
 "setting":{
     "stopPushOnAPIGateway": true,
 }
@@ -191,7 +191,7 @@ REGION 默认为`ap-guangzhou` ，可不更改，可选的地域详见[地域列
 将`true`改为`false`即可在API网关触发时仍然进行消息的推送。API网关相关内容详见[API网关触发](#API网关触发)
 
 ##### 企业微信
-``` json
+``` json5
 "setting":{
     // ...
     "WeCom": {
@@ -210,7 +210,7 @@ REGION 默认为`ap-guangzhou` ，可不更改，可选的地域详见[地域列
 `corpid`为企业ID，登录企业微信后在管理后台`我的企业`－`企业信息`下查看；`agentid`为应用ID，在`应用管理`里，点进相应的应用可查看；`secret`为应用密钥，在`应用管理`里，点进相应的应用可查看；`userid`默认为`@all`，会向该企业应用的全部成员发送；`msgtype`为消息类型，可填写文本消息`text`、文本卡片消息`textcard`或markdown消息`markdown`，markdown消息不能在微信里查看，只能在企业微信里查看。
 
 ##### server酱
-``` json
+``` json5
 "setting": {
     // ...
     "serverChan": {
@@ -223,7 +223,7 @@ REGION 默认为`ap-guangzhou` ，可不更改，可选的地域详见[地域列
 要使用server酱的话需要在`KEY`里填写旧版的SCKEY或新版的SendKey。
 
 ##### 酷推
-``` json
+``` json5
 "setting": {
     // ...
     "CoolPush": {
@@ -237,7 +237,7 @@ REGION 默认为`ap-guangzhou` ，可不更改，可选的地域详见[地域列
 要使用酷推的话需要填写`Skey`。
 
 ##### pushPlus微信推送
-``` json
+``` json5
 "setting": {
     // ...
     "pushPlus": {
@@ -250,7 +250,7 @@ REGION 默认为`ap-guangzhou` ，可不更改，可选的地域详见[地域列
 要使用酷推的话需要填写`pushToken`。
 
 #### 刷单曲播放量
-``` json
+``` json5
 "setting": {
     // ...
     "other": {
@@ -270,7 +270,7 @@ REGION 默认为`ap-guangzhou` ，可不更改，可选的地域详见[地域列
 将要刷的歌曲加到歌单中，把歌单id填写到`playlist_ids`中，可以添加多个歌单id，用英文逗号隔开，如`"playlist_ids":[5279371062,5279377564]`。该功能可以用来改变听歌风格。
 
 #### 多账号
-``` json
+``` json5
 "users": [
     {
         "username": "188xxxx8888",            
@@ -289,7 +289,7 @@ REGION 默认为`ap-guangzhou` ，可不更改，可选的地域详见[地域列
 多账号需要删除第二个账号前后的`\*`和`*\`注释，如上所示。如果不会使用，可以每个账号创建一个相应的云函数。
 
 #### 关注作者
-``` json
+``` json5
 "setting": {
     // ...
     "follow": true
@@ -312,16 +312,16 @@ REGION 默认为`ap-guangzhou` ，可不更改，可选的地域详见[地域列
 
 ## 二、本地运行
 ### 下载
-```shell
+``` shell
 git clone https://github.com/chen310/NeteaseCloudMusicTasks.git
 ```
 
 ### 安装依赖
-```shell
+``` shell
 pip install -r requirements.txt
 ```
 ### 运行
-```shell
+``` shell
 python index.py
 ```
 ## 其他
