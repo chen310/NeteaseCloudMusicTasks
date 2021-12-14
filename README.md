@@ -16,6 +16,8 @@
 9. 支持多账号
 10. 支持腾讯云函数&本地运行
 
+> 开发不易，如果你觉得本项目对你有用，可以点个star，也可以到底部给个赞赏
+
 ## 一、部署到腾讯云函数
 ### 开通服务
 首次使用云函数，依次登录 [SCF 云函数控制台](https://console.cloud.tencent.com/scf) 和 [SLS 控制台](https://console.cloud.tencent.com/sls) 开通相关服务，确保账户下已开通服务并创建相应[服务角色](https://console.cloud.tencent.com/cam/role) **SCF_QcsRole、SLS_QcsRole**

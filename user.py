@@ -121,7 +121,7 @@ class User(object):
             self.taskInfo('登录天数', resp['data']['nowLoginCount'])
             self.taskInfo('距离下级还需登录', str(
                 resp['data']['nextLoginCount'] - resp['data']['nowLoginCount']) + '天')
-            if resp['data']['nextPlayCount'] - resp['data']['nowPlayCount'] == 0:
+            if resp['data']['nowPlayCount'] >= 20000:
                 self.songFull = True
         self.finishTask()
 
@@ -135,7 +135,7 @@ class User(object):
                 self.finishTask()
                 return
             elif self.songFull:
-                self.taskInfo('打卡', '距离下一级只差登录天数，无需打卡')
+                self.taskInfo('打卡', '距离满级只差登录天数，无需打卡')
                 self.finishTask()
                 return
 
