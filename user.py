@@ -5,6 +5,8 @@ import math
 import re
 from hashlib import md5
 from api import NetEase
+import os
+import requests
 
 
 class User(object):
@@ -282,12 +284,68 @@ class User(object):
         reason = random.choice(task['reason'])
         resp = self.music.yunbei_rcmd_submit(songId, yunbeiNum, reason)
         if resp['code'] == 200:
-            self.taskInfo(task['taskName'], '推歌成功，歌曲id为'+str(songId))
+            self.taskInfo(task['taskName'], '推歌成功，歌曲ID为'+str(songId))
         elif resp['code'] == 400:
-            self.taskInfo(task['taskName'], '推歌失败，歌曲id为' +
+            self.taskInfo(task['taskName'], '推歌失败，歌曲ID为' +
                           str(songId)+'，失败原因为'+resp.get('message', '未知'))
         else:
-            self.taskInfo(task['taskName'], '推歌失败，歌曲id为'+str(songId))
+            self.taskInfo(task['taskName'], '推歌失败，歌曲ID为'+str(songId))
+
+    def taskMlog(self, task):
+        if len(task['songId']) == 0:
+            self.taskInfo(task['taskName'], '请填写歌曲ID')
+            return
+        songId = random.choice(task['songId'])
+
+        song_resp = self.music.songs_detail([songId])
+        if song_resp.get('code', -1) == 200 and len(song_resp['songs']) > 0:
+            song = song_resp['songs'][0]
+            songName = song['name']
+            artists = song['ar']
+            if artists is None or len(artists) == 0:
+                artistName = '未知'
+            else:
+                artistName = '/'.join([a['name'] for a in artists])
+            url = song.get('al', {}).get('picUrl', '')
+        else:
+            self.taskInfo(task['taskName'], '歌曲信息获取失败，请检查ID是否正确')
+            return
+        if len(url) == 0:
+            self.taskInfo(task['taskName'], '专辑图片获取失败')
+            return
+
+        path = '/tmp'
+        if not os.path.exists(path):
+            path = './'
+
+        filepath = os.path.join(path, 'album.jpg')
+        size = task.get('size', 500)
+        url += '?param='+str(size)+'y'+str(size)
+
+        r = requests.get(url)
+        with open(filepath, 'wb') as f:
+            f.write(r.content)
+
+        token = self.music.mlog_nos_token(filepath)
+        time.sleep(0.2)
+        self.music.upload_file(filepath, token)
+        time.sleep(0.2)
+
+        text = random.choice(task['text'])
+        text = text.replace('$artist', artistName)
+        text = text.replace('$song', songName)
+        resp = self.music.mlog_pub(token, size, size, songId, songName, text)
+        if resp.get('code', -1) != 200:
+            self.taskInfo(task['taskName'], 'Mlog发布失败')
+
+        if task.get('delete', True) == True:
+            time.sleep(0.5)
+            resourceId = resp['data']['event']['info']['resourceId']
+            delete_result = self.music.event_delete(resourceId)
+            self.taskInfo(task['taskName'], '发布成功，已删除Mlog动态')
+        else:
+            self.taskInfo(task['taskName'], '发布成功')
+        os.remove(filepath)
 
     def yunbei_task(self):
         user_setting = self.user_setting
@@ -316,6 +374,12 @@ class User(object):
                     if (desp not in tasks) or (tasks[desp]['enable'] == False):
                         continue
                     self.taskRcmdSong(tasks[desp])
+                    count += 1
+                if '发布Mlog' in desp:
+                    desp = '发布Mlog'
+                    if (desp not in tasks) or (tasks[desp]['enable'] == False):
+                        continue
+                    self.taskMlog(tasks[desp])
                     count += 1
 
         if count == 0:

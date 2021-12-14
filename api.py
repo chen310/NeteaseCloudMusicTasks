@@ -5,6 +5,8 @@ import os
 import requests
 from http.cookiejar import Cookie, LWPCookieJar
 from encrypt import encrypted_request
+import random
+from hashlib import md5
 
 DEFAULT_TIMEOUT = 10
 
@@ -225,7 +227,7 @@ class NetEase(object):
         path = "/weapi/v3/song/detail"
         params = dict(c=json.dumps([{"id": _id}
                       for _id in ids]), ids=json.dumps(ids))
-        return self.request("POST", path, params).get("songs", [])
+        return self.request("POST", path, params)
 
     # 关注用户
     def user_follow(self, id):
@@ -409,4 +411,75 @@ class NetEase(object):
     def signin_progress(self, moduleId):
         path = "/weapi/act/modules/signin/v2/progress"
         params = dict(moduleId=moduleId)
+        return self.request("POST", path, params)
+
+    def mlog_nos_token(self, filepath):
+        path = "/weapi/nos/token/whalealloc"
+        bizKey = ''
+        for i in range(8):
+            bizKey += hex(random.randint(0, 15)).replace('0x', '')
+        _, filename = os.path.split(filepath)
+        with open(filepath, 'rb') as f:
+            contents = f.read()
+            file_md5 = md5(contents).hexdigest()
+        params = dict(
+            bizKey=bizKey,
+            filename=filename,
+            bucket='yyimgs',
+            md5=file_md5,
+            type='image',
+            fileSize=os.path.getsize(filepath),
+        )
+        return self.request("POST", path, params)
+
+    def upload_file(self, filepath, token):
+        data = token['data']
+        path = "http://45.127.129.8/{}/{}?offset=0&complete=true&version=1.0".format(
+            data['bucket'], data['objectKey'])
+        content_type = ''
+        if filepath.endswith('jpg'):
+            content_type = 'image/jpeg'
+        elif filepath.endswith('png'):
+            content_type = 'image/png'
+        elif filepath.endswith('gif'):
+            content_type = 'image/gif'
+        elif filepath.endswith('mpg'):
+            content_type = 'audio/mp3'
+        elif filepath.endswith('flac'):
+            content_type = 'audio/mpeg'
+        headers = {
+            'x-nos-token': data['token'],
+            'Content-Type': content_type,
+        }
+        file = open(filepath, 'rb')
+        return requests.post(url=path, data=file, headers=headers)
+
+    def mlog_pub(self, token, height, width, songId, songName='', text='share'):
+        path = "/weapi/mlog/publish/v1"
+
+        params = {
+            'type': 1,
+            'mlog': json.dumps({
+                'content': {
+                    'image': [{
+                        'height': height,
+                        'width': width,
+                        'more': False,
+                        'nosKey': token['data']['bucket'] + '/' + token['data']['objectKey'],
+                        'picKey': token['data']['resourceId']
+
+                    }],
+                    'needAudio': False,
+                    'song': {
+                        'endTime': 0,
+                        'name': songName,
+                        'songId': songId,
+                        'startTime': 30000
+                    },
+                    'text': text,
+                },
+                'from': 0,
+                'type': 1,
+            })
+        }
         return self.request("POST", path, params)
