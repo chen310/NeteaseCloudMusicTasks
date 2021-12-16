@@ -15,5 +15,5 @@ inputs:
     - timer:
         name: timer-default
         parameters:
-          cronExpression: '0 30 0 * * * *'
+          cronExpression: "0 30 0 * * * *"
           enable: true

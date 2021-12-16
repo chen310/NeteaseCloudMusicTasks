@@ -1,4 +1,4 @@
-name: 'deploy'
+name: "deploy"
 
 on:
   workflow_dispatch:
@@ -12,25 +12,25 @@ jobs:
     name: Deploy to Tencent Cloud Serverless Cloud Function
     runs-on: ubuntu-latest
     steps:
-    - name: clone local repository
-      uses: actions/checkout@v2
-    - name: Set up Python 3.6
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.6
-    - name: Install python dependencies
-      run: pip install tencentcloud-sdk-python json5
-    - name: deploy
-      run: |
-        bash ./serverless/deploy.sh
-        if [ $? -ne 0 ]; then
-          exit 1;
-        fi
-      env:
-        STAGE: dev
-        SERVERLESS_PLATFORM_VENDOR: tencent
-        TENCENT_SECRET_ID: ${{ secrets.SECRET_ID }}
-        TENCENT_SECRET_KEY: ${{ secrets.SECRET_KEY }}
-        CRON: ${{ secrets.CRON }}
-        REGION: ${{ secrets.REGION }}
-        FUNCTION_NAME: ${{ secrets.FUNCTION_NAME }}
+      - name: Clone local repository
+        uses: actions/checkout@v2
+      - name: Set up Python 3.6
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.6
+      - name: Install python dependencies
+        run: pip install tencentcloud-sdk-python json5
+      - name: Deploy
+        run: |
+          bash ./serverless/deploy.sh
+          if [ $? -ne 0 ]; then
+            exit 1;
+          fi
+        env:
+          STAGE: dev
+          SERVERLESS_PLATFORM_VENDOR: tencent
+          TENCENT_SECRET_ID: ${{ secrets.SECRET_ID }}
+          TENCENT_SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          CRON: ${{ secrets.CRON }}
+          REGION: ${{ secrets.REGION }}
+          FUNCTION_NAME: ${{ secrets.FUNCTION_NAME }}

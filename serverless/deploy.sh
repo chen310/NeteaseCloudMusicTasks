@@ -1,15 +1,15 @@
 if [ -z "$TENCENT_SECRET_ID" ] || [ -z "$TENCENT_SECRET_KEY" ]; then
-	echo "请配置SECRET_ID和SECRET_KEY两个secrets";
+	echo "请配置SECRET_ID和SECRET_KEY两个secrets"
 	echo -e "\033[1;31m部署失败 \033[0m"
 	exit 1
 fi
 if [ -z "$FUNCTION_NAME" ]; then
-	FUNCTION_NAME="NeteaseCloudMusicTasks";
+	FUNCTION_NAME="NeteaseCloudMusicTasks"
 fi
 if [ -z "$REGION" ]; then
-	REGION="ap-guangzhou";
+	REGION="ap-guangzhou"
 fi
-url=`python ./serverless/geturl.py $TENCENT_SECRET_ID $TENCENT_SECRET_KEY $FUNCTION_NAME $REGION`;
+url=$(python ./serverless/geturl.py $TENCENT_SECRET_ID $TENCENT_SECRET_KEY $FUNCTION_NAME $REGION)
 if [[ $url == *ERROR* ]]; then
 	# 未部署函数
 	if [[ $url == *ResourceNotFound* ]]; then
@@ -20,13 +20,13 @@ if [[ $url == *ERROR* ]]; then
 		exit 1
 	fi
 else
-	echo "正在下载代码文件";
-	wget --no-check-certificate -q -O code.zip "$url";
-	echo "已下载代码文件";
-	sudo apt install -y unzip  >> /dev/null;
+	echo "正在下载代码文件"
+	wget --no-check-certificate -q -O code.zip "$url"
+	echo "已下载代码文件"
+	sudo apt install -y unzip >>/dev/null
 	echo "正在解压"
-	unzip -o code.zip -d code/  >> /dev/null;
-	rm -f code.zip;
+	unzip -o code.zip -d code/ >>/dev/null
+	rm -f code.zip
 	config_file="./config.json"
 	old_config_file="./config.old.json"
 	example_config_file="./config.example.json"
@@ -38,7 +38,7 @@ else
 			echo "配置文件复制错误，请检查config.json文件是否填写正确"
 			echo -e "\033[1;31m部署失败 \033[0m"
 			exit 1
-        fi
+		fi
 		echo "已加载配置文件"
 	else
 		echo "配置文件不存在，请检查FUNCTION_NAME填写是否正确，避免覆盖其他函数"
@@ -47,30 +47,29 @@ else
 	fi
 fi
 
-echo "开始安装ServerlessFramework";
-sudo npm install -g serverless  >> /dev/null;
-sudo mkdir tmp/;
-shopt -s extglob;
-sudo mv !(tmp|serverless|public|code|.github|.git) ./tmp;
-sudo mv ./serverless/serverless.yml ./tmp;
+echo "开始安装ServerlessFramework"
+sudo npm install -g serverless >>/dev/null
+sudo mkdir tmp/
+shopt -s extglob
+sudo mv !(tmp|serverless|public|code|.github|.git) ./tmp
+sudo mv ./serverless/serverless.yml ./tmp
 
-cd ./tmp;
+cd ./tmp
 if [ -n "$CRON" ]; then
-	sudo sed -i "s/0 30 0 \* \* \* \*/${CRON}/g" ./serverless.yml;
+	sudo sed -i "s/0 30 0 \* \* \* \*/${CRON}/g" ./serverless.yml
 fi
 if [ -n "$REGION" ]; then
-	sudo sed -i "s/ap-guangzhou/${REGION}/g" ./serverless.yml;
+	sudo sed -i "s/ap-guangzhou/${REGION}/g" ./serverless.yml
 fi
 if [ -n "$FUNCTION_NAME" ]; then
-	sudo sed -i "s/NeteaseCloudMusicTasks/${FUNCTION_NAME}/g" ./serverless.yml;
+	sudo sed -i "s/NeteaseCloudMusicTasks/${FUNCTION_NAME}/g" ./serverless.yml
 fi
-echo "开始部署到腾讯云函数";
-result=`sls deploy --debug`;
+echo "开始部署到腾讯云函数"
+result=$(sls deploy --debug)
 if [[ $result == *执行成功* ]]; then
 	echo -e "\033[1;32m部署成功 \033[0m"
 else
-	echo $result;
+	echo $result
 	echo -e "\033[1;31m部署失败 \033[0m"
-	exit 1;
+	exit 1
 fi
-
