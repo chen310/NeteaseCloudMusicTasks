@@ -47,8 +47,6 @@ def start(event, context):
 
             if user_setting['sign']:
                 user.sign()
-            if user.userType == 4:
-                user.musician_task()
 
             task_on = False
             tasks = user_setting['yunbei_task']
@@ -58,6 +56,9 @@ def start(event, context):
                 user.yunbei_task()
 
             user.get_yunbei()
+
+            if user.userType == 4:
+                user.musician_task()
 
             if user.vipType == 11:
                 user.vip_task()
