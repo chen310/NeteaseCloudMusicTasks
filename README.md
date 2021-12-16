@@ -211,7 +211,7 @@ REGION 默认为`ap-guangzhou` ，可不更改，可选的地域详见[地域列
 
 #### 推送
 
-支持三种推送方式，建议使用企业微信进行推送
+支持四种推送方式，建议使用企业微信进行推送
 
 1. 企业微信
 2. server 酱
@@ -439,6 +439,10 @@ python index.py
 ### 赞赏
 
 <p align="left">微信</p> <img width="300" height="300" src="https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/wechat.png" />
+
+<p align="left">支付宝红包</p> <img width="300" height="300" src="https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/alipayhb.jgp" />
+
+<p align="left">饿了么红包</p> <img width="300" height="300" src="https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/ele.jpg" />
 
 ### 声明
 
