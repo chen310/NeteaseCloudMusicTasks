@@ -674,6 +674,42 @@ class User(object):
         self.taskTitle('VIP成长值')
 
         resp = self.music.vip_task_newlist()
+        items = []
+        tasks = self.user_setting["vip_task"]
+        taskLists = resp.get('data', {}).get('taskList', [])
+        for taskList in taskLists:
+            for task_items in taskList.get('taskItems', []):
+                item = task_items.get('currentInfo', None)
+                if (item is not None):
+                    items.append(item)
+                subitems = task_items.get('subList', [])
+                if (subitems is not None):
+                    for item in subitems:
+                        if (item is not None):
+                            items.append(item)
+        count = 0
+        for item in items:
+            desp = item['action']
+            if item['status'] == 0:
+                if '创建共享歌单' in desp:
+                    desp = '创建共享歌单'
+                    if (desp not in tasks) or (tasks[desp]['enable'] == False):
+                        continue
+                    name = random.choice(tasks[desp]['name'])
+                    create_resp = self.music.playlist_create(name, 0, 'SHARED')
+                    if create_resp.get('code', -1) == 200:
+                        if tasks[desp]['delete'] == True:
+                            self.music.playlist_delete(
+                                create_resp.get('id', 0))
+                            self.taskInfo(desp, '歌单创建成功，已删除')
+                        else:
+                            self.taskInfo(desp, '歌单创建成功')
+                    count += 1
+
+        if count > 0:
+            resp = self.music.vip_task_newlist()
+        else:
+            time.sleep(2)
 
         unGetAllScore = resp.get('data', {}).get('unGetAllScore', 0)
 
@@ -696,7 +732,8 @@ class User(object):
                     desp = item['action']
                     if item['totalUngetScore'] > 0:
                         scores += item['totalUngetScore']
-                        self.taskInfo(desp, '成长值+' + str(item['totalUngetScore']))
+                        self.taskInfo(
+                            desp, '成长值+' + str(item['totalUngetScore']))
 
                 items = items.get('subList', [])
                 if (items is not None):

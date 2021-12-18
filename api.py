@@ -166,7 +166,7 @@ class NetEase(object):
                       includeVideo=includeVideo)
         return self.request("POST", path, params)
 
-    # 创建歌单 privacy:0 为普通歌单，10 为隐私歌单；type:NORMAL|VIDEO
+    # 创建歌单 privacy:0 为普通歌单，10 为隐私歌单；type:NORMAL正常|VIDEO视频|SHARED共享
     def playlist_create(self, name, privacy=0, ptype='NORMAL'):
         path = "/weapi/playlist/create"
         params = dict(name=name, privacy=privacy, type=ptype)
