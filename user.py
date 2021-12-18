@@ -700,10 +700,12 @@ class User(object):
                     if create_resp.get('code', -1) == 200:
                         if tasks[desp]['delete'] == True:
                             self.music.playlist_delete(
-                                create_resp.get('id', 0))
+                                [create_resp.get('id', 0)])
                             self.taskInfo(desp, '歌单创建成功，已删除')
                         else:
                             self.taskInfo(desp, '歌单创建成功')
+                    else:
+                        self.taskInfo(desp, '歌单创建失败')
                     count += 1
 
         if count > 0:
