@@ -696,8 +696,7 @@ class User(object):
                     desp = item['action']
                     if item['totalUngetScore'] > 0:
                         scores += item['totalUngetScore']
-                        self.music.vip_reward_get(item['unGetIds'][0])
-                        self.taskInfo(desp, '成长值+' + str(item['growthPoint']))
+                        self.taskInfo(desp, '成长值+' + str(item['totalUngetScore']))
 
                 items = items.get('subList', [])
                 if (items is not None):
@@ -705,7 +704,6 @@ class User(object):
                         desp = item['action']
                         if item['totalUngetScore'] > 0:
                             scores += item['totalUngetScore']
-                            self.music.vip_reward_get(item['unGetIds'][0])
                             self.taskInfo(
                                 desp, '成长值+' + str(item['totalUngetScore']))
 
