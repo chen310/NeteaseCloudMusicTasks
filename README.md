@@ -471,6 +471,10 @@ python index.py
 
 <p align="left">饿了么领红包</p> <img width="300" height="300" src="https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/eleme.png" />
 
+### star 数
+
+[![Stargazers over time](https://starchart.cc/chen310/NeteaseCloudMusicTasks.svg)](https://starchart.cc/chen310/NeteaseCloudMusicTasks)
+
 ### 声明
 
 - 本仓库中的脚本仅用于测试和学习目的，请勿用于商业或非法目的，否则后果自负
