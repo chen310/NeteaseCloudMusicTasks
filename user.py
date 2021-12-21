@@ -128,7 +128,7 @@ class User(object):
                 self.songFull = True
         self.finishTask()
 
-    def resize(total):
+    def resize(self, total):
         if total <= 10:
             total = total * 3
         elif total <= 50:
@@ -174,7 +174,7 @@ class User(object):
         random.shuffle(playlist_ids)
         idx = 0
         start = idx
-        total = resize(total)
+        total = self.resize(total)
         for c in range(6):
             if len(song_datas) < total:
                 for i in range(start, len(playlist_ids)):
@@ -222,7 +222,7 @@ class User(object):
                 return
             else:
                 total = 300 - (resp['listenSongs'] - self.songnumber)
-                total = resize(total)
+                total = self.resize(total)
                 if len(song_datas) >= total:
                     start = idx
                 else:
