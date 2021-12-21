@@ -6,6 +6,7 @@ import sys
 
 key_list = ['version', 'desp']
 
+
 def copy_config(src, dst):
     target = copy.deepcopy(dst)
     if isinstance(src, dict):

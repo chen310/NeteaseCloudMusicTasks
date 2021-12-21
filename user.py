@@ -26,6 +26,7 @@ class User(object):
         self.songFull = False
         self.listenSongs = 0
         self.vipType = 0
+        self.songnumber = -1
 
     def setUser(self, username, password, isMd5=False, countrycode='', user_setting={}, No=0, ip=""):
         self.music = self.login_check(
@@ -127,6 +128,120 @@ class User(object):
                 self.songFull = True
         self.finishTask()
 
+    def resize(total):
+        if total <= 10:
+            total = total * 3
+        elif total <= 50:
+            total = int(total * 1.8)
+        elif total <= 100:
+            total = int(total * 1.3)
+        elif total <= 200:
+            total = int(total * 1.2)
+        return total
+
+    def auto_daka(self):
+        self.taskTitle('打卡信息')
+        user_setting = self.user_setting
+
+        if user_setting['daka']['full_stop']:
+            if self.full:
+                self.taskInfo('打卡', '您的等级已经爆表了，无需再打卡')
+                self.finishTask()
+                return
+            elif self.songFull:
+                self.taskInfo('打卡', '距离满级只差登录天数，无需打卡')
+                self.finishTask()
+                return
+        print("获取到歌曲数:" + str(self.songnumber))
+        daka_number = 0
+
+        total = 300 - (self.listenSongs - self.songnumber)
+        if total == 0:
+            self.taskInfo('打卡', '今天300首歌已经刷满了')
+            self.finishTask()
+            return
+        if total <= user_setting['daka']['tolerance']:
+            self.taskInfo('打卡', '今天已经打卡'+str(self.listenSongs)+"首歌了")
+            self.finishTask()
+            return
+        playlists = self.music.personalized_playlist(limit=50)
+        # 推荐歌单id列表
+        playlist_ids = [playlist["id"] for playlist in playlists]
+        song_ids = []
+
+        song_datas = []
+        # 打乱歌单id
+        random.shuffle(playlist_ids)
+        idx = 0
+        start = idx
+        total = resize(total)
+        for c in range(6):
+            if len(song_datas) < total:
+                for i in range(start, len(playlist_ids)):
+                    idx = i
+                    playlist_id = playlist_ids[i]
+                    # 获得歌单中歌曲的信息
+                    songs = self.music.playlist_detail(playlist_id).get(
+                        "playlist", {}).get("tracks", [])
+                    for song in songs:
+                        if song['id'] in song_ids:
+                            break
+                        song_data = {
+                            "type": 'song',
+                            "wifi": 0,
+                            "download": 0,
+                            "id": song['id'],
+                            "time": math.ceil(song['dt']/1000),
+                            "end": 'playend',
+                            "source": 'list',
+                            "sourceId": playlist_id,
+                        }
+                        song_datas.append(song_data)
+                    if len(song_datas) >= total:
+                        song_datas = song_datas[0:total]
+                        break
+            num = 300
+            print("即将打卡"+str(total)+"首")
+            self.music.daka(song_datas[0:total])
+            daka_number += total
+            song_datas = song_datas[total:]
+            # time.sleep(user_setting['daka']['sleep_time'])
+            time.sleep(30)
+            resp = self.music.user_detail(self.uid)
+            if 300 - (resp['listenSongs'] - self.songnumber) <= user_setting['daka']['tolerance']:
+                print("本次实际打卡数:" + str(daka_number) + ",今天有效打卡数:" +
+                      str(resp['listenSongs']-self.songnumber))
+                self.title = self.title + '今天听歌' + \
+                    str(resp['listenSongs']-self.songnumber) + \
+                    '首，累计听歌'+str(resp['listenSongs'])+'首'
+                self.taskInfo('今天打卡', str(
+                    resp['listenSongs'] - self.songnumber) + '首')
+                self.taskInfo('听歌总数', str(resp['listenSongs']) + '首')
+                self.taskInfo(
+                    '温馨提示', '数据更新可能有延时，[点击查看最新数据](https://music.163.com/#/user/home?id='+str(self.uid)+')')
+                return
+            else:
+                total = 300 - (resp['listenSongs'] - self.songnumber)
+                total = resize(total)
+                if len(song_datas) >= total:
+                    start = idx
+                else:
+                    start = idx + 1
+
+        time.sleep(15)
+        resp = self.music.user_detail(self.uid)
+        print("本次实际打卡数:" + str(daka_number) + ",今天有效打卡数:" +
+              str(resp['listenSongs']-self.songnumber))
+        self.title = self.title + '本次听歌' + \
+            str(resp['listenSongs']-self.songnumber) + \
+            '首，累计听歌'+str(resp['listenSongs'])+'首'
+        self.taskInfo('今天打卡', str(
+            resp['listenSongs'] - self.songnumber) + '首')
+        self.taskInfo('听歌总数', str(resp['listenSongs']) + '首')
+        self.taskInfo(
+            '温馨提示', '数据更新可能有延时，[点击查看最新数据](https://music.163.com/#/user/home?id='+str(self.uid)+')')
+        self.finishTask()
+
     def daka(self):
         self.taskTitle('打卡信息')
         user_setting = self.user_setting
@@ -141,7 +256,7 @@ class User(object):
                 self.finishTask()
                 return
 
-        playlists = self.music.personalized_playlist(limit=20)
+        playlists = self.music.personalized_playlist(limit=30)
         # 推荐歌单id列表
         playlist_ids = [playlist["id"] for playlist in playlists]
         song_ids = []
@@ -184,7 +299,6 @@ class User(object):
                 self.taskInfo('本次打卡', str(
                     resp['listenSongs'] - self.listenSongs) + '首')
                 self.taskInfo('听歌总数', str(resp['listenSongs']) + '首')
-                # self.taskInfo('温馨提示', '数据更新有延时，请到网易云音乐APP中查看准确信息')
                 self.taskInfo(
                     '温馨提示', '数据更新可能有延时，[点击查看最新数据](https://music.163.com/#/user/home?id='+str(self.uid)+')')
                 return
@@ -197,7 +311,6 @@ class User(object):
         self.taskInfo('本次打卡', str(
             resp['listenSongs'] - self.listenSongs) + '首')
         self.taskInfo('听歌总数', str(resp['listenSongs']) + '首')
-        # self.taskInfo('温馨提示', '数据更新有延时，请到网易云音乐APP中查看准确信息')
         self.taskInfo(
             '温馨提示', '数据更新可能有延时，[点击查看最新数据](https://music.163.com/#/user/home?id='+str(self.uid)+')')
         self.finishTask()
