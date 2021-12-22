@@ -29,35 +29,39 @@ def makeTimer(name, cron, enable=True, arg=""):
 
 
 try:
-    cred = credential.Credential(
-        getEnv("TENCENT_SECRET_ID"), getEnv("TENCENT_SECRET_KEY"))
-    httpProfile = HttpProfile()
-    httpProfile.endpoint = "scf.tencentcloudapi.com"
+    envs = []
+    triggers = []
+    if os.environ.get("DEPLOY_TYPE") == "update":
+        cred = credential.Credential(
+            getEnv("TENCENT_SECRET_ID"), getEnv("TENCENT_SECRET_KEY"))
+        httpProfile = HttpProfile()
+        httpProfile.endpoint = "scf.tencentcloudapi.com"
 
-    clientProfile = ClientProfile()
-    clientProfile.httpProfile = httpProfile
-    client = scf_client.ScfClient(cred, getEnv(
-        "REGION", getEnv("DEFAULT_REGION")), clientProfile)
+        clientProfile = ClientProfile()
+        clientProfile.httpProfile = httpProfile
+        client = scf_client.ScfClient(cred, getEnv(
+            "REGION", getEnv("DEFAULT_REGION")), clientProfile)
 
-    # 函数信息
-    req = models.GetFunctionRequest()
-    params = {
-        "FunctionName": getEnv("FUNCTION_NAME", getEnv("DEFAULT_FUNCTION_NAME"))
-    }
-    req.from_json_string(json.dumps(params))
+        # 函数信息
+        req = models.GetFunctionRequest()
+        params = {
+            "FunctionName": getEnv("FUNCTION_NAME", getEnv("DEFAULT_FUNCTION_NAME"))
+        }
+        req.from_json_string(json.dumps(params))
 
-    resp = client.GetFunction(req)
-    data = json.loads(resp.to_json_string())
+        resp = client.GetFunction(req)
+        data = json.loads(resp.to_json_string())
+        envs = data["Environment"]["Variables"]
 
-    # 触发器
-    req = models.ListTriggersRequest()
-    params = {
-        "FunctionName": getEnv("FUNCTION_NAME", getEnv("DEFAULT_FUNCTION_NAME"))
-    }
-    req.from_json_string(json.dumps(params))
+        # 触发器
+        req = models.ListTriggersRequest()
+        params = {
+            "FunctionName": getEnv("FUNCTION_NAME", getEnv("DEFAULT_FUNCTION_NAME"))
+        }
+        req.from_json_string(json.dumps(params))
 
-    resp = client.ListTriggers(req)
-    triggers = json.loads(resp.to_json_string()).get("Triggers", [])
+        resp = client.ListTriggers(req)
+        triggers = json.loads(resp.to_json_string()).get("Triggers", [])
 
     with open("serverless.yml", "w") as f:
         f.write("app: " + getEnv("FUNCTION_NAME",
@@ -110,7 +114,6 @@ try:
         f.write("      TENCENT_SECRET_KEY: " +
                 getEnv("TENCENT_SECRET_KEY") + "\n")
         flag = False
-        envs = data["Environment"]["Variables"]
         for env in envs:
             if env['Key'] == 'SONG_NUMBER':
                 flag = True
