@@ -8,6 +8,7 @@ if [[ $url == *ERROR* ]]; then
 	# 未部署函数
 	if [[ $url == *ResourceNotFound* ]]; then
 		echo "函数尚未创建"
+		export DEPLOY_TYPE="create"
 	else
 		echo $url
 		echo -e "\033[1;31m部署失败 \033[0m"
@@ -34,6 +35,7 @@ else
 			exit 1
 		fi
 		echo "已加载配置文件"
+                export DEPLOY_TYPE="update"
 	else
 		echo "配置文件不存在，请检查FUNCTION_NAME填写是否正确，避免覆盖其他函数"
 		echo -e "\033[1;31m部署失败 \033[0m"
