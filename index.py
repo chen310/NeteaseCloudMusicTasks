@@ -25,7 +25,7 @@ def getSongNumber():
         sp1 = os.environ.get("SONG_NUMBER").split("#")
         if len(sp1) != 2:
             return res
-        if sp1[0] != time.strftime("%Y-%m-%d", time.localtime()):
+        if sp1[0] != time.strftime("%Y-%m-%d", time.gmtime(time.time()+28800)):
             print("环境变量 SONG_NUMBER 已过期")
             return res
         for number in sp1[1].split(";"):
@@ -211,7 +211,8 @@ def setSongNumber():
         songNumber = "-1"
     if lastSongNumber == "-1" and songNumber == "-1":
         return
-    songNumber = time.strftime("%Y-%m-%d", time.localtime()) + "#" + songNumber
+    songNumber = time.strftime(
+        "%Y-%m-%d", time.gmtime(time.time()+28800)) + "#" + songNumber
 
     Variables = []
     keylist = ["TENCENT_SECRET_ID", "TENCENT_SECRET_KEY"]
