@@ -184,8 +184,10 @@ class User(object):
                     songs = self.music.playlist_detail(playlist_id).get(
                         "playlist", {}).get("tracks", [])
                     for song in songs:
+                        # 去重
                         if song['id'] in song_ids:
                             break
+                        song_ids.append(song["id"])
                         song_data = {
                             "type": 'song',
                             "wifi": 0,
@@ -209,12 +211,11 @@ class User(object):
             time.sleep(30)
             resp = self.music.user_detail(self.uid)
             if 300 - (resp['listenSongs'] - self.songnumber) <= user_setting['daka']['tolerance']:
-                print("本次实际打卡数:" + str(daka_number) + ",今天有效打卡数:" +
-                      str(resp['listenSongs']-self.songnumber))
                 self.title = self.title + '今天听歌' + \
                     str(resp['listenSongs']-self.songnumber) + \
                     '首，累计听歌'+str(resp['listenSongs'])+'首'
-                self.taskInfo('今天打卡', str(
+                self.taskInfo("本次实际打卡数", str(daka_number) + '首')
+                self.taskInfo('今天有效打卡数', str(
                     resp['listenSongs'] - self.songnumber) + '首')
                 self.taskInfo('听歌总数', str(resp['listenSongs']) + '首')
                 self.taskInfo(
@@ -230,12 +231,11 @@ class User(object):
 
         time.sleep(15)
         resp = self.music.user_detail(self.uid)
-        print("本次实际打卡数:" + str(daka_number) + ",今天有效打卡数:" +
-              str(resp['listenSongs']-self.songnumber))
         self.title = self.title + '本次听歌' + \
             str(resp['listenSongs']-self.songnumber) + \
             '首，累计听歌'+str(resp['listenSongs'])+'首'
-        self.taskInfo('今天打卡', str(
+        self.taskInfo("本次实际打卡数", str(daka_number) + '首')
+        self.taskInfo('今天有效打卡数', str(
             resp['listenSongs'] - self.songnumber) + '首')
         self.taskInfo('听歌总数', str(resp['listenSongs']) + '首')
         self.taskInfo(
@@ -270,8 +270,10 @@ class User(object):
             songs = self.music.playlist_detail(playlist_id).get(
                 "playlist", {}).get("tracks", [])
             for song in songs:
+                # 去重
                 if song['id'] in song_ids:
                     break
+                song_ids.append(song["id"])
                 song_data = {
                     "type": 'song',
                     "wifi": 0,
@@ -296,7 +298,7 @@ class User(object):
                 self.title = self.title + '本次听歌' + \
                     str(resp['listenSongs']-self.listenSongs) + \
                     '首，累计听歌'+str(resp['listenSongs'])+'首'
-                self.taskInfo('本次打卡', str(
+                self.taskInfo('本次打卡数', str(
                     resp['listenSongs'] - self.listenSongs) + '首')
                 self.taskInfo('听歌总数', str(resp['listenSongs']) + '首')
                 self.taskInfo(
@@ -308,7 +310,7 @@ class User(object):
         self.title = self.title + '本次听歌' + \
             str(resp['listenSongs']-self.listenSongs) + \
             '首，累计听歌'+str(resp['listenSongs'])+'首'
-        self.taskInfo('本次打卡', str(
+        self.taskInfo('本次打卡数', str(
             resp['listenSongs'] - self.listenSongs) + '首')
         self.taskInfo('听歌总数', str(resp['listenSongs']) + '首')
         self.taskInfo(
