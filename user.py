@@ -490,12 +490,12 @@ class User(object):
                         continue
                     self.taskRcmdSong(tasks[desp])
                     count += 1
-                # if '发布Mlog' in desp:
-                #     desp = '发布Mlog'
-                #     if (desp not in tasks) or (tasks[desp]['enable'] == False):
-                #         continue
-                #     self.taskMlog(tasks[desp])
-                #     count += 1
+                if '发布Mlog' in desp:
+                    desp = '发布Mlog'
+                    if (desp not in tasks) or (tasks[desp]['enable'] == False):
+                        continue
+                    self.taskMlog(tasks[desp])
+                    count += 1
 
         if count == 0:
             self.taskInfo('无可执行的任务')
