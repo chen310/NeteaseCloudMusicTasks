@@ -23,7 +23,6 @@ class NetEase(object):
             "Content-Type": "application/x-www-form-urlencoded",
             "Host": "music.163.com",
             "Referer": "http://music.163.com",
-            "X-Real-IP": "118.88.88.88",
             "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36",
         }
         username = str(username)
