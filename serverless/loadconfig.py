@@ -12,12 +12,14 @@ def before(src, dst):
                 src[key] = dst[key]
 
 
-config = json5.load(open(sys.argv[1], 'r', encoding='utf-8'))
-oldconfig = json5.load(open(sys.argv[2], 'r', encoding='utf-8'))
+with open(sys.argv[1], 'r', encoding='utf-8') as f:
+    config = json5.load(f)
+with open(sys.argv[2], 'r', encoding='utf-8') as f:
+    oldconfig = json5.load(f)
 
 before(oldconfig, config)
 
 data = updateConfig(oldconfig, config)
 
-with open(sys.argv[1], 'w', encoding='utf-8') as f:
+with open(sys.argv[3], 'w', encoding='utf-8') as f:
     f.write(jsonDumps(data))

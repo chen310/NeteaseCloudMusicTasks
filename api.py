@@ -450,8 +450,9 @@ class NetEase(object):
             'x-nos-token': data['token'],
             'Content-Type': content_type,
         }
-        file = open(filepath, 'rb')
-        return requests.post(url=path, data=file, headers=headers)
+        with open(filepath, 'rb') as f:
+            res = requests.post(url=path, data=f, headers=headers)
+        return res
 
     def mlog_pub(self, token, height, width, songId, songName='', text='share'):
         path = "/weapi/mlog/publish/v1"

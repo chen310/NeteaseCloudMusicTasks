@@ -16,7 +16,7 @@
 7. 自动领取 vip 成长值（任务需自己完成）
 8. 多种推送方式
 9. 支持多账号
-10. 支持腾讯云函数&本地运行
+10. 支持腾讯云函数&青龙面板&本地运行
 
 > 开发不易，如果你觉得本项目对你有用，可以点个 star，也可以到底部给个赞赏
 
@@ -421,7 +421,31 @@ REGION 默认为`ap-guangzhou` ，可不更改，可选的地域详见[地域列
 
 在 GitHub 项目页面点击`Fetch upstream` - `Fetch and merge`，然后再到`Actions`中[部署](#部署)。重新部署之后，配置文件自动同步，无需再次填写，但注释会被删除，如果需要修改配置文件，可以参考`config.example.json`文件中的注释。进入到云函数中时，如果提醒“检测到当前工作区函数和已部署函数不一致，重新加载已部署函数?”，点击`确认`即可。
 
-## 二、本地运行
+## 二、部署到青龙面板
+
+### 拉取仓库
+
+```shell
+ql repo https://github.com/chen310/NeteaseCloudMusicTasks "index.py" "" "py"
+```
+
+### 安装依赖
+
+```shell
+pip3 install requests json5 pycryptodomex
+```
+
+### 添加配置文件
+
+在脚本管理的 `chen310_NeteaseCloudMusicTasks` 目录下新建 `config.json` 文件，并将仓库中对应的 `config.json`中的所有内容复制到新建的配置文件中，并进行配置的修改
+
+### 更新脚本
+
+```shell
+python3 /ql/scripts/chen310_NeteaseCloudMusicTasks/ql_update.py
+```
+
+## 三、本地运行
 
 ### 下载
 

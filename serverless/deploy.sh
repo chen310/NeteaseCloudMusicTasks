@@ -28,14 +28,14 @@ else
 	if [ -e "./code/config.json" ]; then
 		sudo mv ./code/config.json $old_config_file
 		sudo cp $config_file $example_config_file
-		python ./serverless/loadconfig.py $config_file $old_config_file
+		python ./serverless/loadconfig.py $config_file $old_config_file $config_file
 		if [ $? -ne 0 ]; then
 			echo "配置文件复制错误，请检查config.json文件是否填写正确"
 			echo -e "\033[1;31m部署失败 \033[0m"
 			exit 1
 		fi
 		echo "已加载配置文件"
-                export DEPLOY_TYPE="update"
+		export DEPLOY_TYPE="update"
 	else
 		echo "配置文件不存在，请检查FUNCTION_NAME填写是否正确，避免覆盖其他函数"
 		echo -e "\033[1;31m部署失败 \033[0m"
@@ -48,22 +48,11 @@ sudo npm install -g serverless >>/dev/null
 sudo mkdir tmp/
 shopt -s extglob
 sudo mv !(tmp|serverless|public|code|.github|.git) ./tmp
-# sudo mv ./serverless/serverless.yml ./tmp
 
 python ./serverless/createyml.py
-# sudo cat ./serverless.yml
 sudo mv ./serverless.yml ./tmp
 
 cd ./tmp
-# if [ -n "$CRON" ]; then
-# 	sudo sed -i "s/0 30 0 \* \* \* \*/${CRON}/g" ./serverless.yml
-# fi
-# if [ -n "$REGION" ]; then
-# 	sudo sed -i "s/ap-guangzhou/${REGION}/g" ./serverless.yml
-# fi
-# if [ -n "$FUNCTION_NAME" ]; then
-# 	sudo sed -i "s/NeteaseCloudMusicTasks/${FUNCTION_NAME}/g" ./serverless.yml
-# fi
 echo "开始部署到腾讯云函数"
 result=$(sls deploy --debug)
 if [[ $result == *执行成功* ]]; then

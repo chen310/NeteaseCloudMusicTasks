@@ -39,7 +39,8 @@ def getSongNumber():
 
 
 def start(event, context):
-    config = json5.load(open('./config.json', 'r', encoding='utf-8'))
+    with open('./config.json', 'r', encoding='utf-8') as f:
+        config = json5.load(f)
     setting = config['setting']
 
     user_count = 0
@@ -184,7 +185,8 @@ def start(event, context):
 
 
 def setSongNumber():
-    config = json5.load(open('./config.json', 'r', encoding='utf-8'))
+    with open('./config.json', 'r', encoding='utf-8') as f:
+        config = json5.load(f)
     setting = config['setting']
     lastSongNumber = os.environ.get("SONG_NUMBER", "-1")
     songNumber = ""
