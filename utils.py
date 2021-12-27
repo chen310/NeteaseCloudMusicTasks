@@ -1,11 +1,15 @@
 import copy
 import json
 
+
 def updateConfig(src, dst):
     target = copy.deepcopy(dst)
     if isinstance(src, dict):
         for key in src:
-            target[key] = updateConfig(src[key], target[key])
+            if key in target:
+                target[key] = updateConfig(src[key], target[key])
+            else:
+                target[key] = src[key]
     elif isinstance(src, list):
         if len(src) == 0:
             target = src
@@ -24,5 +28,6 @@ def updateConfig(src, dst):
         target = copy.deepcopy(src)
     return target
 
+
 def jsonDumps(data):
-    return json.dumps(data,indent=4,ensure_ascii=False)
+    return json.dumps(data, indent=4, ensure_ascii=False)
