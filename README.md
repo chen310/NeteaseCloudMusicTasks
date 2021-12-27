@@ -442,7 +442,8 @@ pip3 install requests json5 pycryptodomex
 ### 更新脚本
 
 ```shell
-python3 /ql/scripts/chen310_NeteaseCloudMusicTasks/ql_update.py
+cd /ql/scripts/chen310_NeteaseCloudMusicTasks
+python3 ./ql_update.py
 ```
 
 ## 三、本地运行
