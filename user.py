@@ -231,7 +231,7 @@ class User(object):
 
         time.sleep(15)
         resp = self.music.user_detail(self.uid)
-        self.title = self.title + '本次听歌' + \
+        self.title = self.title + '今天听歌' + \
             str(resp['listenSongs']-self.songnumber) + \
             '首，累计听歌'+str(resp['listenSongs'])+'首'
         self.taskInfo("本次实际打卡数", str(daka_number) + '首')

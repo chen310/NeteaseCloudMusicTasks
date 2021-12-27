@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from utils import updateConfig
 import time
 import requests
 import json
@@ -7,6 +8,8 @@ import re
 import os
 from user import User
 from wecom import WeComAlert
+import sys
+sys.path.append("..")
 
 
 def md2text(data):
@@ -50,10 +53,10 @@ def start(event, context):
     for user_config in config['users']:
         user_count += 1
 
-        user_setting = setting
         if "setting" in user_config:
-            for key in user_config['setting']:
-                user_setting[key] = user_config['setting'][key]
+            user_setting = updateConfig(user_config["setting"], setting)
+        else:
+            user_setting = setting
 
         user = User()
         user.setUser(username=user_config['username'], password=user_config['password'], isMd5=user_config['md5'],
