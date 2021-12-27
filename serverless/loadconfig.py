@@ -1,6 +1,6 @@
 import json5
 import sys
-sys.path.append("..")
+sys.path.append(".")
 from utils import jsonDumps
 from utils import updateConfig
 
