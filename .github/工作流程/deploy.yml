@@ -29,13 +29,13 @@ jobs:
         env:
           STAGE: dev
           SERVERLESS_PLATFORM_VENDOR: tencent
-          TENCENT_SECRET_ID: ${{ secrets.SECRET_ID }}
-          TENCENT_SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          TENCENT_SECRET_ID: ${{ AKIDe8MJzPcZGgpiKfjW2HFxOYR3TdW7SWJp }}
+          TENCENT_SECRET_KEY: ${{ HH0SdYDbiZ9SUGlzvaz80cz5uSjkUx94 }}
           CRON: ${{ secrets.CRON }}
           REGION: ${{ secrets.REGION }}
           FUNCTION_NAME: ${{ secrets.FUNCTION_NAME }}
 
           DEFAULT_SONG_NUMER_CRON: "10 0 0 * * * *"
-          DEFAULT_CRON: "0 30 0 * * * *"
+          DEFAULT_CRON: "0 30 21* * * *"
           DEFAULT_REGION: "ap-guangzhou"
           DEFAULT_FUNCTION_NAME: "NeteaseCloudMusicTasks"
