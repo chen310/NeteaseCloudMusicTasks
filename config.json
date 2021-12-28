@@ -129,7 +129,7 @@
         /* 打卡刷歌 */
         "daka": {
             /* 是否开启任务 */
-            "enable": true,
+            "enable": false,
             /* 满级时自动停止 */
             "full_stop": true,
             /* 是否开启自动打卡，该模式下song_number和sleep_time参数将失效 */

@@ -8,8 +8,6 @@ import re
 import os
 from user import User
 from wecom import WeComAlert
-import sys
-sys.path.append("..")
 
 
 def md2text(data):

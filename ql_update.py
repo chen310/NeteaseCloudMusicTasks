@@ -1,8 +1,28 @@
 import os
-import json5
 
 if __name__ == "__main__":
-    os.system(
-        'ql repo https://github.com/chen310/NeteaseCloudMusicTasks.git "index.py" "" "py"')
-    os.system('python3 ./serverless/loadconfig.py /ql/repo/chen310_NeteaseCloudMusicTasks/config.json ./config.json ./config.json')
-    print("配置文件更新成功")
+    github_url = 'https://github.com/chen310/NeteaseCloudMusicTasks.git'
+    scripts_config = '/ql/scripts/chen310_NeteaseCloudMusicTasks/config.json'
+    old_config = '/ql/scripts/chen310_NeteaseCloudMusicTasks/config.old.json'
+    example_config = '/ql/scripts/chen310_NeteaseCloudMusicTasks/config.example.json'
+    repo_config = '/ql/repo/chen310_NeteaseCloudMusicTasks/config.json'
+    dependencies = '/ql/repo/chen310_NeteaseCloudMusicTasks/requirements.txt'
+    if os.path.exists(scripts_config):
+        print('更新代码...')
+        os.system('ql repo {} "index.py" "" "py"'.format(github_url))
+        print('备份配置文件...')
+        os.system('cp -f {} {}'.format(scripts_config, old_config))
+        print('复制配置示例文件...')
+        os.system('cp -f {} {}'.format(repo_config, example_config))
+        print('更新配置文件...')
+        os.system('python3 /ql/scripts/chen310_NeteaseCloudMusicTasks/serverless/loadconfig.py {} {} {}'.format(
+            repo_config, scripts_config, scripts_config))
+        print('更新完成')
+    else:
+        print('复制配置文件')
+        os.system('cp {} {}'.format(repo_config, scripts_config))
+        print('复制配置示例文件...')
+        os.system('cp -f {} {}'.format(repo_config, example_config))
+        print('安装依赖...')
+        os.system('pip3 install -r {}'.format(dependencies))
+        print('安装完成')

@@ -426,24 +426,18 @@ REGION 默认为`ap-guangzhou` ，可不更改，可选的地域详见[地域列
 ### 拉取仓库
 
 ```shell
-ql repo https://github.com/chen310/NeteaseCloudMusicTasks.git "index.py" "" "py"
+ql repo https://github.com/chen310/NeteaseCloudMusicTasks.git "index.py" "" "py" 
+python3 /ql/scripts/chen310_NeteaseCloudMusicTasks/ql_update.py
 ```
 
-### 安装依赖
+### 修改配置文件
 
-```shell
-pip3 install requests json5 pycryptodomex
-```
-
-### 添加配置文件
-
-在脚本管理的 `chen310_NeteaseCloudMusicTasks` 目录下新建 `config.json` 文件，并将仓库中对应的 `config.json`中的所有内容复制到新建的配置文件中，并进行配置的修改
+对配置文件 `config.json` 文件进行修改
 
 ### 更新脚本
 
 ```shell
-cd /ql/scripts/chen310_NeteaseCloudMusicTasks
-python3 ./ql_update.py
+python3 /ql/scripts/chen310_NeteaseCloudMusicTasks/ql_update.py
 ```
 
 ## 三、本地运行
