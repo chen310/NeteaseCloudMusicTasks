@@ -16,7 +16,7 @@
 7. 自动领取 vip 成长值（任务需自己完成）
 8. 多种推送方式
 9. 支持多账号
-10. 支持腾讯云函数&青龙面板&本地运行
+10. 支持[腾讯云函数](#一、部署到腾讯云函数) & [青龙面板](#二、部署到青龙面板) & [本地运行](#三、本地运行)
 
 > 开发不易，如果你觉得本项目对你有用，可以点个 star，也可以到底部给个赞赏
 
@@ -62,7 +62,7 @@ REGION 默认为`ap-guangzhou` ，可不更改，可选的地域详见[地域列
 
 ### 添加依赖
 
-在[这里](https://chen10.lanzoui.com/b01npw2ji)下载`dependencies.zip`这个文件，密码 6gck ，也可以自己用 pip 下载依赖，然后打包。然后在[高级能力](https://console.cloud.tencent.com/scf/layer)新建`层`，`层名称`可以自己任意填写，然后上传刚刚下载的压缩包，点击`添加运行环境`，选择`Python3.6`。在[函数服务](https://console.cloud.tencent.com/scf/list)点进刚刚创建的函数，点击上方的`层管理`，点击`绑定`，选择刚刚创建的层。
+下载[依赖文件](https://chen10.lanzouo.com/igHXzxf8wjc) ，也可以自己用 pip 下载依赖，然后打包。然后在[高级能力](https://console.cloud.tencent.com/scf/layer)新建`层`，`层名称`可以自己任意填写，然后上传刚刚下载的压缩包，点击`添加运行环境`，选择`Python3.6`。在[函数服务](https://console.cloud.tencent.com/scf/list)点进刚刚创建的函数，点击上方的`层管理`，点击`绑定`，选择刚刚创建的层。
 
 ### 修改配置
 
@@ -393,7 +393,7 @@ REGION 默认为`ap-guangzhou` ，可不更改，可选的地域详见[地域列
 // ...
 ```
 
-如上所示，在第二个账号中加入了 `setting` 字段，并填写与公共配置不同的地方。这样一来，两个账号就使用了不同的server酱推送，并使用不同的歌曲进行云贝推歌。
+如上所示，在第二个账号中加入了 `setting` 字段，并填写与公共配置不同的地方。这样一来，两个账号就使用了不同的 server 酱推送，并使用不同的歌曲进行云贝推歌。
 
 #### 关注作者
 
@@ -421,12 +421,14 @@ REGION 默认为`ap-guangzhou` ，可不更改，可选的地域详见[地域列
 
 在 GitHub 项目页面点击`Fetch upstream` - `Fetch and merge`，然后再到`Actions`中[部署](#部署)。重新部署之后，配置文件自动同步，无需再次填写，但注释会被删除，如果需要修改配置文件，可以参考`config.example.json`文件中的注释。进入到云函数中时，如果提醒“检测到当前工作区函数和已部署函数不一致，重新加载已部署函数?”，点击`确认`即可。
 
+修改了 Secrets 之后同样需要到 `Actions` 中[部署](#部署)才会生效。
+
 ## 二、部署到青龙面板
 
 ### 拉取仓库
 
 ```shell
-ql repo https://github.com/chen310/NeteaseCloudMusicTasks.git "index.py" "" "py" 
+ql repo https://github.com/chen310/NeteaseCloudMusicTasks.git "index.py" "" "py"
 python3 /ql/scripts/chen310_NeteaseCloudMusicTasks/ql_update.py
 ```
 
@@ -462,14 +464,6 @@ python index.py
 
 ## 其他
 
-### 打卡数不够 300 首
-
-可能的原因
-
-1. 数据延迟导致结果显示不准确，可稍候到网易云 APP 中查看
-2. 每天上限 300 首，如果打卡之前在网易云音乐中听过歌或多次打卡，可能导致此次打卡无法达到 300 的上限
-3. 歌单中的一部分歌曲可能之前听过，因此不再重复记录
-
 ### 对日推的影响
 
 打卡功能可能会影响日推，介意慎用。
@@ -477,40 +471,6 @@ python index.py
 ### 云函数免费额度及计费方式
 
 在云函数[概览](https://console.cloud.tencent.com/scf/index)界面，可以查看本月剩余免费额度
-
-<table>
-    <tr>
-        <td>发放时间</td> 
-        <td>计费项</td> 
-        <td>免费额度</td> 
-    </tr>
-    <tr>
-        <td rowspan="3">前三个月（包含开通当月）每月</td> 
-        <td>调用次数</td> 
-        <td>100万次（事件函数和 Web 函数各100万次）</td> 
-    </tr>
-    <tr> 
-        <td>资源使用量</td> 
-        <td>40万GBs</td> 
-    </tr>
-    <tr>
-        <td>外网出流量</td> 
-        <td>1GB</td> 
-    </tr>    
-    <tr>
-        <td rowspan="3">开通三个月后每月</td> 
-        <td>调用次数</td> 
-        <td>10万次（事件函数和 Web 函数各5万次）</td> 
-    </tr>
-    <tr> 
-        <td>资源使用量</td> 
-        <td>2万GBs</td> 
-    </tr>
-    <tr>
-        <td>外网出流量</td> 
-        <td>0.5GB</td> 
-    </tr>      
-</table>
 
 详见[计费概述](https://cloud.tencent.com/document/product/583/17299)
 
