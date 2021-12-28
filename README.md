@@ -426,7 +426,7 @@ REGION 默认为`ap-guangzhou` ，可不更改，可选的地域详见[地域列
 ### 拉取仓库
 
 ```shell
-ql repo https://github.com/chen310/NeteaseCloudMusicTasks "index.py" "" "py"
+ql repo https://github.com/chen310/NeteaseCloudMusicTasks.git "index.py" "" "py"
 ```
 
 ### 安装依赖
