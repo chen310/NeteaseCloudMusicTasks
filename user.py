@@ -53,6 +53,11 @@ class User(object):
             user_resp = music.user_detail(music.uid)
             music.nickname = user_resp['profile']['nickname']
             music.userType = user_resp['profile']['userType']
+            if music.userType != 0 and music.userType != 4:
+                for authtype in user_resp['profile'].get('allAuthTypes', []):
+                    if authtype['type'] == 4:
+                        music.userType = 4
+                        break
         else:
             if not is_md5:
                 pwd = md5(pwd.encode(encoding='UTF-8')).hexdigest()
@@ -61,6 +66,12 @@ class User(object):
                 music.uid = login_resp['profile']['userId']
                 music.nickname = login_resp['profile']['nickname']
                 music.userType = login_resp['profile']['userType']
+                if music.userType != 0 and music.userType != 4:
+                    user_resp = music.user_detail(music.uid)
+                    for authtype in user_resp['profile'].get('allAuthTypes', []):
+                        if authtype['type'] == 4:
+                            music.userType = 4
+                            break
             else:
                 music.uid = 0
                 music.nickname = ''
