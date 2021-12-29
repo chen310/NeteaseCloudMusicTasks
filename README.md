@@ -75,7 +75,6 @@ REGION 默认为`ap-guangzhou` ，可不更改，可选的地域详见[地域列
     {
         "username": "188xxxx8888",
         "countrycode": "",
-        "md5": false,
         "password": "mypassword",
         "X-Real-IP": ""
     }
@@ -83,7 +82,7 @@ REGION 默认为`ap-guangzhou` ，可不更改，可选的地域详见[地域列
 // ...
 ```
 
-`username`里填写手机号或邮箱，`password`里填写账号密码，`countrycode`为手机号前缀，使用非中国大陆的手机号登录需填写。如果使用的是加密后的密码，则需要将`md5`的`false`改成`true`，`X-Real-IP`里填写国内任意 IP，否则可能会有无法登录等情况出现，可填写本机 IP，查看方法为：百度搜索 ip，填写显示的 ip 即可。
+`username`里填写手机号或邮箱，`password`里填写账号密码或 32 位 md5 加密后的密码，`countrycode`为手机号前缀，使用非中国大陆的手机号登录需填写。`X-Real-IP`里填写国内任意 IP，否则可能会有无法登录等情况出现，可填写本机 IP，查看方法为：百度搜索 ip，填写显示的 ip 即可。如果是在本地环境运行，则不需要填写 IP
 
 #### 签到
 
