@@ -39,7 +39,7 @@ class User(object):
             self.userType = self.music.userType
         else:
             if len(music.loginerror) > 0:
-                msg = music.loginerror
+                msg = self.music.loginerror
             else:
                 msg = '可能是网络或其他原因'
             self.title += ': 登录失败' + msg
