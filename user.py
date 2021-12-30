@@ -38,9 +38,13 @@ class User(object):
             self.uid = self.music.uid
             self.userType = self.music.userType
         else:
-            self.title += ': 登录失败,请检查账号、密码'
-            self.taskTitle('用户信息')
-            self.taskInfo('登录失败，请检查账号、密码')
+            if len(music.loginerror) > 0:
+                msg = music.loginerror
+            else:
+                msg = '可能是网络或其他原因'
+            self.title += ': 登录失败' + msg
+            self.taskTitle('用户信息，')
+            self.taskInfo('登录失败，' + msg)
             self.finishTask()
 
     def login_check(self, username, pwd='', is_md5=True, countrycode='', ip=""):
@@ -66,6 +70,7 @@ class User(object):
                 music.uid = login_resp['profile']['userId']
                 music.nickname = login_resp['profile']['nickname']
                 music.userType = login_resp['profile']['userType']
+                music.loginerror = ''
                 if music.userType != 0 and music.userType != 4:
                     user_resp = music.user_detail(music.uid)
                     for authtype in user_resp['profile'].get('allAuthTypes', []):
@@ -75,6 +80,7 @@ class User(object):
             else:
                 music.uid = 0
                 music.nickname = ''
+                music.loginerror = login_resp.get('msg', '')
         return music
 
     def taskUser(self, No):
