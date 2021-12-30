@@ -8,8 +8,6 @@ if __name__ == "__main__":
     repo_config = '/ql/repo/chen310_NeteaseCloudMusicTasks/config.json'
     dependencies = '/ql/repo/chen310_NeteaseCloudMusicTasks/requirements.txt'
     if os.path.exists(scripts_config):
-        print('更新代码...')
-        os.system('ql repo {} "index.py" "" "py"'.format(github_url))
         print('备份配置文件...')
         os.system('cp -f {} {}'.format(scripts_config, old_config))
         print('复制配置示例文件...')
@@ -24,5 +22,7 @@ if __name__ == "__main__":
         print('复制配置示例文件...')
         os.system('cp -f {} {}'.format(repo_config, example_config))
         print('安装依赖...')
+        os.system('apk update')
+        os.system('apk add gcc libc-dev')
         os.system('pip3 install -r {}'.format(dependencies))
         print('安装完成')

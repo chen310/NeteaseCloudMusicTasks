@@ -430,15 +430,11 @@ REGION 默认为`ap-guangzhou` ，可不更改，可选的地域详见[地域列
 ql repo https://github.com/chen310/NeteaseCloudMusicTasks.git "index.py" "" "py" && python3 /ql/scripts/chen310_NeteaseCloudMusicTasks/ql_update.py
 ```
 
+更新代码同样也是用上面的命令
+
 ### 修改配置文件
 
 对配置文件 `config.json` 文件进行修改
-
-### 更新脚本
-
-```shell
-python3 /ql/scripts/chen310_NeteaseCloudMusicTasks/ql_update.py
-```
 
 ## 三、本地运行
 
