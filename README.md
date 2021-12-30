@@ -430,6 +430,8 @@ REGION 默认为`ap-guangzhou` ，可不更改，可选的地域详见[地域列
 ql repo https://github.com/chen310/NeteaseCloudMusicTasks.git "index.py" "" "py" && python3 /ql/scripts/chen310_NeteaseCloudMusicTasks/ql_update.py
 ```
 
+第一次使用需要安装依赖，时间可能会长一些
+
 更新代码同样也是用上面的命令
 
 ### 修改配置文件
