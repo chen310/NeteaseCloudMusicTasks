@@ -54,7 +54,7 @@ FUNCTION_NAME 为函数名，不填写默认为`NeteaseCloudMusicTasks`。如需
 
 CRON 默认为 `0 30 0 * * * *` 表示每天 0 点 30 分触发，可自行更改。比如：`0 20 12 * * * *` 表示每天 12 点 20 分触发，`0 0 12,16 * * * *` 表示每天 12 点和 16 点各触发一次。
 
-REGION 默认为`ap-guangzhou` ，可不更改，可选的地域详见[地域列表](https://cloud.tencent.com/document/product/583/17238#.E5.9C.B0.E5.9F.9F.E5.88.97.E8.A1.A8)。
+REGION 默认为`ap-guangzhou` ，可选的地域详见[地域列表](https://cloud.tencent.com/document/product/583/17238#.E5.9C.B0.E5.9F.9F.E5.88.97.E8.A1.A8)。
 
 ### 部署
 
@@ -427,7 +427,7 @@ REGION 默认为`ap-guangzhou` ，可不更改，可选的地域详见[地域列
 ### 拉取仓库
 
 ```shell
-ql repo https://github.com/chen310/NeteaseCloudMusicTasks.git "index.py" "" "py" && python3 /ql/scripts/chen310_NeteaseCloudMusicTasks/ql_update.py
+ql repo https://github.com/chen310/NeteaseCloudMusicTasks.git "index.py" "" "py" && task /ql/scripts/chen310_NeteaseCloudMusicTasks/ql_update.py
 ```
 
 第一次使用需要安装依赖，时间可能会长一些
