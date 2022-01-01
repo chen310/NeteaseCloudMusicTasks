@@ -178,7 +178,7 @@ class User(object):
             self.finishTask()
             return
         if total <= user_setting['daka']['tolerance']:
-            self.taskInfo('打卡', '今天已经打卡'+str(self.listenSongs)+"首歌了")
+            self.taskInfo('打卡', '今天已经打卡'+str(self.listenSongs - self.songnumber)+"首歌了")
             self.finishTask()
             return
         playlists = self.music.personalized_playlist(limit=50)
