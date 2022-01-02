@@ -769,33 +769,38 @@ class User(object):
                     self.taskInfo(mission['description'], '云豆已经领取过了')
         else:
             self.taskInfo('任务获取失败')
-        info_result = self.music.musician_data()
-        data = info_result.get('data', {})
 
         bean_resp = self.music.cloudbean()
         self.taskInfo('云豆数', bean_resp['data']['cloudBean'])
 
-        if data['playCount'] is None:
+        info_result = self.music.musician_data()
+        data = info_result.get('data')
+
+        if data is None:
+            self.finishTask()
+            return
+
+        if data.get('playCount') is None:
             self.taskInfo('昨日播放量', '--')
         else:
             self.taskInfo('昨日播放量', data['playCount'])
 
-        if data['followerCountIncrement'] is None:
-            self.taskInfo('昨日新增粉丝(人)', '--')
+        if data.get('followerCountIncrement') is None:
+            self.taskInfo('昨日新增粉丝', '--')
         else:
-            self.taskInfo('昨日新增粉丝(人)', data['followerCountIncrement'])
+            self.taskInfo('昨日新增粉丝', data['followerCountIncrement'])
 
-        if data['productionTotal'] is None:
+        if data.get('productionTotal') is None:
             self.taskInfo('作品(首)', '--')
         else:
             self.taskInfo('作品(首)', data['productionTotal'])
 
-        if data['availableExtractIncomeTotal'] is None:
+        if data.get('availableExtractIncomeTotal') is None:
             self.taskInfo('可提现余额', '--')
         else:
             self.taskInfo('可提现余额', data['availableExtractIncomeTotal'])
 
-        if data['musicianLevelScore'] is None:
+        if data.get('musicianLevelScore') is None:
             self.taskInfo('音乐人指数', '--')
         else:
             self.taskInfo('音乐人指数', data['musicianLevelScore'])
