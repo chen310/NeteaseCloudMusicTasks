@@ -1,5 +1,6 @@
-**/.vscode
-**/tempCodeRunnerFile.py
-**/__pycache__/
-/.user_data/
-**/test.py
+.vscode
+tempCodeRunnerFile.py
+__pycache__/
+.user_data/
+*test.py
+.env

@@ -29,9 +29,14 @@ class User(object):
         self.songnumber = -1
 
     def setUser(self, username, password, isMd5=False, countrycode='', user_setting={}, No=0, ip=""):
+        self.taskUser(No)
+        if len(username) == 0:
+            self.title += ': 请填写账号密码'
+            self.taskTitle('用户信息')
+            self.taskInfo('登录失败，请填写账号密码')
+            return
         self.music = self.login_check(
             username, password, isMd5, countrycode, ip)
-        self.taskUser(No)
         if self.music.uid != 0:
             self.isLogined = True
             self.user_setting = user_setting
@@ -42,8 +47,8 @@ class User(object):
                 msg = self.music.loginerror
             else:
                 msg = '可能是网络或其他原因'
-            self.title += ': 登录失败' + msg
-            self.taskTitle('用户信息，')
+            self.title += ': 登录失败'
+            self.taskTitle('用户信息')
             self.taskInfo('登录失败，' + msg)
             self.finishTask()
 
@@ -63,6 +68,11 @@ class User(object):
                         music.userType = 4
                         break
         else:
+            if len(pwd) == 0:
+                music.uid = 0
+                music.nickname = ''
+                music.loginerror = '请填写账号密码'
+                return music
             if not is_md5:
                 pwd = md5(pwd.encode(encoding='UTF-8')).hexdigest()
             login_resp = music.login(username, pwd, countrycode)
@@ -80,7 +90,11 @@ class User(object):
             else:
                 music.uid = 0
                 music.nickname = ''
-                music.loginerror = login_resp.get('msg', '')
+                if login_resp['code'] == -1:
+                    music.loginerror = ''
+                else:
+                    music.loginerror = login_resp.get('msg', str(login_resp))
+
         return music
 
     def taskUser(self, No):
@@ -178,7 +192,8 @@ class User(object):
             self.finishTask()
             return
         if total <= user_setting['daka']['tolerance']:
-            self.taskInfo('打卡', '今天已经打卡'+str(self.listenSongs - self.songnumber)+"首歌了")
+            self.taskInfo('打卡', '今天已经打卡' +
+                          str(self.listenSongs - self.songnumber)+"首歌了")
             self.finishTask()
             return
         playlists = self.music.personalized_playlist(limit=50)

@@ -66,28 +66,29 @@ REGION 默认为`ap-guangzhou` ，可选的地域详见[地域列表](https://cl
 
 ### 修改配置
 
-在[函数服务](https://console.cloud.tencent.com/scf/list)点进刚刚创建的函数，在编辑器里点击`config.json`这个文件进行配置，可以看到文件中有红色波浪线的错误提示，可以忽略不管，也可以下拉到编辑器的右下角，点击`JSON`来更改语言模式，选择`JSON with Comments`，这样就可以消除错误提示。在`config.json`里进行如下的账号配置
+在[函数服务](https://console.cloud.tencent.com/scf/list)点进刚刚创建的函数，在编辑器里点击`config.json`这个文件进行配置，可以看到文件中有红色波浪线的错误提示，可以忽略不管，也可以下拉到编辑器的右下角，点击`JSON`来更改语言模式，选择`JSON with Comments`，这样就可以消除错误提示。在`config.json`里进行如下的账号配置。运行之后如果发现有些任务没有完成，可能是因为没有开启，将任务对应的 `enable` 字段设置为 `true` 即可开启。
 
 #### 账号密码
 
 ```json5
-"users":[
+"users": [
     {
         "username": "188xxxx8888",
         "countrycode": "",
         "password": "mypassword",
-        "X-Real-IP": ""
+        "X-Real-IP": "",
+        "enable": true
     }
 ],
 // ...
 ```
 
-`username`里填写手机号或邮箱，`password`里填写账号密码或 32 位 md5 加密后的密码，`countrycode`为手机号前缀，使用非中国大陆的手机号登录需填写。`X-Real-IP`里填写国内任意 IP，否则可能会有无法登录等情况出现，可填写本机 IP，查看方法为：百度搜索 ip，填写显示的 ip 即可。如果是在本地环境运行，则不需要填写 IP
+`username`里填写手机号或邮箱，`password`里填写账号密码或 32 位 md5 加密后的密码，`countrycode`为手机号前缀，使用非中国大陆的手机号登录需填写。`X-Real-IP`里填写国内任意 IP，否则可能会有无法登录等情况出现，可填写本机 IP，查看方法为：百度搜索 ip，填写显示的 ip 即可。如果是在本地环境运行，则不需要填写 IP。`enable`为该账号的开关，设置为`false`表示不运行该账号的任务。
 
 #### 签到
 
 ```json5
-"setting":{
+"setting": {
     // ...
     "sign": true,
     // ...
@@ -99,9 +100,9 @@ REGION 默认为`ap-guangzhou` ，可选的地域详见[地域列表](https://cl
 #### 刷听歌量
 
 ```json5
-"setting":{
+"setting": {
     // ...
-    "daka":{
+    "daka": {
         "enable": true,
         "full_stop": true,
         "auto": true,
@@ -120,11 +121,11 @@ REGION 默认为`ap-guangzhou` ，可选的地域详见[地域列表](https://cl
 #### 云贝任务
 
 ```json5
-"setting":{
+"setting": {
     // ...
     "yunbei_task": {
         "发布动态": {
-            "enable":false,
+            "enable": false,
             // 需要分享的歌单id
             "id": [],
             "msg": ["每日分享","今日分享","分享歌单"],
@@ -249,7 +250,7 @@ REGION 默认为`ap-guangzhou` ，可选的地域详见[地域列表](https://cl
 使用 API 网关触发时默认关闭所有推送，您可以自行设置
 
 ```json5
-"setting":{
+"setting": {
     "stopPushOnAPIGateway": true,
 }
 ```
@@ -259,7 +260,7 @@ REGION 默认为`ap-guangzhou` ，可选的地域详见[地域列表](https://cl
 ##### 企业微信
 
 ```json5
-"setting":{
+"setting": {
     // ...
     "WeCom": {
         "enable": true,

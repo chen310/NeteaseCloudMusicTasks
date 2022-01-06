@@ -50,6 +50,8 @@ def start(event, context):
     res = ''
     songnumber = getSongNumber()
     for user_config in config['users']:
+        if user_config['enable'] == False:
+            continue
         user_count += 1
 
         if "setting" in user_config:
@@ -178,7 +180,8 @@ def start(event, context):
         body = json.dumps(data).encode(encoding='utf-8')
         headers = {'Content-Type': 'application/json'}
         requests.post(push_url, data=body, headers=headers)
-
+    if user_count == 0:
+        print('没有待运行的账号')
     return res
 
 

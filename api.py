@@ -483,3 +483,9 @@ class NetEase(object):
             })
         }
         return self.request("POST", path, params)
+
+    # 获取歌曲评论
+    def song_comments(self, music_id, offset=0, total="false", limit=100):
+        path = "/weapi/v1/resource/comments/R_SO_4_{}/".format(music_id)
+        params = dict(rid=music_id, offset=offset, total=total, limit=limit)
+        return self.request("POST", path, params)
