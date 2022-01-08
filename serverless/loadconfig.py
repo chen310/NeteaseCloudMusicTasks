@@ -6,11 +6,17 @@ from utils import jsonDumps
 from utils import updateConfig
 
 def before(src, dst):
+    for user in src.get('users', []):
+        if 'md5' in user:
+            del user['md5']
+
     key_list = ['version', 'desp']
-    for key in src:
+    for key in key_list:
         if key in dst:
-            if key in key_list:
-                src[key] = dst[key]
+            src[key] = dst[key]
+        else:
+            if key in src:
+                del src[key]
 
 
 with open(sys.argv[1], 'r', encoding='utf-8') as f:

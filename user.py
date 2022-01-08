@@ -152,7 +152,6 @@ class User(object):
         if not self.full:
             self.taskInfo('距离下级还需播放', str(
                 resp['data']['nextPlayCount'] - resp['data']['nowPlayCount']) + '首歌')
-            self.taskInfo('登录天数', resp['data']['nowLoginCount'])
             self.taskInfo('距离下级还需登录', str(
                 resp['data']['nextLoginCount'] - resp['data']['nowLoginCount']) + '天')
             if resp['data']['nowPlayCount'] >= 20000:
