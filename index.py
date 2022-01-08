@@ -202,7 +202,7 @@ def setSongNumber():
             continue
 
         user = User()
-        user.setUser(username=user_config['username'], password=user_config['password'], isMd5=user_config['md5'],
+        user.setUser(username=user_config['username'], password=user_config['password'], isMd5=len(user_config['password']) >= 32,
                      countrycode=user_config.get('countrycode', ''), user_setting=user_setting, No=0, ip=user_config['X-Real-IP'])
         if user.isLogined:
             resp = user.music.user_detail(user.uid)
