@@ -340,9 +340,9 @@ class NetEase(object):
 
     # 对歌曲进行评论
     def comments_add(self, song_id, content):
-        path = "/weapi/resource/comments/add"
+        path = "/weapi/v1/resource/comments/add"
         params = dict(threadId='R_SO_4_'+str(song_id), content=content)
-        return self.request("POST", path, params)
+        return self.request("POST", path, params, custom_cookies={'os': 'android'})
 
     # 回复歌曲评论
     def comments_reply(self, song_id, commentId, content):
