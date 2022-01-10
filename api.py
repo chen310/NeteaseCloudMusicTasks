@@ -349,7 +349,7 @@ class NetEase(object):
         path = "/weapi/v1/resource/comments/reply"
         params = dict(commentId=commentId, threadId='R_SO_4_' +
                       str(song_id), content=content)
-        return self.request("POST", path, params)
+        return self.request("POST", path, params, custom_cookies={'os': 'android'})
 
     # 删除评论
     def comments_delete(self, song_id, commentId):
