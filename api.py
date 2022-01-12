@@ -130,7 +130,8 @@ class NetEase(object):
                 self.session.cookies.load()
                 # self.session.cookies.save()
                 self.username = username
-
+        if len(password) < 32:
+            password = md5(password.encode(encoding='UTF-8')).hexdigest()
         if username.isdigit():
             path = "/weapi/login/cellphone"
             if len(countrycode) == 0:
@@ -153,10 +154,10 @@ class NetEase(object):
         return data
 
     # 每日签到
-    def daily_task(self, is_mobile=True):
+    def daily_task(self, type=0):
         path = "/weapi/point/dailyTask"
-        params = dict(type=0 if is_mobile else 1)
-        return self.request("POST", path, params)
+        params = dict(type=type)
+        return self.request("POST", path, params, custom_cookies={'os': 'android'})
 
     # 用户歌单
     def user_playlist(self, uid, offset=0, limit=50, includeVideo=True):
@@ -489,3 +490,8 @@ class NetEase(object):
         path = "/weapi/v1/resource/comments/R_SO_4_{}/".format(music_id)
         params = dict(rid=music_id, offset=offset, total=total, limit=limit)
         return self.request("POST", path, params)
+
+    # 音乐人专辑列表
+    def musician_album(self):
+        path = "/weapi/nmusician/production/common/artist/album/item/list/get"
+        return self.request("POST", path)

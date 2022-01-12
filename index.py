@@ -36,7 +36,7 @@ def getSongNumber():
     return res
 
 
-def start(event, context):
+def start(event={}, context={}):
     with open('./config.json', 'r', encoding='utf-8') as f:
         config = json5.load(f)
     setting = config['setting']
@@ -60,8 +60,8 @@ def start(event, context):
             user_setting = setting
 
         user = User()
-        user.setUser(username=user_config['username'], password=user_config['password'], isMd5=len(user_config['password']) >= 32,
-                     countrycode=user_config.get('countrycode', ''), user_setting=user_setting, No=user_count, ip=user_config['X-Real-IP'])
+        user.setUser(username=user_config['username'], password=user_config['password'], countrycode=user_config.get(
+            'countrycode', ''), user_setting=user_setting, No=user_count, ip=user_config['X-Real-IP'])
         if user.isLogined:
             user.songnumber = songnumber.get(str(user.uid), -1)
             user.userInfo()
@@ -202,8 +202,8 @@ def setSongNumber():
             continue
 
         user = User()
-        user.setUser(username=user_config['username'], password=user_config['password'], isMd5=len(user_config['password']) >= 32,
-                     countrycode=user_config.get('countrycode', ''), user_setting=user_setting, No=0, ip=user_config['X-Real-IP'])
+        user.setUser(username=user_config['username'], password=user_config['password'], countrycode=user_config.get(
+            'countrycode', ''), user_setting=user_setting, No=0, ip=user_config['X-Real-IP'])
         if user.isLogined:
             resp = user.music.user_detail(user.uid)
             if user_setting['daka']['full_stop'] == True and (resp['level'] == 10 or resp['listenSongs'] >= 20000):
@@ -278,4 +278,4 @@ def main_handler(event, context):
 
 
 if __name__ == '__main__':
-    start({}, {})
+    start()

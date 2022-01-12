@@ -28,7 +28,15 @@ class User(object):
         self.vipType = 0
         self.songnumber = -1
 
-    def setUser(self, username, password, isMd5=False, countrycode='', user_setting={}, No=0, ip=""):
+    def errMsg(self, data):
+        if 'msg' in data and data['msg'] is not None:
+            return str(data['code']) + ':' + data['msg']
+        elif 'message' in data and data['message'] is not None:
+            return str(data['code']) + ':' + data['message']
+        else:
+            return str(data)
+
+    def setUser(self, username, password, countrycode='', user_setting={}, No=0, ip=""):
         self.taskUser(No)
         if len(username) == 0:
             self.title += ': 请填写账号密码'
@@ -36,7 +44,7 @@ class User(object):
             self.taskInfo('登录失败，请填写账号密码')
             return
         self.music = self.login_check(
-            username, password, isMd5, countrycode, ip)
+            username, password, countrycode, ip)
         if self.music.uid != 0:
             self.isLogined = True
             self.user_setting = user_setting
@@ -52,7 +60,7 @@ class User(object):
             self.taskInfo('登录失败，' + msg)
             self.finishTask()
 
-    def login_check(self, username, pwd='', is_md5=True, countrycode='', ip=""):
+    def login_check(self, username, pwd='', countrycode='', ip=''):
         music = NetEase(username)
         if len(ip) > 0:
             music.header["X-Real-IP"] = ip
@@ -73,8 +81,6 @@ class User(object):
                 music.nickname = ''
                 music.loginerror = '请填写账号密码'
                 return music
-            if not is_md5:
-                pwd = md5(pwd.encode(encoding='UTF-8')).hexdigest()
             login_resp = music.login(username, pwd, countrycode)
             if login_resp['code'] == 200:
                 music.uid = login_resp['profile']['userId']
@@ -137,7 +143,7 @@ class User(object):
         self.taskInfo('云贝数量', resp['userPoint']['balance'])
 
         attention_resp = self.music.expire_attention()
-        if attention_resp.get('code', -1) == 200 and attention_resp['data']['expiringYunbei'] > 0:
+        if attention_resp['code'] == 200 and attention_resp['data']['expiringYunbei'] > 0:
             remainingTime = attention_resp['data']['remainingTime']
             self.taskInfo('过期提醒', str(
                 attention_resp['data']['expiringYunbei']) + '云贝将在' + str(remainingTime)+'天后过期，请尽快使用')
@@ -249,8 +255,9 @@ class User(object):
                 self.taskInfo('今天有效打卡数', str(
                     resp['listenSongs'] - self.songnumber) + '首')
                 self.taskInfo('听歌总数', str(resp['listenSongs']) + '首')
-                self.taskInfo(
-                    '温馨提示', '数据更新可能有延时，[点击查看最新数据](https://music.163.com/#/user/home?id='+str(self.uid)+')')
+                if resp['listenSongs'] - self.songnumber < 300:
+                    self.taskInfo(
+                        '温馨提示', '数据更新可能有延时，[点击查看最新数据](https://music.163.com/#/user/home?id='+str(self.uid)+')')
                 return
             else:
                 total = 300 - (resp['listenSongs'] - self.songnumber)
@@ -269,8 +276,9 @@ class User(object):
         self.taskInfo('今天有效打卡数', str(
             resp['listenSongs'] - self.songnumber) + '首')
         self.taskInfo('听歌总数', str(resp['listenSongs']) + '首')
-        self.taskInfo(
-            '温馨提示', '数据更新可能有延时，[点击查看最新数据](https://music.163.com/#/user/home?id='+str(self.uid)+')')
+        if resp['listenSongs'] - self.songnumber < 300:
+            self.taskInfo(
+                '温馨提示', '数据更新可能有延时，[点击查看最新数据](https://music.163.com/#/user/home?id='+str(self.uid)+')')
         self.finishTask()
 
     def daka(self):
@@ -332,8 +340,9 @@ class User(object):
                 self.taskInfo('本次打卡数', str(
                     resp['listenSongs'] - self.listenSongs) + '首')
                 self.taskInfo('听歌总数', str(resp['listenSongs']) + '首')
-                self.taskInfo(
-                    '温馨提示', '数据更新可能有延时，[点击查看最新数据](https://music.163.com/#/user/home?id='+str(self.uid)+')')
+                if resp['listenSongs'] - self.listenSongs < 300:
+                    self.taskInfo(
+                        '温馨提示', '数据更新可能有延时，[点击查看最新数据](https://music.163.com/#/user/home?id='+str(self.uid)+')')
                 return
 
         time.sleep(user_setting['daka']['sleep_time'] + 5)
@@ -344,8 +353,9 @@ class User(object):
         self.taskInfo('本次打卡数', str(
             resp['listenSongs'] - self.listenSongs) + '首')
         self.taskInfo('听歌总数', str(resp['listenSongs']) + '首')
-        self.taskInfo(
-            '温馨提示', '数据更新可能有延时，[点击查看最新数据](https://music.163.com/#/user/home?id='+str(self.uid)+')')
+        if resp['listenSongs'] - self.listenSongs < 300:
+            self.taskInfo(
+                '温馨提示', '数据更新可能有延时，[点击查看最新数据](https://music.163.com/#/user/home?id='+str(self.uid)+')')
         self.finishTask()
 
     def play_playlists(self):
@@ -362,7 +372,7 @@ class User(object):
             # 获得歌单中歌曲的信息
             result = self.music.playlist_detail(playlist_id)
             if result['code'] != 200:
-                self.taskInfo('歌单id', str(playlist_id) + '错误')
+                self.taskInfo('歌单' + str(playlist_id), self.errMsg(result))
                 break
             songs = result.get("playlist", {}).get("tracks", [])
             self.taskInfo(result["playlist"]['name'], '播放' + str(count) + '次')
@@ -411,7 +421,7 @@ class User(object):
             else:
                 self.taskInfo(task['taskName'], '发布成功')
         else:
-            self.taskInfo(task['taskName'], '发布失败')
+            self.taskInfo(task['taskName'], self.errMsg(result))
         time.sleep(2)
 
     def taskMall(self, task):
@@ -419,7 +429,7 @@ class User(object):
         if resp['code'] == 200:
             self.taskInfo(task['taskName'], '访问成功')
         else:
-            self.taskInfo(task['taskName'], '访问失败')
+            self.taskInfo(task['taskName'], self.errMsg(resp))
 
     def taskRcmdSong(self, task):
         if len(task['songId']) == 0:
@@ -431,11 +441,9 @@ class User(object):
         resp = self.music.yunbei_rcmd_submit(songId, yunbeiNum, reason)
         if resp['code'] == 200:
             self.taskInfo(task['taskName'], '推歌成功，歌曲ID为'+str(songId))
-        elif resp['code'] == 400:
-            self.taskInfo(task['taskName'], '推歌失败，歌曲ID为' +
-                          str(songId)+'，失败原因为'+resp.get('message', '未知'))
         else:
-            self.taskInfo(task['taskName'], '推歌失败，歌曲ID为'+str(songId))
+            self.taskInfo(task['taskName'], '歌曲' +
+                          str(songId) + '推歌失败:' + self.errMsg(resp))
 
     def taskMlog(self, task):
         if len(task['songId']) == 0:
@@ -444,7 +452,7 @@ class User(object):
         songId = random.choice(task['songId'])
 
         song_resp = self.music.songs_detail([songId])
-        if song_resp.get('code', -1) == 200 and len(song_resp['songs']) > 0:
+        if song_resp['code'] == 200 and len(song_resp['songs']) > 0:
             song = song_resp['songs'][0]
             songName = song['name']
             artists = song['ar']
@@ -481,8 +489,8 @@ class User(object):
         text = text.replace('$artist', artistName)
         text = text.replace('$song', songName)
         resp = self.music.mlog_pub(token, size, size, songId, songName, text)
-        if resp.get('code', -1) != 200:
-            self.taskInfo(task['taskName'], 'Mlog发布失败')
+        if resp['code'] != 200:
+            self.taskInfo(task['taskName'], self.errMsg(resp))
 
         if task.get('delete', True) == True:
             time.sleep(0.5)
@@ -492,6 +500,13 @@ class User(object):
         else:
             self.taskInfo(task['taskName'], '发布成功')
         os.remove(filepath)
+
+    def taskShare(self, task):
+        resp = self.music.daily_task(3)
+        if resp['code'] == 200:
+            self.taskInfo(task['taskName'], '分享成功')
+        else:
+            self.taskInfo(task['taskName'], self.errMsg(resp))
 
     def yunbei_task(self):
         user_setting = self.user_setting
@@ -526,6 +541,12 @@ class User(object):
                     if (desp not in tasks) or (tasks[desp]['enable'] == False):
                         continue
                     self.taskMlog(tasks[desp])
+                    count += 1
+                if '分享歌曲' in desp:
+                    desp = '分享歌曲/歌单'
+                    if (desp not in tasks) or (tasks[desp]['enable'] == False):
+                        continue
+                    self.taskShare(tasks[desp])
                     count += 1
 
         if count == 0:
@@ -578,11 +599,9 @@ class User(object):
         self.taskTitle('签到信息')
 
         progress = self.music.signin_progress('1207signin-1207signin')
-        if progress.get('code', -1) != 200:
-            self.taskInfo('签到进度获取失败')
-            self.music.daily_task(True)
-            # PC端签到，好像已经失效
-            self.music.daily_task(False)
+        if progress['code'] != 200:
+            print('签到进度获取失败', self.errMsg(progress))
+            self.music.daily_task()
             self.taskInfo('签到成功')
             self.finishTask()
             return
@@ -599,9 +618,7 @@ class User(object):
             self.finishTask()
             return
 
-        self.music.daily_task(True)
-        # PC端签到，好像已经失效
-        self.music.daily_task(False)
+        self.music.daily_task()
         time.sleep(1)
         progress = self.music.signin_progress('1207signin-1207signin')
         if progress['data']['today']['todaySignedIn'] == False:
@@ -671,6 +688,8 @@ class User(object):
                                 if tasks[desp]['delete']:
                                     time.sleep(0.5)
                                     self.music.event_delete(event_id)
+                            else:
+                                self.taskInfo(desp, self.errMsg(result))
                             time.sleep(1)
                     elif "发布主创说" in desp:
                         desp = "发布主创说"
@@ -688,7 +707,7 @@ class User(object):
                                 comments.append(
                                     {'commentId': resp['comment']['commentId'], 'songId': songId})
                             else:
-                                print(resp)
+                                self.taskInfo(desp, self.errMsg(resp))
                                 continue
 
                     elif "回复粉丝评论" in desp:
@@ -712,7 +731,8 @@ class User(object):
                                     comments.append(
                                         {'commentId': commentId, 'songId': songId})
                                 else:
-                                    print(resp)
+                                    self.taskInfo(desp + '-发布评论',
+                                                  self.errMsg(result))
                                     continue
                             else:
                                 continue
@@ -731,7 +751,8 @@ class User(object):
                                 replies.append(
                                     {'commentId': resp['comment']['commentId'], 'songId': songId})
                             else:
-                                print('回复错误，错误详情:'+str(resp))
+                                self.taskInfo(desp + '-回复评论',
+                                              self.errMsg(result))
                             # time.sleep(152)
                             time.sleep(1)
 
@@ -748,6 +769,8 @@ class User(object):
                                 else:
                                     msg = '你好'
                                 resp = self.music.msg_send(msg, [user_id])
+                                if resp['code'] != 200:
+                                    self.taskInfo(desp, self.errMsg(result))
                                 time.sleep(2)
             if tasks['回复粉丝评论']['delete'] and len(replies) > 0:
                 for reply in replies:
@@ -778,11 +801,14 @@ class User(object):
                         userMissionId=userMissionId, period=period)
                     if reward_result['code'] == 200:
                         self.taskInfo(description, '云豆+' + str(rewardWorth))
+                    else:
+                        self.taskInfo(description, '云豆领取失败:' +
+                                      self.errMsg(reward_result))
 
                 elif mission['status'] == 100 and mission['description'] in descriptions:
                     self.taskInfo(mission['description'], '云豆已经领取过了')
         else:
-            self.taskInfo('任务获取失败')
+            self.taskInfo('任务获取失败', self.errMsg(result))
 
         bean_resp = self.music.cloudbean()
         self.taskInfo('云豆数', bean_resp['data']['cloudBean'])
@@ -848,7 +874,7 @@ class User(object):
                         continue
                     name = random.choice(tasks[desp]['name'])
                     create_resp = self.music.playlist_create(name, 0, 'SHARED')
-                    if create_resp.get('code', -1) == 200:
+                    if create_resp['code'] == 200:
                         if tasks[desp]['delete'] == True:
                             self.music.playlist_delete(
                                 [create_resp.get('id', 0)])
@@ -856,7 +882,7 @@ class User(object):
                         else:
                             self.taskInfo(desp, '歌单创建成功')
                     else:
-                        self.taskInfo(desp, '歌单创建失败')
+                        self.taskInfo(desp, self.errMsg(create_resp))
                     count += 1
 
         if count > 0:
@@ -872,8 +898,8 @@ class User(object):
             return
 
         reward_resp = self.music.vip_reward_getall()
-        if reward_resp.get('code', -1) != 200:
-            self.taskInfo('成长值领取失败')
+        if reward_resp['code'] != 200:
+            self.taskInfo('成长值领取失败', self.errMsg(reward_resp))
 
         scores = 0
 
