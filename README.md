@@ -58,7 +58,13 @@ REGION 默认为`ap-guangzhou` ，可选的地域详见[地域列表](https://cl
 
 ### 部署
 
-点击项目上方的`Actions`，点击`All workflows`下方的`deploy`（移动端要先点击`Select workflow`），再点击右侧`Run workflow`，在弹出的页面再次点击`Run workflow`，将会运行新的 workflow，点进这个 workflow，可以查看部署进度。
+#### 自动部署
+
+更新代码后将会自动触发 workflow，部署到腾讯云函数。到 `Actions` 中可以查看部署进度。
+
+#### 手动部署
+
+更新了 `Secrets` 之后不会自动部署，此时需要手动部署。击项目上方的`Actions`，点击`All workflows`下方的`deploy`（移动端要先点击`Select workflow`），再点击右侧`Run workflow`，在弹出的页面再次点击`Run workflow`，将会运行新的 workflow，点进这个 workflow，可以查看部署进度。
 
 ### 添加依赖
 
@@ -427,7 +433,7 @@ REGION 默认为`ap-guangzhou` ，可选的地域详见[地域列表](https://cl
 
 在 GitHub 项目页面点击`Fetch upstream` - `Fetch and merge`，然后再到`Actions`中[部署](#部署)。重新部署之后，配置文件自动同步，无需再次填写，但注释会被删除，如果需要修改配置文件，可以参考`config.example.json`文件中的注释。进入到云函数中时，如果提醒“检测到当前工作区函数和已部署函数不一致，重新加载已部署函数?”，点击`确认`即可。
 
-修改了 Secrets 之后同样需要到 `Actions` 中[部署](#部署)才会生效。
+更新代码后将会自动部署到腾讯云函数，但修改了 Secrets 之后需要手动部署，详见[部署](#部署)。
 
 ## 二、部署到青龙面板
 
