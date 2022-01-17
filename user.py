@@ -732,7 +732,7 @@ class User(object):
                                         {'commentId': commentId, 'songId': songId})
                                 else:
                                     self.taskInfo(desp + '-发布评论',
-                                                  self.errMsg(result))
+                                                  self.errMsg(resp))
                                     continue
                             else:
                                 continue
@@ -752,7 +752,7 @@ class User(object):
                                     {'commentId': resp['comment']['commentId'], 'songId': songId})
                             else:
                                 self.taskInfo(desp + '-回复评论',
-                                              self.errMsg(result))
+                                              self.errMsg(resp))
                             # time.sleep(152)
                             time.sleep(1)
 
@@ -770,7 +770,7 @@ class User(object):
                                     msg = '你好'
                                 resp = self.music.msg_send(msg, [user_id])
                                 if resp['code'] != 200:
-                                    self.taskInfo(desp, self.errMsg(result))
+                                    self.taskInfo(desp, self.errMsg(resp))
                                 time.sleep(2)
             if tasks['回复粉丝评论']['delete'] and len(replies) > 0:
                 for reply in replies:
