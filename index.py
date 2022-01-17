@@ -174,7 +174,7 @@ def start(event={}, context={}):
     for tgkey in tgkeys:
         push_url = 'https://api.telegram.org/bot' + tgkey + '/sendMessage'
         requests.post(push_url, data={
-                      'chat_id': telegram_userId, 'text': tgkeys[tgkey]['msg']}, {'Content-Type': 'application/x-www-form-urlencoded'})
+                      'chat_id': telegram_userId, 'text': tgkeys[tgkey]['msg']}, headers = {'Content-Type': 'application/x-www-form-urlencoded'})
 
     for skey in Skeys:
         for method in Skeys[skey]['method']:
