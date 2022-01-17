@@ -73,6 +73,15 @@
             /* 消息类型：text 文本消息(微信、企业微信里均可查看) | textcard 文本卡片消息(微信、企业微信里均可查看) | markdown markdown消息(只能在企业微信里查看)  */
             "msgtype": "text"
         },
+        /* Telegram推送 */
+        "Telegram": {
+            /* 是否启用Telegram推送 */
+            "enable": true,
+            /* Telegram账号ID */
+            "userId": "",
+            /* TG机器人token */
+            "botToken": ""
+        },
         /* 签到 */
         "sign": true,
         /* 云贝任务，任务列表中有如下的任务时才触发 */
