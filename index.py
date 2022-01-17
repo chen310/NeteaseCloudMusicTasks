@@ -46,6 +46,7 @@ def start(event={}, context={}):
     SCKEYs = {}
     Skeys = {}
     pushToken = {}
+    tgkeys = {}
 
     res = ''
     songnumber = getSongNumber()
@@ -110,6 +111,15 @@ def start(event={}, context={}):
             else:
                 SCKEYs[sckey] = {'title': user.title, 'msg': user.msg}
 
+
+        telegram_userId = user_setting['Telegram']['userId']
+        bot_token = user_setting['Telegram']['botToken']
+        if user_setting['Telegram']['enable'] and len(telegram_userId) > 0 and len(bot_token) > 0:
+            if bot_token in tgkeys:
+                tgkeys[bot_token]['msg'] += user.msg
+            else:
+                tgkeys[bot_token] = {'msg': user.msg}
+
         skey = user_setting['CoolPush']['Skey']
         if user_setting['CoolPush']['enable'] and len(skey) > 0:
             if skey in Skeys:
@@ -159,6 +169,12 @@ def start(event={}, context={}):
             serverChan_url = 'https://sc.ftqq.com/'+sckey+'.send'
         requests.post(serverChan_url, data={
                       "text": SCKEYs[sckey]['title'], "desp": SCKEYs[sckey]['msg']})
+        return res
+
+    for tgkey in tgkeys:
+        push_url = 'https://api.telegram.org/bot' + tgkey + '/sendMessage'
+        requests.post(push_url, data={
+                      'chat_id': telegram_userId, 'text': tgkeys[tgkey]['msg']}, {'Content-Type': 'application/x-www-form-urlencoded'})
 
     for skey in Skeys:
         for method in Skeys[skey]['method']:
