@@ -169,7 +169,6 @@ def start(event={}, context={}):
             serverChan_url = 'https://sc.ftqq.com/'+sckey+'.send'
         requests.post(serverChan_url, data={
                       "text": SCKEYs[sckey]['title'], "desp": SCKEYs[sckey]['msg']})
-        return res
 
     for tgkey in tgkeys:
         push_url = 'https://api.telegram.org/bot' + tgkey + '/sendMessage'
