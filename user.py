@@ -3,7 +3,6 @@ import time
 import random
 import math
 import re
-from hashlib import md5
 from api import NetEase
 import os
 import requests
@@ -16,13 +15,11 @@ class User(object):
         self.title = '网易云音乐'
         self.msg = ''
         self.isLogined = False
-        self.No = 0
         self.nickname = ''
         self.uid = 0
         self.userType = 0
         self.level = 0
         self.full = False
-        self.full_level = 10
         self.songFull = False
         self.listenSongs = 0
         self.vipType = 0
@@ -36,15 +33,14 @@ class User(object):
         else:
             return str(data)
 
-    def setUser(self, username, password, countrycode='', user_setting={}, No=0, ip=""):
-        self.taskUser(No)
-        if len(username) == 0:
+    def setUser(self, user_config, user_setting):
+        if len(user_config['username']) == 0:
             self.title += ': 请填写账号密码'
             self.taskTitle('用户信息')
             self.taskInfo('登录失败，请填写账号密码')
             return
-        self.music = self.login_check(
-            username, password, countrycode, ip)
+        self.music = self.login_check(user_config['username'], user_config['password'], user_config.get(
+            'countrycode', ''), user_config['X-Real-IP'])
         if self.music.uid != 0:
             self.isLogined = True
             self.user_setting = user_setting
@@ -102,10 +98,6 @@ class User(object):
                     music.loginerror = login_resp.get('msg', str(login_resp))
 
         return music
-
-    def taskUser(self, No):
-        self.msg += '### 用户' + str(No) + '\n'
-        print('### 用户' + str(No))
 
     def taskTitle(self, title):
         self.msg += '#### ' + title + '\n'

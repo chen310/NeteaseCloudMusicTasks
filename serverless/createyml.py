@@ -91,7 +91,7 @@ try:
             "timer-songnumber": {
                 "cron": getEnv("DEFAULT_SONG_NUMER_CRON"),
                 "enable": True,
-                "arg": "set_song_number"
+                "arg": "用于每天0点获取刷歌数"
             }
         }
         for trigger in triggers:

@@ -7,7 +7,7 @@ import json5
 import re
 import os
 from user import User
-from wecom import WeComAlert
+from pusher import Pusher
 
 
 def md2text(data):
@@ -37,32 +37,26 @@ def getSongNumber():
 
 
 def start(event={}, context={}):
-    with open('./config.json', 'r', encoding='utf-8') as f:
+    with open('config.json', 'r', encoding='utf-8') as f:
         config = json5.load(f)
+
+    # 公共配置
     setting = config['setting']
 
-    user_count = 0
-
-    SCKEYs = {}
-    Skeys = {}
-    pushToken = {}
-    tgkeys = {}
-
-    res = ''
     songnumber = getSongNumber()
+    # 推送
+    pusher = Pusher()
     for user_config in config['users']:
-        if user_config['enable'] == False:
+        if not user_config['enable']:
             continue
-        user_count += 1
-
+        # 获取账号配置
         if "setting" in user_config:
             user_setting = updateConfig(user_config["setting"], setting)
         else:
             user_setting = setting
 
         user = User()
-        user.setUser(username=user_config['username'], password=user_config['password'], countrycode=user_config.get(
-            'countrycode', ''), user_setting=user_setting, No=user_count, ip=user_config['X-Real-IP'])
+        user.setUser(user_config, user_setting)
         if user.isLogined:
             user.songnumber = songnumber.get(str(user.uid), -1)
             user.userInfo()
@@ -97,107 +91,17 @@ def start(event={}, context={}):
             if user_setting['other']['play_playlists']['enable']:
                 user.play_playlists()
 
-        res += user.msg
-        # user.msg = user.msg.strip()
-
-        # API网关访问
-        if 'requestContext' in event and user_setting.get('noPushOnAPIGateway', True):
-            continue
-
-        sckey = user_setting['serverChan']['KEY']
-        if user_setting['serverChan']['enable'] and len(sckey) > 0:
-            if sckey in SCKEYs:
-                SCKEYs[sckey]['msg'] += user.msg
-            else:
-                SCKEYs[sckey] = {'title': user.title, 'msg': user.msg}
-
-
-        telegram_userId = user_setting['Telegram']['userId']
-        bot_token = user_setting['Telegram']['botToken']
-        if user_setting['Telegram']['enable'] and len(telegram_userId) > 0 and len(bot_token) > 0:
-            if bot_token in tgkeys:
-                tgkeys[bot_token]['msg'] += user.msg
-            else:
-                tgkeys[bot_token] = {'msg': user.msg}
-
-        skey = user_setting['CoolPush']['Skey']
-        if user_setting['CoolPush']['enable'] and len(skey) > 0:
-            if skey in Skeys:
-                Skeys[skey]['msg'] += user.msg
-            else:
-                Skeys[skey] = {
-                    'title': user.title, 'method': user_setting['CoolPush']['method'], 'msg': user.msg}
-
-        pushtoken = user_setting['pushPlus']['pushToken']
-        if user_setting['pushPlus']['enable'] and len(pushtoken) > 0:
-            # 一对多单独发送
-            if len(user_setting['pushPlus']['topic']) > 0:
-                push_url = 'http://www.pushplus.plus/send'
-                data = {
-                    "token": pushtoken,
-                    "title": user.title,
-                    "content": user.msg,
-                    "topic": user_setting['pushPlus']['topic']
-                }
-                body = json.dumps(data).encode(encoding='utf-8')
-                headers = {'Content-Type': 'application/json'}
-                requests.post(push_url, data=body, headers=headers)
-            else:
-                if pushtoken in pushToken:
-                    pushToken[pushtoken]['msg'] += user.msg
-                else:
-                    pushToken[pushtoken] = {
-                        'title': user.title, 'msg': user.msg}
-
-        if user_setting['WeCom']['enable'] and len(user_setting['WeCom']['corpid']) > 0 and len(user_setting['WeCom']['secret']) > 0 and len(user_setting['WeCom']['agentid']) > 0:
-            alert = WeComAlert(
-                user_setting['WeCom']['corpid'], user_setting['WeCom']['secret'], user_setting['WeCom']['agentid'])
-            msg = user.msg
-            if user_setting['WeCom']['msgtype'] != 'markdown':
-                msg = md2text(msg)
-            alert.send_msg(user_setting['WeCom']['userid'], user_setting['WeCom']['msgtype'],
-                           msg, "网易云音乐打卡", 'https://music.163.com/#/user/home?id='+str(user.uid))
-
-    if 'requestContext' in event and user_setting.get('noPushOnAPIGateway', True):
-        return res
-
-    for sckey in SCKEYs:
-        serverChan_url = ''
-        if sckey.startswith('SCT'):
-            serverChan_url = 'https://sctapi.ftqq.com/'+sckey+'.send'
-        else:
-            serverChan_url = 'https://sc.ftqq.com/'+sckey+'.send'
-        requests.post(serverChan_url, data={
-                      "text": SCKEYs[sckey]['title'], "desp": SCKEYs[sckey]['msg']})
-
-    for tgkey in tgkeys:
-        push_url = 'https://api.telegram.org/bot' + tgkey + '/sendMessage'
-        requests.post(push_url, data={
-                      'chat_id': telegram_userId, 'text': tgkeys[tgkey]['msg']}, headers = {'Content-Type': 'application/x-www-form-urlencoded'})
-
-    for skey in Skeys:
-        for method in Skeys[skey]['method']:
-            CoolPush_url = "https://push.xuthus.cc/{}/{}".format(method, skey)
-            if method == "email":
-                requests.post(CoolPush_url, data={
-                              "t": Skeys[skey]['title'], "c": md2text(Skeys[skey]['msg'])})
-            else:
-                requests.get(CoolPush_url, params={"c": Skeys[skey]['msg']})
-
-    # Pushplus推送
-    for pushtoken in pushToken:
-        push_url = 'http://www.pushplus.plus/send'
-        data = {
-            "token": pushtoken,
-            "title": pushToken[pushtoken]['title'],
-            "content": pushToken[pushtoken]['msg']
-        }
-        body = json.dumps(data).encode(encoding='utf-8')
-        headers = {'Content-Type': 'application/json'}
-        requests.post(push_url, data=body, headers=headers)
-    if user_count == 0:
-        print('没有待运行的账号')
-    return res
+        
+        for push in user_setting['push'].values():
+            if not push['enable']:
+                continue
+            data = {
+                'title': user.title,
+                'msg': user.msg,
+                'config': push
+            }
+            pusher.append(data)
+    pusher.push()
 
 
 def setSongNumber():
@@ -217,8 +121,7 @@ def setSongNumber():
             continue
 
         user = User()
-        user.setUser(username=user_config['username'], password=user_config['password'], countrycode=user_config.get(
-            'countrycode', ''), user_setting=user_setting, No=0, ip=user_config['X-Real-IP'])
+        user.setUser(user_config, user_setting)
         if user.isLogined:
             resp = user.music.user_detail(user.uid)
             if user_setting['daka']['full_stop'] == True and (resp['level'] == 10 or resp['listenSongs'] >= 20000):
@@ -278,19 +181,10 @@ def setSongNumber():
 
 
 def main_handler(event, context):
-    if event.get("Type", "") == "Timer" and event.get("Message", "") == "set_song_number":
+    if event.get("Type") == "Timer" and event.get("TriggerName") == "timer-songnumber":
         setSongNumber()
         return
-    res = start(event, context)
-    if 'requestContext' in event:
-        data = {
-            "isBase64Encoded": False,
-            "statusCode": 200,
-            "headers": {"Content-Type": "text/html"},
-            "body": "<html lang=\"zh-CN\"><meta charset=\"utf-8\"><body><p>" + "<br />" + md2text(res).replace("\n", "<br />") + "</p></body></html>"
-        }
-        return data
-
+    start(event, context)
 
 if __name__ == '__main__':
     start()

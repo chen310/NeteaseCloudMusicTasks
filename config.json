@@ -26,61 +26,71 @@
         /* 多个账号删除上面的注释，以此类推 */
     ],
     "setting": {
-        /* 使用API网关触发时停止消息推送 */
-        "stopPushOnAPIGateway": true,
-        /* server酱微信推送 */
-        "serverChan": {
-            /* 是否启用server酱微信推送 */
-            "enable": true,
-            /* 填写server酱旧版SCKEY或新版SendKey */
-            "KEY": ""
-        },
-        /* pushPlus微信推送 */
-        /* 官网 http://www.pushplus.plus */
-        "pushPlus": {
-            /* 是否启用pushplus微信推送 */
-            "enable": true,
-            /* pushplus的token */
-            "pushToken": "",
-            /* 群组编码，为空时发给自己 */
-            "topic": ""
-        },
-        /* Cool Push酷推QQ推送 */
-        "CoolPush": {
-            /* 是否启用酷推推送 */
-            "enable": true,
-            /* 推送方式，如果想要使用多种方式，请用逗号隔开，如["send","group"] */
-            /* send:QQ号私人推送, group:QQ群推送, wx:微信推送, email:邮件推送 */
-            "method": [
-                "send"
-            ],
-            /* 酷推Skey */
-            "Skey": ""
-        },
-        /* 企业微信推送 */
-        "WeCom": {
-            /* 是否启用企业微信推送 */
-            "enable": true,
-            /* 企业ID，登录企业微信后在管理后台“我的企业”－“企业信息”下查看 */
-            "corpid": "",
-            /* 应用ID，在“应用管理”里，点进相应的应用可查看 */
-            "agentid": "",
-            /* 应用密钥，在“应用管理”里，点进相应的应用可查看 */
-            "secret": "",
-            /* 要推送的人的用户ID，每个成员都有唯一的userid，即所谓“帐号”。在管理后台->“通讯录”->点进某个成员的详情页，可以看到。默认为"@all"，向该企业应用的全部成员发送 */
-            /* 若该企业应用有多个成员，请将id改为自己的id，如“ZhangSan”，以免其他成员也收到消息 */
-            "userid": "@all",
-            /* 消息类型：text 文本消息(微信、企业微信里均可查看) | textcard 文本卡片消息(微信、企业微信里均可查看) | markdown markdown消息(只能在企业微信里查看)  */
-            "msgtype": "text"
-        },
-        /* Telegram推送 */
-        "Telegram": {
-            /* 是否启用Telegram推送 */
-            "enable": true,
-            /* Telegram账号ID */
-            "userId": "",
-            /* TG机器人token */
-            "botToken": ""
+        /* 推送 */
+        "push": {
+            "serverChan": {
+                "module": "serverChan",
+                /* 是否启用server酱微信推送 */
+                "enable": true,
+                /* 填写server酱旧版SCKEY或新版SendKey */
+                "KEY": "",
+                /* 是否将多个账号的信息合并推送 */
+                "merge": true
+            },
+            /* 官网 http://www.pushplus.plus */
+            "pushPlus": {
+                "module": "pushPlus",
+                /* 是否启用pushplus微信推送 */
+                "enable": true,
+                /* pushplus的token */
+                "pushToken": "",
+                /* 消息模板:  markdown | html | txt | json */
+                "template": "markdown",
+                /* 群组编码，为空时发给自己 */
+                "topic": "",
+                /* 是否将多个账号的信息合并推送 */
+                "merge": true
+            },
+            "CoolPush": {
+                "module": "CoolPush",
+                /* 是否启用酷推推送 */
+                "enable": true,
+                /* 推送方式: send QQ号私人推送 | group QQ群推送 | wx 微信推送 | email 邮件推送 */
+                "method": "send",
+                /* 酷推Skey */
+                "Skey": "",
+                /* 是否将多个账号的信息合并推送 */
+                "merge": true
+            },
+            "WeCom": {
+                "module": "WeCom",
+                /* 是否启用企业微信推送 */
+                "enable": true,
+                /* 企业ID，登录企业微信后在管理后台“我的企业”－“企业信息”下查看 */
+                "corpid": "",
+                /* 应用ID，在“应用管理”里，点进相应的应用可查看 */
+                "agentid": "",
+                /* 应用密钥，在“应用管理”里，点进相应的应用可查看 */
+                "secret": "",
+                /* 要推送的人的用户ID，每个成员都有唯一的userid，即所谓“帐号”。在管理后台->“通讯录”->点进某个成员的详情页，可以看到。默认为"@all"，向该企业应用的全部成员发送 */
+                /* 若该企业应用有多个成员，请将id改为自己的id，如“ZhangSan”，以免其他成员也收到消息 */
+                "userid": "@all",
+                /* 消息类型：text 文本消息(微信、企业微信里均可查看) | textcard 文本卡片消息(微信、企业微信里均可查看) | markdown markdown消息(只能在企业微信里查看)  */
+                "msgtype": "text",
+                /* 是否将多个账号的信息合并推送 */
+                "merge": false
+            },
+            "Telegram": {
+                "module": "Telegram",
+                /* 是否启用Telegram推送 */
+                "enable": true,
+                /* Telegram账号ID */
+                "userId": "",
+                /* TG机器人token */
+                "botToken": "",
+                /* 是否将多个账号的信息合并推送 */
+                "merge": true
+            }
         },
         /* 签到 */
         "sign": true,
