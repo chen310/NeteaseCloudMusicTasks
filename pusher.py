@@ -8,7 +8,7 @@ for file in os.listdir(os.path.join(os.path.dirname(__file__), 'push')):
 class Pusher():
     def __init__(self):
         self.datas = {}
-        self.separator = '-------------------------'
+        self.separator = '-------------------------\n'
 
     def append(self, data):
         config = data['config']
