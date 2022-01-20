@@ -59,45 +59,15 @@ def start(event={}, context={}):
         user.setUser(user_config, user_setting)
         if user.isLogined:
             user.songnumber = songnumber.get(str(user.uid), -1)
-            user.userInfo()
+            user.startTask()
 
-            if user_setting['follow']:
-                user.follow()
-
-            if user_setting['sign']:
-                user.sign()
-
-            task_on = False
-            tasks = user_setting['yunbei_task']
-            for task in user_setting['yunbei_task']:
-                task_on = task_on or tasks[task]['enable']
-            if task_on:
-                user.yunbei_task()
-
-            user.get_yunbei()
-
-            if user.userType == 4:
-                user.musician_task()
-
-            if user.vipType == 11:
-                user.vip_task()
-
-            if user_setting['daka']['enable']:
-                if user_setting['daka']['auto'] == True and user.songnumber != -1:
-                    user.auto_daka()
-                else:
-                    user.daka()
-
-            if user_setting['other']['play_playlists']['enable']:
-                user.play_playlists()
-
-        
         for push in user_setting['push'].values():
             if not push['enable']:
                 continue
             data = {
                 'title': user.title,
-                'msg': user.msg,
+                'mdmsg': user.msg,
+                'textmsg': md2text(user.msg),
                 'config': push
             }
             pusher.append(data)
@@ -185,6 +155,7 @@ def main_handler(event, context):
         setSongNumber()
         return
     start(event, context)
+
 
 if __name__ == '__main__':
     start()

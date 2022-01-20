@@ -9,7 +9,8 @@ def getKey(data):
     return (config['module'], config['Skey'], config['method'])
 
 
-def push(title, msg, config):
+def push(title, mdmsg, textmsg, config):
+    msg = textmsg
     skey = config['Skey']
     method = config['method']
     if len(skey) == 0 or len(method) == 0:

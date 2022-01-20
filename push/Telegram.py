@@ -10,7 +10,8 @@ def getKey(data):
     return (config['module'], config['userId'], config['botToken'])
 
 
-def push(title, msg, config):
+def push(title, mdmsg, textmsg, config):
+    msg = mdmsg
     if len(config['userId']) == 0 or len(config['botToken']):
         return
 

@@ -27,18 +27,42 @@ def migratePush(setting):
             del setting[key]
 
 
+def migrateTask(setting):
+    if 'yunbei_task' in setting:
+        yunbei_task = setting['yunbei_task']
+        kv = {'发布动态': '162005', '访问云音乐商城': '216002',
+              '云贝推歌': '200002', '发布Mlog': '162006', '分享歌曲/歌单': '166000'}
+        for key in kv:
+            if key in yunbei_task:
+                yunbei_task[kv[key]] = yunbei_task[key]
+                del yunbei_task[key]
+
+    if 'musician_task' in setting:
+        musician_task = setting['musician_task']
+        kv = {'登录音乐人中心': '399000', '发布动态': '398000',
+              '发布主创说': '396002', '回复粉丝评论': '393001', '回复粉丝私信': '395002'}
+        for key in kv:
+            if key in musician_task:
+                musician_task[kv[key]] = musician_task[key]
+                del musician_task[key]
+
+
+def processSetting(setting):
+    if 'stopPushOnAPIGateway' in setting:
+        del setting['stopPushOnAPIGateway']
+    migratePush(setting)
+    migrateTask(setting)
+
+
 def before(src, dst):
     for user in src['users']:
         if 'md5' in user:
             del user['md5']
         if 'setting' in user:
-            migratePush(user['setting'])
+            processSetting(user['setting'])
 
     setting = src['setting']
-    migratePush(setting)
-
-    if 'stopPushOnAPIGateway' in setting:
-        del setting['stopPushOnAPIGateway']
+    processSetting(setting)
 
     key_list = ['version', 'desp']
     for key in key_list:

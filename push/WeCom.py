@@ -25,8 +25,12 @@ def get_token(corpid, corpsecret):
         return None
 
 
-def push(title, msg, config):
+def push(title, mdmsg, textmsg, config):    
     msgtype = config['msgtype']
+    if msgtype == 'markdown':
+        msg = mdmsg
+    else:
+        msg = textmsg
     if len(config['corpid']) == 0 or len(config['agentid']) == 0 or len(config['secret']) == 0:
         return
 
