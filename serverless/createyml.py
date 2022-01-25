@@ -112,10 +112,8 @@ try:
         vars = {}
         for env in envs:
             vars[env['Key']] = env['Value']
-        if 'TENCENT_SECRET_ID' not in vars:
-            vars['TENCENT_SECRET_ID'] = getEnv("TENCENT_SECRET_ID")
-        if 'TENCENT_SECRET_KEY' not in vars:
-            vars['TENCENT_SECRET_KEY'] = getEnv("TENCENT_SECRET_KEY")
+        vars['TENCENT_SECRET_ID'] = getEnv("TENCENT_SECRET_ID")
+        vars['TENCENT_SECRET_KEY'] = getEnv("TENCENT_SECRET_KEY")
         if 'SONG_NUMBER' not in vars:
             vars['SONG_NUMBER'] = '-1'
 
