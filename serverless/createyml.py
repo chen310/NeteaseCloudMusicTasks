@@ -109,18 +109,19 @@ try:
         f.write("  environment:\n")
         f.write("    variables:\n")
 
-        f.write("      TENCENT_SECRET_ID: " +
-                getEnv("TENCENT_SECRET_ID") + "\n")
-        f.write("      TENCENT_SECRET_KEY: " +
-                getEnv("TENCENT_SECRET_KEY") + "\n")
-        flag = False
+        vars = {}
         for env in envs:
-            if env['Key'] == 'SONG_NUMBER':
-                flag = True
-                f.write("      " + env['Key'] + ': ' + env['Value'] + "\n")
+            vars[env['Key']] = env['Value']
+        if 'TENCENT_SECRET_ID' not in vars:
+            vars['TENCENT_SECRET_ID'] = getEnv("TENCENT_SECRET_ID")
+        if 'TENCENT_SECRET_KEY' not in vars:
+            vars['TENCENT_SECRET_KEY'] = getEnv("TENCENT_SECRET_KEY")
+        if 'SONG_NUMBER' not in vars:
+            vars['SONG_NUMBER'] = '-1'
 
-        if not flag:
-            f.write("      SONG_NUMBER: -1\n")
+        for key in vars:
+            f.write("      " + key + ': ' + vars[key] + "\n")
+
 
 except TencentCloudSDKException as err:
     print(err)
