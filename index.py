@@ -8,7 +8,10 @@ import re
 import os
 from user import User
 from pusher import Pusher
+from utils import append_environ
 
+
+runtime = 'tencent-scf'
 
 def md2text(data):
     data = re.sub(r'\n\n', r'\n', data)
@@ -46,6 +49,7 @@ def start(event={}, context={}):
     songnumber = getSongNumber()
     # 推送
     pusher = Pusher()
+    saved_environs = {}
     for user_config in config['users']:
         if not user_config['enable']:
             continue
@@ -56,6 +60,7 @@ def start(event={}, context={}):
             user_setting = setting
 
         user = User()
+        user.runtime = runtime
         user.setUser(user_config, user_setting)
         if user.isLogined:
             user.songnumber = songnumber.get(str(user.uid), -1)
@@ -71,6 +76,13 @@ def start(event={}, context={}):
                 'config': push
             }
             pusher.append(data)
+        saved_environs.update(user.saved_environs)
+    if len(saved_environs) > 0:
+        res = append_environ(saved_environs)
+        if res:
+            print('已成功保存环境变量')
+        else:
+            print('环境变量保存失败')
     pusher.push()
 
 
@@ -108,46 +120,11 @@ def setSongNumber():
     songNumber = time.strftime(
         "%Y-%m-%d", time.gmtime(time.time()+28800)) + "#" + songNumber
 
-    Variables = []
-    keylist = ["TENCENT_SECRET_ID", "TENCENT_SECRET_KEY"]
-    for key in os.environ:
-        if key == "SONG_NUMBER":
-            Variables.append({"Key": "SONG_NUMBER", "Value": songNumber})
-        elif key in keylist:
-            Variables.append({"Key": key, "Value": os.environ.get(key)})
-
-    from tencentcloud.common import credential
-    from tencentcloud.common.profile.client_profile import ClientProfile
-    from tencentcloud.common.profile.http_profile import HttpProfile
-    from tencentcloud.common.exception.tencent_cloud_sdk_exception import TencentCloudSDKException
-    from tencentcloud.scf.v20180416 import scf_client, models
-
-    try:
-        cred = credential.Credential(os.environ.get(
-            "TENCENT_SECRET_ID"), os.environ.get("TENCENT_SECRET_KEY"))
-        httpProfile = HttpProfile()
-        httpProfile.endpoint = "scf.tencentcloudapi.com"
-
-        clientProfile = ClientProfile()
-        clientProfile.httpProfile = httpProfile
-        client = scf_client.ScfClient(cred, os.environ.get(
-            "TENCENTCLOUD_REGION"), clientProfile)
-
-        req = models.UpdateFunctionConfigurationRequest()
-        params = {
-            "FunctionName": os.environ.get("SCF_FUNCTIONNAME"),
-            "Environment": {
-                "Variables": Variables
-            }
-        }
-        req.from_json_string(json.dumps(params))
-
-        resp = client.UpdateFunctionConfiguration(req)
-        print(resp.to_json_string())
+    res = append_environ({"SONG_NUMBER": songNumber})
+    if res:
         print("已更新歌曲播放数量")
-
-    except TencentCloudSDKException as err:
-        print(err)
+    else:
+        print("播放量更新失败")
 
 
 def main_handler(event, context):
@@ -158,4 +135,5 @@ def main_handler(event, context):
 
 
 if __name__ == '__main__':
+    runtime = 'local'
     start()

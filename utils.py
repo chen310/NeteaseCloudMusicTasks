@@ -1,5 +1,6 @@
 import copy
 import json
+import os
 
 
 def updateConfig(src, dst):
@@ -31,3 +32,52 @@ def updateConfig(src, dst):
 
 def jsonDumps(data):
     return json.dumps(data, indent=4, ensure_ascii=False)
+
+
+def append_environ(vars):
+    kv = {}
+    keylist = ["TENCENT_SECRET_ID", "TENCENT_SECRET_KEY", "SONG_NUMBER"]
+    for key in os.environ:
+        if key in keylist:
+            kv[key] = os.environ.get(key)
+        elif 'COOKIE' in key:
+            kv[key] = os.environ.get(key)
+
+    kv.update(vars)
+    Variables = []
+    for key in kv:
+        Variables.append({"Key": key, "Value": kv[key]})
+
+    from tencentcloud.common import credential
+    from tencentcloud.common.profile.client_profile import ClientProfile
+    from tencentcloud.common.profile.http_profile import HttpProfile
+    from tencentcloud.common.exception.tencent_cloud_sdk_exception import TencentCloudSDKException
+    from tencentcloud.scf.v20180416 import scf_client, models
+
+    try:
+        cred = credential.Credential(os.environ.get(
+            "TENCENT_SECRET_ID"), os.environ.get("TENCENT_SECRET_KEY"))
+        httpProfile = HttpProfile()
+        httpProfile.endpoint = "scf.tencentcloudapi.com"
+
+        clientProfile = ClientProfile()
+        clientProfile.httpProfile = httpProfile
+        client = scf_client.ScfClient(cred, os.environ.get(
+            "TENCENTCLOUD_REGION"), clientProfile)
+
+        req = models.UpdateFunctionConfigurationRequest()
+        params = {
+            "FunctionName": os.environ.get("SCF_FUNCTIONNAME"),
+            "Environment": {
+                "Variables": Variables
+            }
+        }
+        req.from_json_string(json.dumps(params))
+
+        resp = client.UpdateFunctionConfiguration(req)
+        print(resp.to_json_string())
+        return True
+
+    except TencentCloudSDKException as err:
+        print(err)
+        return False
