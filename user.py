@@ -99,16 +99,16 @@ class User(object):
                 return music
             login_resp = music.login(username, pwd, countrycode)
             if login_resp['code'] == 200:
-                print('已通过账号密码登录')
-                music_cookie = ''
+                print('已通过账号密码登录')                
                 if self.runtime == 'tencent-scf':
+                    music_cookie = ''
                     for cookie in music.session.cookies:
                         if cookie.name == 'MUSIC_U':
                             music_cookie += 'MUSIC_U:' + cookie.value + ';'
                         elif cookie.name == '__csrf':
                             music_cookie += '__csrf:' + cookie.value + ';'
 
-                self.saved_environs['COOKIE_' + username] = music_cookie
+                    self.saved_environs['COOKIE_' + username] = music_cookie
 
                 music.uid = login_resp['profile']['userId']
                 music.nickname = login_resp['profile']['nickname']
@@ -657,17 +657,26 @@ class User(object):
                 for reply in self.replies:
                     resp = self.music.comments_delete(
                         reply['songId'], reply['commentId'])
+                    if resp['code'] == 200:
+                        print('评论删除成功')
+                    else:
+                        print('评论删除失败')
             if tasks['396002']['delete'] and len(self.comments) > 0:
                 for comment in self.comments:
                     resp = self.music.comments_delete(
                         comment['songId'], comment['commentId'])
+                    if resp['code'] == 200:
+                        print('回复删除成功')
+                    else:
+                        print('回复删除失败')
 
         time.sleep(5)
         result = self.music.mission_cycle_get()
         if result['code'] == 200:
             mission_list = result.get('data', {}).get('list', [])
             for mission in mission_list:
-                if mission['status'] == 0 and mission['missionId'] in tasks:
+                missionId = str(mission['missionId'])
+                if mission['status'] == 0 and missionId in tasks:
                     self.taskInfo(mission['description'], '未完成')
                 elif mission['status'] == 10:
                     self.taskInfo(mission['description'], '进行中' + '(' + str(
@@ -685,7 +694,7 @@ class User(object):
                     else:
                         self.taskInfo(description, '云豆领取失败:' +
                                       self.errMsg(reward_result))
-                elif mission['status'] == 100 and mission['missionId'] in tasks:
+                elif mission['status'] == 100 and missionId in tasks:
                     self.taskInfo(mission['description'], '云豆已经领取过了')
         else:
             self.taskInfo('任务获取失败', self.errMsg(result))

@@ -1,5 +1,6 @@
 import random
-import publishComment
+import time
+from . import publishComment
 
 
 def start(user, task={}):
@@ -10,9 +11,11 @@ def start(user, task={}):
         songId = user.comments[0]['songId']
     else:
         if len(task['id']) > 0:
-            publishComment(user, user.user_setting['musician_task']['发布主创说'])
+            # 发布主创说
+            publishComment.start(user, user.user_setting['musician_task']['396002'])
         else:
             return
+    time.sleep(5)
     if len(user.comments) > 0:
         commentId = user.comments[0]['commentId']
         songId = user.comments[0]['songId']
@@ -23,7 +26,7 @@ def start(user, task={}):
         msg = random.choice(task['msg'])
     else:
         msg = '感谢收听'
-    resp = music.user.comments_reply(
+    resp = music.comments_reply(
         songId, commentId, msg)
     if resp['code'] == 200:
         user.replies.append(
