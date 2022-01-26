@@ -105,7 +105,11 @@ class NetEase(object):
         data = default
 
         for key, value in custom_cookies.items():
-            self.session.cookies.set(key, value)
+            if isinstance(self.session.cookies, LWPCookieJar):
+                cookie = self.make_cookie(key, value)
+                self.session.cookies.set_cookie(cookie)
+            else:
+                self.session.cookies.set(key, value)
 
         params = encrypted_request(params)
         try:
