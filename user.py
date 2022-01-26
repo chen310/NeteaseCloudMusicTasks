@@ -67,20 +67,18 @@ class User(object):
             music.header["X-Real-IP"] = ip
         if self.runtime == 'tencent-scf':
             var_name = 'COOKIE_' + username
-            if var_name in os.environ:                
-                music_u = ''
-                csrf = ''
-
+            if var_name in os.environ:
                 sp = os.environ.get(var_name).split(";")
+                cookies = {}
                 for c in sp:
-                    if 'MUSIC_U' in c:
-                        music_u = c.split(':')[1]
-                    elif '__csrf' in c:
-                        csrf = c.split(':')[1]
-                if len(music_u) > 0 and len(csrf) > 0:
+                    t = c.split(':')
+                    if len(t) == 2:
+                        cookies[t[0]] = t[1]
+                if len(cookies) > 0:
                     music.session = requests.Session()
-                    requests.utils.add_dict_to_cookiejar(music.session.cookies, {
-                        'MUSIC_U': music_u, '__csrf': csrf, '__remember_me': 'true', 'os': 'pc'})
+                    cookies['__remember_me'] = 'true'
+                    requests.utils.add_dict_to_cookiejar(
+                        music.session.cookies, cookies)
         resp = music.user_level()
         if resp['code'] == 200:
             print('已通过 cookie 登录')
@@ -106,13 +104,11 @@ class User(object):
                 if self.runtime == 'tencent-scf':
                     for cookie in music.session.cookies:
                         if cookie.name == 'MUSIC_U':
-                            music_cookie += 'MUSIC_U:' + \
-                                str(cookie.value) + ';'
+                            music_cookie += 'MUSIC_U:' + cookie.value + ';'
                         elif cookie.name == '__csrf':
-                            music_cookie += '__csrf:' + str(cookie.value) + ';'
+                            music_cookie += '__csrf:' + cookie.value + ';'
 
                 self.saved_environs['COOKIE_' + username] = music_cookie
-
 
                 music.uid = login_resp['profile']['userId']
                 music.nickname = login_resp['profile']['nickname']

@@ -105,8 +105,7 @@ class NetEase(object):
         data = default
 
         for key, value in custom_cookies.items():
-            cookie = self.make_cookie(key, value)
-            self.session.cookies.set_cookie(cookie)
+            self.session.cookies.set(key, value)
 
         params = encrypted_request(params)
         try:
