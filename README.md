@@ -34,7 +34,7 @@
 
 ### fork 本项目
 
-在 GitHub 上 fork[本项目](https://github.com/chen310/NeteaseCloudMusicTasks)
+在 GitHub 上 fork [本项目](https://github.com/chen310/NeteaseCloudMusicTasks)
 
 ### 创建 Secrets
 
@@ -276,16 +276,6 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
 3. 酷推
 4. pushPlus
 
-使用 API 网关触发时默认关闭所有推送，您可以自行设置
-
-```json5
-"setting": {
-    "stopPushOnAPIGateway": true,
-}
-```
-
-将 `true` 改为 `false` 即可在 API 网关触发时仍然进行消息的推送。API 网关相关内容详见[API 网关触发](#api-网关触发)
-
 ##### 企业微信
 
 ```json5
@@ -439,10 +429,6 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
 ### 测试
 
 修改完代码后，按 ctrl+s 保存代码，然后点击编辑器右上角的`部署`（每次修改完都要重新部署），左下角的`部署`也行。部署完成后点击部署旁边的测试按钮，观察结果，如果失败则检查修改代码。
-
-### API 网关触发
-
-如果需要 API 网关触发，点击`触发管理`，再点击`创建触发器`。`触发方式`选择`API网关触发`，点击提交。可以看到一个访问路径，访问该链接，即可运行云函数。使用这种方式，无需登录腾讯云，即可随时随地运行。
 
 [计费方式](https://cloud.tencent.com/document/product/628/39300)
 
