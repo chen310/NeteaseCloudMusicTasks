@@ -9,9 +9,11 @@ import os
 from user import User
 from pusher import Pusher
 from utils import append_environ
+import random
 
 
 runtime = 'tencent-scf'
+
 
 def md2text(data):
     data = re.sub(r'\n\n', r'\n', data)
@@ -87,29 +89,38 @@ def start(event={}, context={}):
 
 
 def setSongNumber():
-    with open('./config.json', 'r', encoding='utf-8') as f:
+    with open('config.json', 'r', encoding='utf-8') as f:
         config = json5.load(f)
     setting = config['setting']
     lastSongNumber = os.environ.get("SONG_NUMBER", "-1")
     songNumber = ""
     timer_enable = False
+    time.sleep(random.randint(10, 50))
     for user_config in config['users']:
-        user_setting = setting
+        if not user_config['enable']:
+            continue
         if "setting" in user_config:
-            for key in user_config['setting']:
-                user_setting[key] = user_config['setting'][key]
+            user_setting = updateConfig(user_config["setting"], setting)
+        else:
+            user_setting = setting
 
-        if user_setting['daka']['enable'] == False or user_setting['daka']['auto'] == False:
+        if (not user_setting['daka']['enable']) or (not user_setting['daka']['auto']):
             continue
 
         user = User()
+        user.runtime = runtime
         user.setUser(user_config, user_setting)
         if user.isLogined:
-            resp = user.music.user_detail(user.uid)
-            if user_setting['daka']['full_stop'] == True and (resp['level'] == 10 or resp['listenSongs'] >= 20000):
-                continue
-            songNumber += str(user.uid) + ":" + str(resp['listenSongs']) + ";"
+            if user.listenSongs == 0:
+                resp = user.music.user_detail(user.uid)
+                listenSongs = resp['listenSongs']
+            else:
+                listenSongs = user.listenSongs
+            # if user_setting['daka']['full_stop'] == True and (resp['level'] == 10 or resp['listenSongs'] >= 20000):
+            #     continue
+            songNumber += str(user.uid) + ":" + str(listenSongs) + ";"
             timer_enable = True
+        time.sleep(2)
     if not timer_enable:
         # TODO
         pass

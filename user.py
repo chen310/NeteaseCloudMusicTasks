@@ -84,6 +84,7 @@ class User(object):
             print('已通过 cookie 登录')
             music.uid = resp['data']['userId']
             user_resp = music.user_detail(music.uid)
+            self.listenSongs = user_resp['listenSongs']
             music.nickname = user_resp['profile']['nickname']
             music.userType = user_resp['profile']['userType']
             if music.userType != 0 and music.userType != 4:
