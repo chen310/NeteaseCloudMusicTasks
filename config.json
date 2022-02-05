@@ -31,7 +31,7 @@
             "serverChan": {
                 "module": "serverChan",
                 /* 是否启用server酱微信推送 */
-                "enable": true,
+                "enable": false,
                 /* 填写server酱旧版SCKEY或新版SendKey */
                 "KEY": "",
                 /* 是否将多个账号的信息合并推送 */
@@ -41,7 +41,7 @@
             "pushPlus": {
                 "module": "pushPlus",
                 /* 是否启用pushplus微信推送 */
-                "enable": true,
+                "enable": false,
                 /* pushplus的token */
                 "pushToken": "",
                 /* 消息模板:  markdown | html | txt | json */
@@ -54,7 +54,7 @@
             "CoolPush": {
                 "module": "CoolPush",
                 /* 是否启用酷推推送 */
-                "enable": true,
+                "enable": false,
                 /* 推送方式: send QQ号私人推送 | group QQ群推送 | wx 微信推送 | email 邮件推送 */
                 "method": "send",
                 /* 酷推Skey */
@@ -65,7 +65,7 @@
             "WeCom": {
                 "module": "WeCom",
                 /* 是否启用企业微信推送 */
-                "enable": true,
+                "enable": false,
                 /* 企业ID，登录企业微信后在管理后台“我的企业”－“企业信息”下查看 */
                 "corpid": "",
                 /* 应用ID，在“应用管理”里，点进相应的应用可查看 */
@@ -83,7 +83,7 @@
             "Telegram": {
                 "module": "Telegram",
                 /* 是否启用Telegram推送 */
-                "enable": true,
+                "enable": false,
                 /* Telegram账号ID */
                 "userId": "",
                 /* TG机器人token */
@@ -224,8 +224,21 @@
                 ]
             }
         },
-        /* VIP成长值任务 */
-        "vip_task": {},
+        /* VIP 成长值任务 */
+        "vip_task": {
+            "709004": {
+                "taskName": "创建共享歌单",
+                "module": "createSharedPlaylist",
+                "enable": false,
+                /* 自定义歌单名，用逗号隔开，随机选取一个 */
+                "name": [
+                    "歌单",
+                    "我的歌单"
+                ],
+                /* 创建成功后是否自动删除该动态 */
+                "delete": true                
+            }
+        },
         /* 打卡刷歌 */
         "daka": {
             /* 是否开启任务 */

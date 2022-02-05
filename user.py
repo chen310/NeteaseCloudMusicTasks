@@ -757,15 +757,15 @@ class User(object):
         count = 0
         for item in items:
             desp = item['action']
-            actionType = item['actionType']
-            if item['status'] == 0 and actionType in tasks and tasks[actionType]['enable']:
-                exec('from task import {}'.format(tasks[actionType]['module']))
+            basicTaskId = str(item['basicTaskId'])
+            if item['status'] == 0 and basicTaskId in tasks and tasks[basicTaskId]['enable']:
+                exec('from task import {}'.format(tasks[basicTaskId]['module']))
                 exec('{}.start(self, tasks[taskId])'.format(
-                    tasks[actionType]['module']))
+                    tasks[basicTaskId]['module']))
                 count += 1
 
         if count > 0:
-            time.sleep(1)
+            time.sleep(3)
             resp = self.music.vip_task_newlist()
         else:
             self.taskInfo('无可执行的任务')
