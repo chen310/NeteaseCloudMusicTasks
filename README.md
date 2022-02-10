@@ -38,7 +38,7 @@
 
 ### 创建 Secrets
 
-fork 之后，点击右上方 `settings`，在页面点击 `Secrets`，然后点击 `New repository secret` 创建新的 secret。一共有 5 个 secret，前 2 个是必须要创建的，后 3 个可不创建
+fork 之后，点击右上方 `settings`，在页面点击 `Secrets`，点击 `Actions`，然后点击 `New repository secret` 创建新的 secret。一共有 5 个 secret，前 2 个是必须要创建的，后 3 个可不创建
 
 | Name          | Value                     | 是否必填 |
 | :------------ | :------------------------ | :------- |
