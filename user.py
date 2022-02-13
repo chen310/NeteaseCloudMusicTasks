@@ -66,7 +66,7 @@ class User(object):
         if len(ip) > 0:
             music.header["X-Real-IP"] = ip
         if self.runtime == 'tencent-scf':
-            var_name = 'COOKIE_' + username
+            var_name = 'COOKIE_' + re.sub('[^a-zA-Z0-9]', '_', username)
             if var_name in os.environ:
                 sp = os.environ.get(var_name).split(";")
                 cookies = {}
@@ -109,7 +109,7 @@ class User(object):
                         elif cookie.name == '__csrf':
                             music_cookie += '__csrf:' + cookie.value + ';'
 
-                    self.saved_environs['COOKIE_' + username] = music_cookie
+                    self.saved_environs['COOKIE_' + re.sub('[^a-zA-Z0-9]', '_', username)] = music_cookie
 
                 music.uid = login_resp['profile']['userId']
                 music.nickname = login_resp['profile']['nickname']
