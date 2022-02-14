@@ -247,11 +247,11 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
 ```json5
 "setting": {
     // ...
-    "vip_task": {
+    "709004": {
         "创建共享歌单": {
-            /* 是否开启任务 */
-            "enable": false,
             "taskName": "创建共享歌单",
+            "module": "createSharedPlaylist",
+            "enable": false,
             /* 自定义歌单名，用逗号隔开，随机选取一个 */
             "name": [
                 "歌单",
@@ -269,27 +269,29 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
 
 #### 推送
 
-支持四种推送方式，建议使用企业微信进行推送
+支持多种推送方式，建议使用企业微信进行推送
 
 1. 企业微信
 2. server 酱
 3. 酷推
 4. pushPlus
+5. Telegram
+
+要使用推送的话将相应的 `enable` 设为 `true`，并填写配置
 
 ##### 企业微信
 
 ```json5
-"setting": {
-    // ...
-    "WeCom": {
-        "enable": true,
-        "corpid": "",
-        "agentid": "",
-        "secret": "",
-        "userid": "@all",
-        "msgtype": "text"
-    },
-    // ...
+"WeCom": {
+    "module": "WeCom",
+    "enable": false,
+    "corpid": "",
+    "agentid": "",
+    "secret": "",
+    "userid": "@all",
+    "msgtype": "text",
+    /* 是否将多个账号的信息合并推送 */
+    "merge": false
 }
 ```
 
@@ -300,13 +302,12 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
 ##### server 酱
 
 ```json5
-"setting": {
-    // ...
-    "serverChan": {
-        "enable": true,
-        "KEY": ""
-    },
-    // ...
+"serverChan": {
+    "module": "serverChan",
+    "enable": false,
+    "KEY": "",
+    /* 是否将多个账号的信息合并推送 */
+    "merge": true
 }
 ```
 
@@ -315,14 +316,14 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
 ##### 酷推
 
 ```json5
-"setting": {
-    // ...
-    "CoolPush": {
-        "enable": true,
-        "method": ["send"],
-        "Skey": ""
-    },
-    // ...
+"CoolPush": {
+    "module": "CoolPush",
+    "enable": false,
+    /* 推送方式: send QQ号私人推送 | group QQ群推送 | wx 微信推送 | email 邮件推送 */
+    "method": "send",
+    "Skey": "",
+    /* 是否将多个账号的信息合并推送 */
+    "merge": true
 }
 ```
 
@@ -331,17 +332,37 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
 ##### pushPlus 微信推送
 
 ```json5
-"setting": {
-    // ...
-    "pushPlus": {
-        "enable": true,
-        "pushToken": ""
-    }
-    // ...
+"pushPlus": {
+    "module": "pushPlus",
+    "enable": false,
+    "pushToken": "",
+    /* 消息模板:  markdown | html | txt | json */
+    "template": "markdown",
+    /* 群组编码，为空时发给自己 */
+    "topic": "",
+    /* 是否将多个账号的信息合并推送 */
+    "merge": true
 }
 ```
 
 要使用酷推的话需要填写 `pushToken`。
+
+##### Telegram 推送
+
+```json5
+"Telegram": {
+    "module": "Telegram",
+    "enable": false,
+    /* Telegram账号ID */
+    "userId": "",
+    /* TG机器人token */
+    "botToken": "",
+    /* 是否将多个账号的信息合并推送 */
+    "merge": true
+}
+```
+
+要使用 Telegram 的话需要填写 `userId` 和 `botToken`。
 
 #### 刷单曲播放量
 
