@@ -276,6 +276,7 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
 3. 酷推
 4. pushPlus
 5. Telegram
+6. [Bark](https://github.com/Finb/Bark)
 
 要使用推送的话将相应的 `enable` 设为 `true`，并填写配置
 
@@ -363,6 +364,24 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
 ```
 
 要使用 Telegram 的话需要填写 `userId` 和 `botToken`。
+
+##### Bark 推送
+
+```json5
+"Bark": {
+    "module": "Bark",
+    /* 是否启用Bark推送 */
+    "enable": false,
+    /* Bark的地址 */
+    "Bark_url": "",
+    /* Bark的API key */
+    "Bark_key": "",
+    /* 是否将多个账号的信息合并推送, 建议为false，iOS推送消息过长可能会失败 */
+    "merge": false
+}
+```
+
+要使用 Bark 的话需要填写 `Bark_url` 和 `Bark_key`。可以使用 Bark 官方 API 或者自行搭建。
 
 #### 刷单曲播放量
 

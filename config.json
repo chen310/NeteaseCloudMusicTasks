@@ -90,6 +90,18 @@
                 "botToken": "",
                 /* 是否将多个账号的信息合并推送 */
                 "merge": true
+            },
+            "Bark": {
+                /* 项目地址： https://github.com/Finb/Bark */
+                "module": "Bark",
+                /* 是否启用Bark推送 */
+                "enable": false,
+                /* Bark的地址 */
+                "Bark_url": "",
+                /* Bark的API key */
+                "Bark_key": "",
+                /* 是否将多个账号的信息合并推送, 建议为false，iOS推送消息过长可能会失败 */
+                "merge": false
             }
         },
         /* 签到 */
