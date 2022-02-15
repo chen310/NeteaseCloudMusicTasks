@@ -47,7 +47,7 @@ echo "开始安装ServerlessFramework"
 sudo npm install -g serverless >>/dev/null
 sudo mkdir tmp/
 shopt -s extglob
-sudo mv !(tmp|serverless|public|code|.github|.git) ./tmp
+sudo mv !(tmp|serverless|public|code|.github|.git|ql_update.py|__pycache__|Dockerfile|.dockerignore|scheduler.py) ./tmp
 
 python ./serverless/createyml.py
 sudo mv ./serverless.yml ./tmp
