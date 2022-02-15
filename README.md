@@ -16,7 +16,7 @@
 7. 自动领取 vip 成长值（任务需自己完成）
 8. 多种推送方式
 9. 支持多账号
-10. 支持[腾讯云函数](#一部署到腾讯云函数) & [青龙面板](#二部署到青龙面板) & [本地运行](#三本地运行)
+10. 支持[腾讯云函数](#一部署到腾讯云函数) & [青龙面板](#二部署到青龙面板) & [本地运行](#三本地运行) & [docker 部署](#四使用docker部署)
 
 > 开发不易，如果你觉得本项目对你有用，可以点个 star，也可以到底部给个[赞赏](#赞赏)
 
@@ -512,6 +512,37 @@ pip install -r requirements.txt
 
 ```shell
 python index.py
+```
+
+## 四、使用`docker`部署
+
+> 1. 支持 ARM64/AMD64 docker 镜像
+> 2. 支持指定时间定时执行
+> 3. 未指定定时执行时间，每次重启随机设定执行时间
+
+### 下载并配置 `config.json`
+
+```shell
+curl -fsSL -o config.json https://raw.githubusercontent.com/chen310/NeteaseCloudMusicTasks/main/config.json
+```
+
+### 随机时间执行
+
+```shell
+docker run -itd --restart=on-failure \
+    -v $(pwd)/config.json:/root/config.json \
+    --name netease-cloud-music-tasks \
+    enwaiax/netease-cloud-music-tasks:latest
+```
+
+### 指定时间执行
+
+```shell
+docker run -itd --restart=on-failure \
+    -v $(pwd)/config.json:/root/config.json \
+    -e "SCHEDULER_HOUR=8" -e "SCHEDULER_MINUTE=30" \
+    --name netease-cloud-music-tasks \
+    enwaiax/netease-cloud-music-tasks:latest
 ```
 
 ## 其他

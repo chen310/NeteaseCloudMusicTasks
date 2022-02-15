@@ -43,7 +43,7 @@ class User(object):
             self.title += ': 请填写账号密码'
             self.taskTitle('用户信息')
             self.taskInfo('登录失败，请填写账号密码')
-            return
+            raise Exception('请填写账号密码')
         self.music = self.login_check(user_config['username'], user_config['password'], user_config.get(
             'countrycode', ''), user_config['X-Real-IP'])
         if self.music.uid != 0:
