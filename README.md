@@ -82,6 +82,10 @@ FUNCTION_NAME 为函数名，不填写默认为 `NeteaseCloudMusicTasks`。如�
 
 REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://cloud.tencent.com/document/product/583/17238#.E5.9C.B0.E5.9F.9F.E5.88.97.E8.A1.A8)。
 
+添加完毕可以看到
+
+![Cron](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/secretlist.png)
+
 ### 部署
 
 击项目上方的 `Actions`
