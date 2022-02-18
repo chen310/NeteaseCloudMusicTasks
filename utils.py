@@ -35,6 +35,9 @@ def jsonDumps(data):
 
 
 def append_environ(vars):
+    if 'TENCENT_SECRET_ID' not in os.environ or 'TENCENT_SECRET_KEY' not in os.environ:
+        print('环境变量 TENCENT_SECRET_ID 或 TENCENT_SECRET_KEY 不存在。项目地址: https://github.com/chen310/NeteaseCloudMusicTasks')
+        return False
     kv = {}
     keylist = ["TENCENT_SECRET_ID", "TENCENT_SECRET_KEY", "SONG_NUMBER"]
     for key in os.environ:

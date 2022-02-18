@@ -27,17 +27,21 @@ def md2text(data):
 
 def getSongNumber():
     res = {}
-    if "SONG_NUMBER" in os.environ:
-        sp1 = os.environ.get("SONG_NUMBER").split("#")
-        if len(sp1) != 2:
-            return res
-        if sp1[0] != time.strftime("%Y-%m-%d", time.gmtime(time.time()+28800)):
-            print("环境变量 SONG_NUMBER 已过期")
-            return res
-        for number in sp1[1].split(";"):
-            sp2 = number.split(":")
-            if len(sp2) == 2:
-                res[sp2[0]] = int(sp2[1])
+    if runtime == 'tencent-scf':
+        if "SONG_NUMBER" in os.environ:
+            sp1 = os.environ.get("SONG_NUMBER").split("#")
+            if len(sp1) != 2:
+                return res
+            if sp1[0] != time.strftime("%Y-%m-%d", time.gmtime(time.time()+28800)):
+                print("环境变量 SONG_NUMBER 已过期。是否未开启定时触发器 timer-songnumber")
+                return res
+            for number in sp1[1].split(";"):
+                sp2 = number.split(":")
+                if len(sp2) == 2:
+                    res[sp2[0]] = int(sp2[1])
+        else:
+            print(
+                "环境变量 SONG_NUMBER 不存在。项目地址: https://github.com/chen310/NeteaseCloudMusicTasks")
     return res
 
 

@@ -20,6 +20,14 @@
 
 > 开发不易，如果你觉得本项目对你有用，可以点个 star，也可以到底部给个[赞赏](#赞赏)
 
+## 注意事项
+
+- 提 issue 之前看看是否有重复的 issue。
+- 不要直接在 GitHub 上修改配置文件。已经修改了的，尽快覆盖，并修改密码。
+- 转载请注明出处，并保留原作者信息。
+- 禁止将代码用于商业用途，包括打包售卖，收费代挂等。
+- 为了账号安全考虑，请勿将账号密码交给他人代挂。
+
 ## 一、部署到腾讯云函数
 
 ### 开通服务
@@ -563,9 +571,6 @@ docker run -itd --restart=on-failure \
 
 <p align="left">支付宝</p> <img width="300" height="300" src="https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/alipay.png" />
 
-<p align="left">支付宝领红包</p> <img width="300" height="300" src="https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/alipayhb.png" />
-
-<p align="left">饿了么领红包</p> <img width="300" height="300" src="https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/eleme.png" />
 
 ### star 数
 
@@ -574,6 +579,7 @@ docker run -itd --restart=on-failure \
 ### 声明
 
 - 本仓库中的脚本仅用于测试和学习目的，请勿用于商业或非法目的，否则后果自负
+- 转载请注明出处，并保留原作者信息。
 - 如果您认为该项目的脚本可能涉嫌侵犯您的权利，请及时通知，我们将在确认后及时删除
 
 ### 灵感来源
