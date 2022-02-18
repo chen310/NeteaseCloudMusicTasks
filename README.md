@@ -255,8 +255,8 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
 ```json5
 "setting": {
     // ...
-    "709004": {
-        "创建共享歌单": {
+    "vip_task": {
+        "816": {
             "taskName": "创建共享歌单",
             "module": "createSharedPlaylist",
             "enable": false,
@@ -280,9 +280,9 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
 支持多种推送方式，建议使用企业微信进行推送
 
 1. 企业微信
-2. server 酱
+2. [server 酱](https://sct.ftqq.com/)
 3. 酷推
-4. pushPlus
+4. [pushPlus](https://www.pushplus.plus)
 5. Telegram
 6. [Bark](https://github.com/Finb/Bark)
 

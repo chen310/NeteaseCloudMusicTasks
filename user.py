@@ -757,11 +757,11 @@ class User(object):
         count = 0
         for item in items:
             desp = item['action']
-            basicTaskId = str(item['basicTaskId'])
-            if item['status'] == 0 and basicTaskId in tasks and tasks[basicTaskId]['enable']:
-                exec('from task import {}'.format(tasks[basicTaskId]['module']))
-                exec('{}.start(self, tasks[taskId])'.format(
-                    tasks[basicTaskId]['module']))
+            actionType = str(item['actionType'])
+            if item['status'] == 0 and actionType in tasks and tasks[actionType]['enable']:
+                exec('from task import {}'.format(tasks[actionType]['module']))
+                exec('{}.start(self, tasks[actionType])'.format(
+                    tasks[actionType]['module']))
                 count += 1
 
         if count > 0:

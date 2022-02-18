@@ -1,5 +1,5 @@
 {
-    "version": "2.12",
+    "version": "2.13",
     "users": [
         {
             /* 填写手机号或邮箱 */
@@ -37,7 +37,7 @@
                 /* 是否将多个账号的信息合并推送 */
                 "merge": true
             },
-            /* 官网 http://www.pushplus.plus */
+            /* 官网 https://www.pushplus.plus */
             "pushPlus": {
                 "module": "pushPlus",
                 /* 是否启用pushplus微信推送 */
@@ -238,7 +238,7 @@
         },
         /* VIP 成长值任务 */
         "vip_task": {
-            "709004": {
+            "816": {
                 "taskName": "创建共享歌单",
                 "module": "createSharedPlaylist",
                 "enable": false,

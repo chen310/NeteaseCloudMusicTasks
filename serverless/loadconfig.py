@@ -49,7 +49,7 @@ def migrateTask(setting, template):
     
     if 'vip_task' in setting:
         vip_task = setting['vip_task']
-        kv = {'创建共享歌单': '709004'}
+        kv = {'创建共享歌单': '816', '709004': '816'}
         for key in kv:
             if key in vip_task and kv[key] in template['vip_task']:
                 vip_task[kv[key]] = updateConfig(vip_task[key], template['vip_task'][kv[key]])
