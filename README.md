@@ -40,47 +40,99 @@
 
 在腾讯云[API 密钥管理](https://console.cloud.tencent.com/cam/capi)新建密钥，获取 SecretId 和 SecretKey
 
+![Fork](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/getsecret.png)
+
 ### fork 本项目
 
 在 GitHub 上 fork [本项目](https://github.com/chen310/NeteaseCloudMusicTasks)
 
+![Fork](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/fork.png)
+
 ### 创建 Secrets
 
-fork 之后，点击右上方 `settings`，在页面点击 `Secrets`，点击 `Actions`，然后点击 `New repository secret` 创建新的 secret。一共有 5 个 secret，前 2 个是必须要创建的，后 3 个可不创建
+fork 之后，点击右上方 `settings`
+
+![Settings](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/settings.png)
+
+在页面点击 `Secrets`，点击 `Actions`，然后点击 `New repository secret` 创建新的 secret。
+
+![NewSecrets](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/newsecrets.png)
 
 | Name          | Value                     | 是否必填 |
 | :------------ | :------------------------ | :------- |
 | SECRET_ID     | 填写之前获取的 SecretId   | 必填     |
 | SECRET_KEY    | 填写之前获取的 SecretKey  | 必填     |
-| FUNCTION_NAME | 自定义函数名              | 选填     |
 | CRON          | 定时触发器的时间          | 选填     |
+| FUNCTION_NAME | 自定义函数名              | 选填     |
 | REGION        | 地域，默认为 ap-guangzhou | 选填     |
 
+先填写先前获取的 SECRET_ID
+
+![SECRET_ID](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/secretid.png)
+
+同理，填写先前获取的 SECRET_KEY
+
+![SECRET_KEY](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/secretkey.png)
+
+CRON 默认为 `0 30 0 * * * *` 表示每天 0 点 30 分触发。如需更改，则如下图所示创建此 secret，。比如：`0 20 12 * * * *` 表示每天 12 点 20 分触发，`0 0 12,16 * * * *` 表示每天 12 点和 16 点各触发一次。
+
+![Cron](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/cron.png)
+
 FUNCTION_NAME 为函数名，不填写默认为 `NeteaseCloudMusicTasks`。如需更改，则创建此 secret，并填写自定义的函数名，命名规则：只能包含字母、数字、下划线、连字符，以字母开头，以数字或字母结尾，2~60 个字符。
-
-如果之前在腾讯云函数里用上传压缩包的方式创建过该项目对应的函数，那么可以在 FUNCTION_NAME 里填写先前创建的函数名，更新会提交到先前的函数中，并自动同步配置文件。
-
-CRON 默认为 `0 30 0 * * * *` 表示每天 0 点 30 分触发，可自行更改。比如：`0 20 12 * * * *` 表示每天 12 点 20 分触发，`0 0 12,16 * * * *` 表示每天 12 点和 16 点各触发一次。
 
 REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://cloud.tencent.com/document/product/583/17238#.E5.9C.B0.E5.9F.9F.E5.88.97.E8.A1.A8)。
 
 ### 部署
 
-#### 自动部署
+击项目上方的 `Actions`
 
-更新代码后将会自动触发 workflow，部署到腾讯云函数。到 `Actions` 中可以查看部署进度。
+![Actions](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/actions.png)
 
-#### 手动部署
+点击 `All workflows` 下方的 `deploy`（移动端要先点击 `Select workflow`），再点击右侧 `Run workflow`，在弹出的页面再次点击 `Run workflow`，将会运行新的 workflow
 
-更新了 `Secrets` 之后不会自动部署，此时需要手动部署。击项目上方的 `Actions`，点击 `All workflows` 下方的 `deploy`（移动端要先点击 `Select workflow`），再点击右侧 `Run workflow`，在弹出的页面再次点击 `Run workflow`，将会运行新的 workflow，点进这个 workflow，可以查看部署进度。
+![RunWorkflow](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/runworkflow.png)
+
+运行后如果不显示，刷新一下页面即可看到正在运行的 workflow。
+
+![Workflow](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/workflow.png)
+
+等到标志变成✅，表示已经部署成功。
+
+![Success](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/success.png)
+
+如果发现标志变成❌，则表示部署失败。
+
+![Failure](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/failure.png)
+
+可以点进这个 workflow 查看失败原因。
+
+![Failue](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/failure2.png)
 
 ### 添加依赖
 
-下载[依赖文件](https://chen10.lanzouo.com/igHXzxf8wjc) ，也可以自己用 pip 下载依赖，然后打包。然后在[高级能力](https://console.cloud.tencent.com/scf/layer)新建`层`，`层名称`可以自己任意填写，然后上传刚刚下载的压缩包，点击`添加运行环境`，选择 `Python3.6`。在[函数服务](https://console.cloud.tencent.com/scf/list)点进刚刚创建的函数，点击上方的`层管理`，点击`绑定`，选择刚刚创建的层。
+下载[依赖文件](https://chen10.lanzouo.com/igHXzxf8wjc) ，也可以自己用 pip 下载依赖，然后打包。然后在[高级能力](https://console.cloud.tencent.com/scf/layer)新建`层`
+
+![Layer](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/layer.png)
+
+`层名称`可以自己任意填写，然后上传刚刚下载的压缩包，点击`添加运行环境`，选择 `Python3.6`。在[函数服务](https://console.cloud.tencent.com/scf/list)点进刚刚创建的函数，点击上方的`层管理`，点击`绑定`，选择刚刚创建的层。
 
 ### 修改配置
 
-在[函数服务](https://console.cloud.tencent.com/scf/list)点进刚刚创建的函数，在编辑器里点击 `config.json` 这个文件进行配置，可以看到文件中有红色波浪线的错误提示，可以忽略不管，也可以下拉到编辑器的右下角，点击 `JSON` 来更改语言模式，选择 `JSON with Comments`，这样就可以消除错误提示。在 `config.json` 里进行如下的账号配置。运行之后如果发现有些任务没有完成，可能是因为没有开启，将任务对应的 `enable` 字段设置为 `true` 即可开启。
+在[函数服务](https://console.cloud.tencent.com/scf/list)点进刚刚创建的函数
+
+![Function](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/function.png)
+
+
+在编辑器里点击 `config.json` 这个文件进行配置
+
+![Config](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/config.png)
+
+
+可以看到文件中有红色波浪线的错误提示，可以忽略不管，也可以下拉到编辑器的右下角，点击 `JSON` 来更改语言模式，选择 `JSON with Comments`，这样就可以消除错误提示。
+
+![Style](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/style.png)
+
+在 `config.json` 里进行如下的账号配置。运行之后如果发现有些任务没有完成，可能是因为没有开启，将任务对应的 `enable` 字段设置为 `true` 即可开启。
 
 #### 账号密码
 
