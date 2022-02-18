@@ -418,13 +418,17 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
 "users": [
     {
         "username": "188xxxx8888",
-        "md5": false,
-        "password": "mypassword"
+        "countrycode": "",
+        "password": "mypassword",
+        "X-Real-IP": "",
+        "enable": true
     },
     {
         "username": "166xxxx6666",
-        "md5": false,
-        "password": "anotherpassword"
+        "countrycode": "",
+        "password": "anotherpassword",
+        "X-Real-IP": "",
+        "enable": true,
     }
 ],
 // ...
@@ -438,19 +442,25 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
 "users": [
     {
         "username": "188xxxx8888",
-        "md5": false,
-        "password": "mypassword"
+        "countrycode": "",
+        "password": "mypassword",
+        "X-Real-IP": "",
+        "enable": true
     },
     {
         "username": "166xxxx6666",
-        "md5": false,
+        "countrycode": "",
         "password": "anotherpassword",
+        "X-Real-IP": "",
+        "enable": true,
         "setting": {
-            "serverChan": {
-                "KEY": "xxxxxxxxxx"
+            "push": {
+                "serverChan": {
+                    "KEY": "xxxxxxxxxx"
+                }
             },
             "yunbei_task": {
-                "云贝推歌": {
+                "200002": {
                     "songId": [25707139],
                 }
             },
@@ -500,7 +510,7 @@ ql repo https://github.com/chen310/NeteaseCloudMusicTasks.git "index.py" "" "py"
 
 ### 修改配置文件
 
-对配置文件 `config.json` 文件进行修改
+对配置文件 `config.json` 进行修改
 
 ## 三、本地运行
 
@@ -515,6 +525,10 @@ git clone https://github.com/chen310/NeteaseCloudMusicTasks.git
 ```shell
 pip install -r requirements.txt
 ```
+
+### 修改配置文件
+
+对配置文件 `config.json` 进行修改
 
 ### 运行
 
