@@ -13,7 +13,7 @@
 4. 刷指定歌曲的播放量
 5. 音乐人自动签到领取云豆
 6. 音乐人自动完成任务，并领取云豆
-7. 自动领取 vip 成长值（任务需自己完成）
+7. 自动领取 vip 成长值
 8. 多种推送方式
 9. 支持多账号
 10. 支持[腾讯云函数](#一部署到腾讯云函数) & [青龙面板](#二部署到青龙面板) & [本地运行](#三本地运行) & [docker 部署](#四使用docker部署)
@@ -118,7 +118,21 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
 
 ![Layer](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/layer.png)
 
-`层名称`可以自己任意填写，然后上传刚刚下载的压缩包，点击`添加运行环境`，选择 `Python3.6`。在[函数服务](https://console.cloud.tencent.com/scf/list)点进刚刚创建的函数，点击上方的`层管理`，点击`绑定`，选择刚刚创建的层。
+`层名称`可以自己任意填写，然后上传刚刚下载的压缩包，点击`添加运行环境`，选择 `Python3.6`。
+
+![Dependence](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/dependence.png)
+
+在[函数服务](https://console.cloud.tencent.com/scf/list)点进刚刚创建的函数
+
+![Function](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/function.png)
+
+点击上方的`层管理`，点击`绑定`
+
+![Bind](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/bind1.png)
+
+选择刚刚创建的层。
+
+![Bind](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/bind2.png)
 
 ### 修改配置
 
@@ -126,11 +140,9 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
 
 ![Function](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/function.png)
 
-
 在编辑器里点击 `config.json` 这个文件进行配置
 
 ![Config](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/config.png)
-
 
 可以看到文件中有红色波浪线的错误提示，可以忽略不管，也可以下拉到编辑器的右下角，点击 `JSON` 来更改语言模式，选择 `JSON with Comments`，这样就可以消除错误提示。
 
@@ -153,7 +165,7 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
 // ...
 ```
 
-`username` 里填写手机号或邮箱，`password` 里填写账号密码或 32 位 md5 加密后的密码，`countrycode` 为手机号前缀，使用非中国大陆的手机号登录需填写。`X-Real-IP` 里填写国内任意 IP，否则可能会有无法登录等情况出现，可填写本机 IP，查看方法为：百度搜索 ip，填写显示的 ip 即可。如果是在本地环境运行，则不需要填写 IP。`enable` 为该账号的开关，设置为 `false` 表示不运行该账号的任务。
+`username` 里填写手机号或邮箱，`password` 里填写账号密码或 32 位 md5 加密后的密码，`countrycode` 为手机号前缀，使用非中国大陆的手机号登录需填写。`X-Real-IP` 里填写国内 IP，否则可能会有无法登录等情况出现，可填写本机 IP，[点击](https://www.ip138.com/)可查看本机 IP，填写显示的 ip 即可。`enable` 为该账号的开关，设置为 `false` 表示不运行该账号的任务。
 
 #### 签到
 
@@ -544,13 +556,19 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
 
 修改完代码后，按 ctrl+s 保存代码，然后点击编辑器右上角的`部署`（每次修改完都要重新部署），左下角的`部署`也行。部署完成后点击部署旁边的测试按钮，观察结果，如果失败则检查修改代码。
 
+![Test](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/test.png)
+
 [计费方式](https://cloud.tencent.com/document/product/628/39300)
 
 ### 更新代码
 
-在 GitHub 项目页面点击 `Fetch upstream` - `Fetch and merge`，然后再到 `Actions` 中[部署](#部署)。重新部署之后，配置文件自动同步，无需再次填写，但注释会被删除，如果需要修改配置文件，可以参考 `config.example.json` 文件中的注释。进入到云函数中时，如果提醒“检测到当前工作区函数和已部署函数不一致，重新加载已部署函数?”，点击`确认`即可。
+在 GitHub 项目页面点击 `Fetch upstream` - `Fetch and merge`
 
-更新代码后将会自动部署到腾讯云函数，但修改了 Secrets 之后需要手动部署，详见[部署](#部署)。
+![Update](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/update.png)
+
+此时，更新后的代码会自动部署到腾讯云函数中，可以到 `Actions` 中查看部署进度。更新后，配置文件自动同步，无需再次填写，但注释会被删除，如果需要修改配置文件，可以参考 `config.example.json` 文件中的注释。进入到云函数中时，如果提醒“检测到当前工作区函数和已部署函数不一致，重新加载已部署函数?”，点击`确认`即可。
+
+如果修改了 Secrets，需要手动部署才会生效，详见[部署](#部署)。
 
 ## 二、部署到青龙面板
 
