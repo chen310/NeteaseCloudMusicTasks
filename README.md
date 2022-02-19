@@ -1,4 +1,4 @@
-# 网易云打卡升级
+# 网易云音乐自动任务
 
 <p>
   <a href="https://music.163.com/#/user/home?id=347837981"><img alt="网易云音乐关注数" src="https://img.shields.io/badge/dynamic/json?color=e60026&label=%E7%BD%91%E6%98%93%E4%BA%91%E9%9F%B3%E4%B9%90&query=%24.profile.followeds&url=http%3A%2F%2Fmusic.163.com%2Fapi%2Fv1%2Fuser%2Fdetail%2F347837981"></a>
@@ -100,11 +100,11 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
 
 ![Workflow](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/workflow.png)
 
-等到标志变成✅，表示已经部署成功。
+等到标志变成 ✅，表示已经部署成功。
 
 ![Success](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/success.png)
 
-如果发现标志变成❌，则表示部署失败。
+如果发现标志变成 ❌，则表示部署失败。
 
 ![Failure](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/failure.png)
 
@@ -658,7 +658,6 @@ docker run -itd --restart=on-failure \
 <p align="left">微信</p> <img width="300" height="300" src="https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/wechatpay.png" />
 
 <p align="left">支付宝</p> <img width="300" height="300" src="https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/alipay.png" />
-
 
 ### star 数
 
