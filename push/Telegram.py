@@ -2,7 +2,6 @@
 import requests
 import json
 
-
 def getKey(data):
     config = data['config']
     if len(config['userId']) == 0 or len(config['botToken']) == 0:
@@ -16,5 +15,8 @@ def push(title, mdmsg, textmsg, config):
         return
 
     url = 'https://api.telegram.org/bot' + config['botToken'] + '/sendMessage'
-    requests.post(url, data={'chat_id': config['userId'], 'text': msg}, headers={
+    ret = requests.get(url, data={'chat_id': config['userId'], 'text': msg, 'parse_mode': "MarkdownV2"}, headers={
                   'Content-Type': 'application/x-www-form-urlencoded'})
+    print('Telegram response: \n', ret.status_code)
+    if ret.status_code != 200:
+        print(ret.content.decode('utf-8'))
