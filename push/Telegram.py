@@ -9,8 +9,8 @@ def getKey(data):
     return (config['module'], config['userId'], config['botToken'])
 
 
-def push(title, mdmsg, textmsg, config):
-    msg = mdmsg
+def push(title, mdmsg, mdmsg_compat, textmsg, config):
+    msg = mdmsg_compat.replace('**', '*')
     if len(config['userId']) == 0 or len(config['botToken']) == 0:
         return
 

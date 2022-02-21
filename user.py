@@ -132,7 +132,7 @@ class User(object):
         return music
 
     def taskTitle(self, title):
-        msg = '*{}*\n'.format(title)
+        msg = '**{}**\n'.format(title)
         self.msg += msg + '\n'
         print(msg)
     def taskInfo(self, key, value='', useCodeblock = True):
