@@ -10,7 +10,7 @@ def getKey(data):
 
 
 def push(title, mdmsg, mdmsg_compat, textmsg, config):
-    msg = mdmsg_compat.replace('**', '*')
+    msg = mdmsg_compat # .replace('**', '*')
     if len(config['userId']) == 0 or len(config['botToken']) == 0:
         return
 
