@@ -10,6 +10,7 @@ def getKey(data):
 
 
 def push(title, mdmsg, mdmsg_compat, textmsg, config):
+    #deprecate str.replace() funciton since Telegram support ** syntax to bold text.
     msg = mdmsg_compat # .replace('**', '*')
     if len(config['userId']) == 0 or len(config['botToken']) == 0:
         return
