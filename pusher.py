@@ -17,7 +17,7 @@ class Pusher():
             return
         # 是否合并推送
         if not config['merge']:
-            exec('{}.push(data["title"], data["mdmsg"], data["textmsg"], config)'.format(
+            exec('{}.push(data["title"], data["mdmsg"], data["mdmsg_compat"], data["textmsg"], config)'.format(
                 config['module']))
             return
 
