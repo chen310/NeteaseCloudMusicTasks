@@ -6,7 +6,7 @@ import json
 import os
 import sys
 
-from Cryptodome.Cipher import AES
+from Crypto.Cipher import AES
 
 __all__ = ["encrypted_id", "encrypted_request"]
 
