@@ -17,7 +17,7 @@ class Pusher():
             return
         # 是否合并推送
         if not config['merge']:
-            exec('{}.push(data["title"], data["mdmsg"], data["textmsg"], config)'.format(
+            exec('{}.push(data["title"], data["mdmsg"], data["mdmsg_compat"], data["textmsg"], config)'.format(
                 config['module']))
             return
 
@@ -25,14 +25,13 @@ class Pusher():
         key = eval('{}.getKey(data)'.format(config['module']))
         if key is not None:
             if key in self.datas:
-                self.datas[key]['mdmsg'] += self.separator
-                self.datas[key]['mdmsg'] += data['mdmsg']
-                self.datas[key]['textmsg'] += self.separator
-                self.datas[key]['textmsg'] += data['textmsg']
+                for syntax in ['mdmsg', 'mdmsg_compat', 'textmsg']:
+                    self.datas[key][syntax] += self.separator
+                    self.datas[key][syntax] += data[syntax]
             else:
                 self.datas[key] = data
 
     def push(self):
         for data in self.datas.values():
-            exec('{}.push(data["title"], data["mdmsg"], data["textmsg"], data["config"])'.format(
+            exec('{}.push(data["title"], data["mdmsg"], data["mdmsg_compat"], data["textmsg"], data["config"])'.format(
                 data['config']['module']))

@@ -4,3 +4,4 @@ __pycache__/
 .user_data/
 *test.py
 .env
+Myconfig.json
