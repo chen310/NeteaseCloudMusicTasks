@@ -51,6 +51,8 @@ def start(user, task={}):
     resp = music.mlog_pub(token, size, size, songId, songName, text)
     if resp['code'] != 200:
         user.taskInfo(task['taskName'], user.errMsg(resp))
+        os.remove(filepath)
+        return
 
     if task.get('delete', True) == True:
         time.sleep(0.5)
