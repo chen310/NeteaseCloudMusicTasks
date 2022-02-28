@@ -531,13 +531,23 @@ class User(object):
 
     def get_missions(self):
         cycle_result = self.music.mission_cycle_get()
+        time.sleep(0.5)
         stage_result = self.music.mission_stage_get()
 
         missions = []
         if cycle_result['code'] == 200:
             missions.extend(cycle_result.get('data', {}).get('list', []))
         if stage_result['code'] == 200:
-            missions.extend(stage_result.get('data', {}).get('list', []))
+            for mission in stage_result['data']['list']:
+                for target in  mission['userStageTargetList']:
+                    m = mission.copy()
+                    m['status'] = target['status']
+                    m['progressRate'] = target['progressRate']
+                    m['targetCount'] = target['sumTarget']
+                    m['rewardWorth'] = target['worth']
+                    if 'userMissionId' in target:
+                        m['userMissionId'] = target['userMissionId']
+                    missions.append(m)
 
         return missions
 
@@ -583,44 +593,25 @@ class User(object):
                 if mission['status'] == 0 and missionId in tasks:
                     self.taskInfo(mission['description'], '未完成')
                 elif mission['status'] == 10:
-                    if 'userStageTargetList' in mission:
-                        for target in mission['userStageTargetList']:
-                            self.taskInfo(mission['description'], '进行中' + '(' + str(
-                                target['progressRate']) + '/' + str(target['sumTarget']) + ')')
-                    else:
-                        self.taskInfo(mission['description'], '进行中' + '(' + str(
-                            mission['progressRate']) + '/' + str(mission['targetCount']) + ')')
+                    self.taskInfo(mission['description'], '进行中' + '(' + str(
+                        mission['progressRate']) + '/' + str(mission['targetCount']) + ')')
                 elif mission['status'] == 20:
+                    description = mission['description']
+                    userMissionId = mission['userMissionId']
+                    period = mission['period']
+                    rewardWorth = mission['rewardWorth']
+
                     if 'userStageTargetList' in mission:
-                        description = mission['description']
-                        period = mission['period']
-                        for target in mission['userStageTargetList']:
-                            if target['status'] == 20:
-                                userMissionId = target['userMissionId']
-                                rewardWorth = target['worth']
+                        self.taskInfo(description, '任务已完成，暂时只能手动领取云豆')
+                        continue
 
-                                reward_result = self.music.reward_obtain(
-                                    userMissionId=userMissionId, period=period)
-                                if reward_result['code'] == 200:
-                                    self.taskInfo(description, '云豆+' +
-                                                  str(rewardWorth))
-                                else:
-                                    self.taskInfo(description, '云豆领取失败:' +
-                                                  self.errMsg(reward_result))
+                    reward_result = self.music.reward_obtain(
+                        userMissionId=userMissionId, period=period)
+                    if reward_result['code'] == 200:
+                        self.taskInfo(description, '云豆+' + str(rewardWorth))
                     else:
-                        description = mission['description']
-                        userMissionId = mission['userMissionId']
-                        period = mission['period']
-                        rewardWorth = mission['rewardWorth']
-
-                        reward_result = self.music.reward_obtain(
-                            userMissionId=userMissionId, period=period)
-                        if reward_result['code'] == 200:
-                            self.taskInfo(description, '云豆+' +
-                                          str(rewardWorth))
-                        else:
-                            self.taskInfo(description, '云豆领取失败:' +
-                                          self.errMsg(reward_result))
+                        self.taskInfo(description, '云豆领取失败:' +
+                                      self.errMsg(reward_result))
                 elif mission['status'] == 100 and missionId in tasks:
                     self.taskInfo(mission['description'], '云豆已经领取过了')
         else:
