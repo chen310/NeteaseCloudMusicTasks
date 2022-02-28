@@ -583,21 +583,44 @@ class User(object):
                 if mission['status'] == 0 and missionId in tasks:
                     self.taskInfo(mission['description'], '未完成')
                 elif mission['status'] == 10:
-                    self.taskInfo(mission['description'], '进行中' + '(' + str(
-                        mission['progressRate']) + '/' + str(mission['targetCount']) + ')')
-                elif mission['status'] == 20:
-                    description = mission['description']
-                    userMissionId = mission['userMissionId']
-                    period = mission['period']
-                    rewardWorth = mission['rewardWorth']
-
-                    reward_result = self.music.reward_obtain(
-                        userMissionId=userMissionId, period=period)
-                    if reward_result['code'] == 200:
-                        self.taskInfo(description, '云豆+' + str(rewardWorth))
+                    if 'userStageTargetList' in mission:
+                        for target in mission['userStageTargetList']:
+                            self.taskInfo(mission['description'], '进行中' + '(' + str(
+                                target['progressRate']) + '/' + str(target['sumTarget']) + ')')
                     else:
-                        self.taskInfo(description, '云豆领取失败:' +
-                                      self.errMsg(reward_result))
+                        self.taskInfo(mission['description'], '进行中' + '(' + str(
+                            mission['progressRate']) + '/' + str(mission['targetCount']) + ')')
+                elif mission['status'] == 20:
+                    if 'userStageTargetList' in mission:
+                        description = mission['description']
+                        period = mission['period']
+                        for target in mission['userStageTargetList']:
+                            if target['status'] == 20:
+                                userMissionId = target['userMissionId']
+                                rewardWorth = target['worth']
+
+                                reward_result = self.music.reward_obtain(
+                                    userMissionId=userMissionId, period=period)
+                                if reward_result['code'] == 200:
+                                    self.taskInfo(description, '云豆+' +
+                                                  str(rewardWorth))
+                                else:
+                                    self.taskInfo(description, '云豆领取失败:' +
+                                                  self.errMsg(reward_result))
+                    else:
+                        description = mission['description']
+                        userMissionId = mission['userMissionId']
+                        period = mission['period']
+                        rewardWorth = mission['rewardWorth']
+
+                        reward_result = self.music.reward_obtain(
+                            userMissionId=userMissionId, period=period)
+                        if reward_result['code'] == 200:
+                            self.taskInfo(description, '云豆+' +
+                                          str(rewardWorth))
+                        else:
+                            self.taskInfo(description, '云豆领取失败:' +
+                                          self.errMsg(reward_result))
                 elif mission['status'] == 100 and missionId in tasks:
                     self.taskInfo(mission['description'], '云豆已经领取过了')
         else:
