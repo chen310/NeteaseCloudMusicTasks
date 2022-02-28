@@ -40,8 +40,8 @@ def migrateTask(setting, template):
 
     if 'musician_task' in setting:
         musician_task = setting['musician_task']
-        kv = {'登录音乐人中心': '399000', '发布动态': '398000',
-              '发布主创说': '396002', '回复粉丝评论': '393001', '回复粉丝私信': '395002'}
+        kv = {'登录音乐人中心': '749006', '发布动态': '740004', '发布主创说': '755000', '回复粉丝评论': '732004', '回复粉丝私信': '755001',
+              '399000': '749006', '398000': '740004', '396002': '755000', '393001': '732004', '395002': '755001'}
         for key in kv:
             if key in musician_task and kv[key] in template['musician_task']:
                 musician_task[kv[key]] = updateConfig(musician_task[key], template['musician_task'][kv[key]])
