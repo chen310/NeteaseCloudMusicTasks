@@ -498,3 +498,7 @@ class NetEase(object):
     def musician_album(self):
         path = "/weapi/nmusician/production/common/artist/album/item/list/get"
         return self.request("POST", path)
+
+    def watch_college_lesson(self):
+        path = "/weapi/nmusician/workbench/creator/watch/college/lesson"
+        return self.request("POST", path)

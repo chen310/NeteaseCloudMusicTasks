@@ -233,6 +233,11 @@
                 "msg": [
                     "你好"
                 ]
+            },
+            "739008": {
+                "taskName": "观看课程",
+                "module": "watchCollegeLesson",
+                "enable": false
             }
         },
         /* VIP 成长值任务 */
