@@ -272,12 +272,12 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
 "setting": {
     // ...
     "musician_task": {
-        "399000": {
-            "taskName": "登录音乐人中心",
+        "749006": {
+            "taskName": "音乐人中心签到",
             "module": "musicianSignin",
             "enable": true
         },
-        "398000": {
+        "740004": {
             "taskName": "发布动态",
             "module": "publishEvent",
             "enable": false,
@@ -286,7 +286,7 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
             "msg": ["每日分享","今日分享","分享歌单"],
             "delete": true
         },
-        "396002": {
+        "755000": {
             "taskName": "发布主创说",
             "module": "publishComment",
             "enable": false,
@@ -295,7 +295,7 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
             "msg": ["感谢大家收听"],
             "delete": true
         },
-        "393001": {
+        "732004": {
             "taskName": "回复粉丝评论",
             "module": "replyComment",
             "enable": false,
@@ -304,13 +304,18 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
             "msg": ["感谢收听"],
             "delete": true
         },
-        "395002": {
+        "755001": {
             "taskName": "回复粉丝私信",
             "module": "sendPrivateMsg",
             "enable": false,
             // 填写粉丝的用户id，如有多个用,隔开，随机挑选一个进行回复,可以用自己的小号
             "id": [],
             "msg": ["你好"]
+        },
+        "739008": {
+            "taskName": "观看课程",
+            "module": "watchCollegeLesson",
+            "enable": false
         }
     },
     // ...
