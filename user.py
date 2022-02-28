@@ -539,6 +539,8 @@ class User(object):
         if stage_result['code'] == 200:
             missions.extend(stage_result.get('data', {}).get('list', []))
 
+        return missions
+
     def musician_task(self):
         self.taskTitle('音乐人信息')
 
