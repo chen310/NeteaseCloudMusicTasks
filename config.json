@@ -1,5 +1,5 @@
 {
-    "version": "2.15",
+    "version": "2.16",
     "users": [
         {
             /* 填写手机号或邮箱 */
@@ -176,13 +176,13 @@
         /* 音乐人任务，登录音乐人中心默认开启，其他按需开启 */
         "musician_task": {
             /* 登录音乐人中心 */
-            "399000": {
-                "taskName": "登录音乐人中心",
+            "749006": {
+                "taskName": "音乐人中心签到",
                 "module": "musicianSignin",
                 "enable": true
             },
             /* 发布3条动态 */
-            "398000": {
+            "740004": {
                 "taskName": "发布动态",
                 "module": "publishEvent",
                 "enable": false,
@@ -197,7 +197,7 @@
                 /* 发布后自动删除 */
                 "delete": true
             },
-            "396002": {
+            "755000": {
                 "taskName": "发布主创说",
                 "module": "publishComment",
                 "enable": false,
@@ -210,7 +210,7 @@
                 /* 发布后自动删除 */
                 "delete": true
             },
-            "393001": {
+            "732004": {
                 "taskName": "回复粉丝评论",
                 "module": "replyComment",
                 "enable": false,
@@ -223,7 +223,7 @@
                 /* 发布后自动删除 */
                 "delete": true
             },
-            "395002": {
+            "755001": {
                 "taskName": "回复粉丝私信",
                 "module": "sendPrivateMsg",
                 "enable": false,
@@ -233,6 +233,11 @@
                 "msg": [
                     "你好"
                 ]
+            },
+            "739008": {
+                "taskName": "观看课程",
+                "module": "watchCollegeLesson",
+                "enable": false
             }
         },
         /* VIP 成长值任务 */

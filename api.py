@@ -322,6 +322,11 @@ class NetEase(object):
             params = dict(actionType=actionType, platform=platform)
             return self.request("POST", path, params)
 
+    # 获取任务
+    def mission_stage_get(self):
+        path = '/weapi/nmusician/workbench/mission/stage/list'
+        return self.request("POST", path)           
+
     # 领取云豆
     def reward_obtain(self, userMissionId, period):
         path = '/weapi/nmusician/workbench/mission/reward/obtain/new'
@@ -497,4 +502,8 @@ class NetEase(object):
     # 音乐人专辑列表
     def musician_album(self):
         path = "/weapi/nmusician/production/common/artist/album/item/list/get"
+        return self.request("POST", path)
+
+    def watch_college_lesson(self):
+        path = "/weapi/nmusician/workbench/creator/watch/college/lesson"
         return self.request("POST", path)
