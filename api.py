@@ -322,6 +322,11 @@ class NetEase(object):
             params = dict(actionType=actionType, platform=platform)
             return self.request("POST", path, params)
 
+    # 获取任务
+    def mission_stage_get(self):
+        path = '/weapi/nmusician/workbench/mission/stage/list'
+        return self.request("POST", path)           
+
     # 领取云豆
     def reward_obtain(self, userMissionId, period):
         path = '/weapi/nmusician/workbench/mission/reward/obtain/new'
