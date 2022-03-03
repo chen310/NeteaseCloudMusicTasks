@@ -17,6 +17,7 @@ class User(object):
         self.isLogined = False
         self.nickname = ''
         self.uid = 0
+        self.artistId = 0
         self.userType = 0
         self.level = 0
         self.full = False
@@ -84,6 +85,8 @@ class User(object):
             print('已通过 cookie 登录')
             music.uid = resp['data']['userId']
             user_resp = music.user_detail(music.uid)
+            if 'artistId' in user_resp['profile']:
+                self.artistId = user_resp['profile']['artistId']
             self.listenSongs = user_resp['listenSongs']
             music.nickname = user_resp['profile']['nickname']
             music.userType = user_resp['profile']['userType']
@@ -114,6 +117,8 @@ class User(object):
                 music.uid = login_resp['profile']['userId']
                 music.nickname = login_resp['profile']['nickname']
                 music.userType = login_resp['profile']['userType']
+                if 'artistId' in login_resp['profile']:
+                    self.artistId = login_resp['profile']['artistId']
                 music.loginerror = ''
                 if music.userType != 0 and music.userType != 4:
                     user_resp = music.user_detail(music.uid)
@@ -153,6 +158,8 @@ class User(object):
 
     def userInfo(self):
         resp = self.music.user_detail(self.uid)
+        if 'artistId' in resp['profile']:
+            self.artistId = resp['profile']['artistId']
         self.level = resp['level']
         self.vipType = resp['profile']['vipType']
         self.listenSongs = resp['listenSongs']

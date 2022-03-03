@@ -316,6 +316,11 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
             "taskName": "观看课程",
             "module": "watchCollegeLesson",
             "enable": false
+        },
+        "740005": {
+            "taskName": "访问自己的云圈",
+            "module": "visitMyCircle",
+            "enable": false
         }
     },
     // ...

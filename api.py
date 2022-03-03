@@ -507,3 +507,13 @@ class NetEase(object):
     def watch_college_lesson(self):
         path = "/weapi/nmusician/workbench/creator/watch/college/lesson"
         return self.request("POST", path)
+
+    def artist_homepage(self, artistId):
+        path = "/weapi/personal/home/page/artist"
+        params = dict(artistId=artistId)
+        return self.request("POST", path, params)
+
+    def circle_get(self, circleId):
+        path = "/weapi/circle/get"
+        params = dict(circleId=circleId)
+        return self.request("POST", path, params)        

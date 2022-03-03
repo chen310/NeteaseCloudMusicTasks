@@ -238,6 +238,11 @@
                 "taskName": "观看课程",
                 "module": "watchCollegeLesson",
                 "enable": false
+            },
+            "740005": {
+                "taskName": "访问自己的云圈",
+                "module": "visitMyCircle",
+                "enable": false
             }
         },
         /* VIP 成长值任务 */
