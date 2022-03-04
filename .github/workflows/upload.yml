@@ -1,0 +1,33 @@
+name: "upload"
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: upload-workflow
+  cancel-in-progress: true
+
+jobs:
+  upload-files:
+    name: upload
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone local repository
+        uses: actions/checkout@v2
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: code
+          path: |
+            ./
+            !./.git/
+            !./.github/
+            !./public/
+            !./serverless/
+            !./.dockerignore
+            !./.gitignore
+            !./requirements.txt
+            !./Dockerfile
+            !./ql_update.py
+            !./README.md
+            !./scheduler.py
