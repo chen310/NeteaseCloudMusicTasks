@@ -3,7 +3,10 @@ import random
 
 def start(user, task={}):
     music = user.music
-    name = random.choice(task['name'])
+    if len(task['name']) == 0:
+        name = '歌单'
+    else:
+        name = random.choice(task['name'])
     create_resp = music.playlist_create(name, 0, 'SHARED')
     if create_resp['code'] == 200:
         if task['delete'] == True:

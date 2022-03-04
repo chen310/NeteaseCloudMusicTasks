@@ -598,7 +598,10 @@ class User(object):
             for mission in mission_list:
                 missionId = str(mission['missionId'])
                 if mission['status'] == 0 and missionId in tasks:
-                    self.taskInfo(mission['description'], '未完成')
+                    if tasks[missionId]['enable']:
+                        self.taskInfo(mission['description'], '未完成')
+                    else:
+                        self.taskInfo(mission['description'], '未开启任务')
                 elif mission['status'] == 10:
                     self.taskInfo(mission['description'], '进行中' + '(' + str(
                         mission['progressRate']) + '/' + str(mission['targetCount']) + ')')
