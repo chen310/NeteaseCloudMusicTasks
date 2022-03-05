@@ -171,9 +171,10 @@ class User(object):
 
         if self.vipType == 11:
             vip_resp = self.music.vip_level()
-            self.taskInfo('VIP等级', vip_resp['data']['redVipLevel'])
-            self.taskInfo('到期时间', time.strftime(
-                "%Y-%m-%d %H:%M:%S", time.localtime(vip_resp['data']['musicPackage']['expireTime']/1000)))
+            if 'data' in vip_resp:
+                self.taskInfo('VIP等级', vip_resp['data']['redVipLevel'])
+                self.taskInfo('到期时间', time.strftime(
+                    "%Y-%m-%d %H:%M:%S", time.localtime(vip_resp['data']['musicPackage']['expireTime']/1000)))
 
         self.taskInfo('云贝数量', resp['userPoint']['balance'])
 
