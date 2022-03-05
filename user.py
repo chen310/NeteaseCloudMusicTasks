@@ -190,14 +190,21 @@ class User(object):
         self.taskInfo('歌单总收藏数', resp['profile']['playlistBeSubscribedCount'])
 
         resp = self.music.user_level()
-        self.full = resp['full']
-        if not self.full:
-            self.taskInfo('距离下级还需播放', str(
-                resp['data']['nextPlayCount'] - resp['data']['nowPlayCount']) + '首歌')
-            self.taskInfo('距离下级还需登录', str(
-                resp['data']['nextLoginCount'] - resp['data']['nowLoginCount']) + '天')
-            if resp['data']['nowPlayCount'] >= 20000:
-                self.songFull = True
+        if 'full' in resp:
+            self.full = resp['full']
+        else:
+            if 'data' in resp and 'level' in resp['data']:
+                self.full = (resp['data']['level'] == 10)
+            else:
+                print('获取用户等级失败:' + str(resp))
+        if 'data' in resp:
+            if not self.full:
+                self.taskInfo('距离下级还需播放', str(
+                    resp['data']['nextPlayCount'] - resp['data']['nowPlayCount']) + '首歌')
+                self.taskInfo('距离下级还需登录', str(
+                    resp['data']['nextLoginCount'] - resp['data']['nowLoginCount']) + '天')
+                if resp['data']['nowPlayCount'] >= 20000:
+                    self.songFull = True
         self.finishTask()
 
     def resize(self, total):
