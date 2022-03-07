@@ -483,6 +483,8 @@ class User(object):
             time.sleep(sleep_time)
 
     def follow(self):
+        # 转载注明来源: https://github.com/chen310/NeteaseCloudMusicTasks
+        # 勿修改作者 ID
         author_uid = 347837981
         if self.uid == author_uid:
             return
