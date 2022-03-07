@@ -103,6 +103,11 @@ class User(object):
                 return music
             login_resp = music.login(username, pwd, countrycode)
             if login_resp['code'] == 200:
+                level_resp = music.user_level()
+                if level_resp['code'] == 301:
+                    music.loginerror = str(login_resp['profile']['userId']) + ' 运行失败，请尝试删除云函数后重新部署'
+                    music.uid = 0
+                    return music
                 print('已通过账号密码登录')                
                 if self.runtime == 'tencent-scf':
                     music_cookie = ''
@@ -171,10 +176,9 @@ class User(object):
 
         if self.vipType == 11:
             vip_resp = self.music.vip_level()
-            if 'data' in vip_resp:
-                self.taskInfo('VIP等级', vip_resp['data']['redVipLevel'])
-                self.taskInfo('到期时间', time.strftime(
-                    "%Y-%m-%d %H:%M:%S", time.localtime(vip_resp['data']['musicPackage']['expireTime']/1000)))
+            self.taskInfo('VIP等级', vip_resp['data']['redVipLevel'])
+            self.taskInfo('到期时间', time.strftime(
+                "%Y-%m-%d %H:%M:%S", time.localtime(vip_resp['data']['musicPackage']['expireTime']/1000)))
 
         self.taskInfo('云贝数量', resp['userPoint']['balance'])
 
@@ -190,21 +194,14 @@ class User(object):
         self.taskInfo('歌单总收藏数', resp['profile']['playlistBeSubscribedCount'])
 
         resp = self.music.user_level()
-        if 'full' in resp:
-            self.full = resp['full']
-        else:
-            if 'data' in resp and 'level' in resp['data']:
-                self.full = (resp['data']['level'] == 10)
-            else:
-                print('获取用户等级失败:' + str(resp))
-        if 'data' in resp:
-            if not self.full:
-                self.taskInfo('距离下级还需播放', str(
-                    resp['data']['nextPlayCount'] - resp['data']['nowPlayCount']) + '首歌')
-                self.taskInfo('距离下级还需登录', str(
-                    resp['data']['nextLoginCount'] - resp['data']['nowLoginCount']) + '天')
-                if resp['data']['nowPlayCount'] >= 20000:
-                    self.songFull = True
+        self.full = resp['full']
+        if not self.full:
+            self.taskInfo('距离下级还需播放', str(
+                resp['data']['nextPlayCount'] - resp['data']['nowPlayCount']) + '首歌')
+            self.taskInfo('距离下级还需登录', str(
+                resp['data']['nextLoginCount'] - resp['data']['nowLoginCount']) + '天')
+            if resp['data']['nowPlayCount'] >= 20000:
+                self.songFull = True
         self.finishTask()
 
     def resize(self, total):
@@ -620,7 +617,7 @@ class User(object):
                     rewardWorth = mission['rewardWorth']
 
                     if 'userStageTargetList' in mission:
-                        self.taskInfo(description, '任务已完成，暂时只能手动领取云豆')
+                        self.taskInfo(description, '任务已完成')
                         continue
 
                     reward_result = self.music.reward_obtain(
