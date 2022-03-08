@@ -22,8 +22,8 @@ if __name__ == "__main__":
         print('复制配置示例文件...')
         os.system('cp -f {} {}'.format(repo_config, example_config))
         print('更新配置文件...')
-        os.system('python3 /ql/scripts/chen310_NeteaseCloudMusicTasks/serverless/loadconfig.py {} {} {}'.format(
-            repo_config, scripts_config, scripts_config))
+        os.system('python3 {}scripts/chen310_NeteaseCloudMusicTasks/serverless/loadconfig.py {} {} {}'.format(
+            data_path, repo_config, scripts_config, scripts_config))
         print('更新完成')
     else:
         print('复制配置文件')
