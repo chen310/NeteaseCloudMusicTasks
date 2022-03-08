@@ -29,5 +29,4 @@ jobs:
             !./requirements.txt
             !./Dockerfile
             !./ql_update.py
-            !./README.md
             !./scheduler.py

@@ -9,7 +9,9 @@ on:
       - "**.py"
       - "**.json"
       - "**.sh"
-      - "**.yml"
+      - ".github/workflows/deploy.yml"
+      - "!scheduler.py"
+      - "!ql_update.py"
 
 concurrency:
   group: deploy-workflow
