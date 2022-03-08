@@ -586,7 +586,7 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
 ### 拉取仓库
 
 ```shell
-ql repo https://github.com/chen310/NeteaseCloudMusicTasks.git "index.py" "" "py" && task /ql/scripts/chen310_NeteaseCloudMusicTasks/ql_update.py
+ql repo https://github.com/chen310/NeteaseCloudMusicTasks.git "index.py" "" "py" && task chen310_NeteaseCloudMusicTasks/ql_update.py
 ```
 
 第一次使用需要安装依赖，时间可能会长一些
