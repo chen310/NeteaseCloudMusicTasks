@@ -14,7 +14,7 @@ if __name__ == "__main__":
     scripts_config =  data_path + 'scripts/chen310_NeteaseCloudMusicTasks/config.json'
     old_config = data_path + 'scripts/chen310_NeteaseCloudMusicTasks/config.old.json'
     example_config = data_path + 'scripts/chen310_NeteaseCloudMusicTasks/config.example.json'
-    repo_config = data_path + 'repo/chen310_NeteaseCloudMusicTasks/config.json'
+    repo_config = data_path + 'repo/chen310_NeteaseCloudMusicTasks/config.example.json'
     dependencies = data_path + 'repo/chen310_NeteaseCloudMusicTasks/requirements.txt'
     if os.path.exists(scripts_config):
         print('备份配置文件...')

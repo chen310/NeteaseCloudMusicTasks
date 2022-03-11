@@ -1,5 +1,5 @@
 if [ -z "$TENCENT_SECRET_ID" ] || [ -z "$TENCENT_SECRET_KEY" ]; then
-	echo "请配置SECRET_ID和SECRET_KEY两个secrets"
+	echo "请配置 SECRET_ID 和 SECRET_KEY 两个 secrets"
 	echo -e "\033[1;31m部署失败 \033[0m"
 	exit 1
 fi
@@ -25,25 +25,28 @@ else
 	config_file="./config.json"
 	old_config_file="./config.old.json"
 	example_config_file="./config.example.json"
+	# 复制模板文件为配置文件
+	sudo cp $example_config_file $config_file
 	if [ -e "./code/config.json" ]; then
+		# 备份配置文件
 		sudo mv ./code/config.json $old_config_file
-		sudo cp $config_file $example_config_file
-		python ./serverless/loadconfig.py $config_file $old_config_file $config_file
+		# 将旧配置文件中的数据转移到新配置文件中
+		python ./serverless/loadconfig.py $example_config_file $old_config_file $config_file
 		if [ $? -ne 0 ]; then
-			echo "配置文件复制错误，请检查config.json文件是否填写正确"
+			echo "配置文件复制错误，请检查 config.json 文件是否填写正确"
 			echo -e "\033[1;31m部署失败 \033[0m"
 			exit 1
 		fi
 		echo "已加载配置文件"
 		export DEPLOY_TYPE="update"
 	else
-		echo "配置文件不存在，请检查FUNCTION_NAME填写是否正确，避免覆盖其他函数"
+		echo "配置文件不存在，请检查 FUNCTION_NAME 填写是否正确，避免覆盖其他函数"
 		echo -e "\033[1;31m部署失败 \033[0m"
 		exit 1
 	fi
 fi
 
-echo "开始安装ServerlessFramework"
+echo "开始安装 ServerlessFramework"
 sudo npm install -g serverless >>/dev/null
 sudo mkdir tmp/
 shopt -s extglob

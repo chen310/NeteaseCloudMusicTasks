@@ -624,11 +624,21 @@ ql repo https://github.com/chen310/NeteaseCloudMusicTasks.git "index.py" "" "py"
 
 ### 下载
 
+拉取代码
+
 ```shell
 git clone https://github.com/chen310/NeteaseCloudMusicTasks.git
 ```
 
 ### 安装依赖
+
+切换到项目目录
+
+```shell
+cd NeteaseCloudMusicTasks
+```
+
+然后安装依赖
 
 ```shell
 pip install -r requirements.txt
@@ -636,13 +646,32 @@ pip install -r requirements.txt
 
 ### 修改配置文件
 
-对配置文件 `config.json` 进行修改
+首先将 `config.example.json` 文件复制为 `config.json` 文件
+
+```shell
+cp config.example.json config.json
+```
+
+然后对配置文件 `config.json` 进行修改。
 
 ### 运行
 
 ```shell
-python index.py
+python3 index.py
 ```
+
+### 更新代码
+
+首先更新代码
+
+```shell
+git pull
+```
+
+然后更新配置文件
+
+```shell
+python3 ./serverless/loadconfig.py config.example.json config.json config.json
 
 ## 四、使用`docker`部署
 
@@ -653,7 +682,7 @@ python index.py
 ### 下载并配置 `config.json`
 
 ```shell
-curl -fsSL -o config.json https://raw.githubusercontent.com/chen310/NeteaseCloudMusicTasks/main/config.json
+curl -fsSL -o config.json https://raw.githubusercontent.com/chen310/NeteaseCloudMusicTasks/main/config.example.json
 ```
 
 ### 随机时间执行
