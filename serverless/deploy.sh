@@ -25,8 +25,11 @@ else
 	config_file="./config.json"
 	old_config_file="./config.old.json"
 	example_config_file="./config.example.json"
+	ls
+	echo "-------"
 	# 复制模板文件为配置文件
 	sudo cp $example_config_file $config_file
+	echo "-------"
 	if [ -e "./code/config.json" ]; then
 		# 备份配置文件
 		sudo mv ./code/config.json $old_config_file
