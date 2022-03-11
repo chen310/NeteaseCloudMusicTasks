@@ -321,7 +321,23 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
             "taskName": "访问自己的云圈",
             "module": "visitMyCircle",
             "enable": false
-        }
+        },
+        "744005": {
+            "taskName": "发布mlog",
+            "module": "publishMlog",
+            "enable": false,
+            // 填写歌曲ID
+            "songId": [],
+            /* 动态内容，随机选取一个，其中$artist会被替换为歌手名，$song会被替换为歌曲名 */
+            "text": [
+                "分享$artist的歌曲: $song",
+                "分享歌曲: $song"
+            ],
+            /* 图片大小，越大则消耗的外网出流量越多 */
+            "size": 500,
+            /* 发布成功后是否自动删除该动态 */
+            "delete": true
+        },
     },
     // ...
 }
