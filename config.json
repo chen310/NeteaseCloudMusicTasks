@@ -244,6 +244,24 @@
                 "taskName": "访问自己的云圈",
                 "module": "visitMyCircle",
                 "enable": false
+            },
+            /* 发布Mlog：根据填写的歌曲ID，自动下载歌曲的专辑图，并上传 */
+            "744005": {
+                "taskName": "发布mlog",
+                "module": "publishMlog",
+                /* 是否开启任务 */
+                "enable": false,
+                /* 填写歌曲id，随机选取一个，如[65528, 64634] */
+                "songId": [],
+                /* 动态内容，随机选取一个，其中$artist会被替换为歌手名，$song会被替换为歌曲名 */
+                "text": [
+                    "分享$artist的歌曲: $song",
+                    "分享歌曲: $song"
+                ],
+                /* 图片大小，越大则消耗的外网出流量越多 */
+                "size": 500,
+                /* 发布成功后是否自动删除该动态 */
+                "delete": true
             }
         },
         /* VIP 成长值任务 */

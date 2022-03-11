@@ -753,10 +753,11 @@ class User(object):
             self.sign()
 
         self.yunbei_task()
-        time.sleep(5)
+        time.sleep(3)
         self.get_yunbei()
 
         if self.userType == 4:
+            time.sleep(3)
             self.musician_task()
 
         if self.vipType == 11:
