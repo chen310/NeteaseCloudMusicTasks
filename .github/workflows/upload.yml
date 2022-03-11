@@ -2,6 +2,17 @@ name: "upload"
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "**.py"
+      - "**.json"
+      - "README.md"
+      - ".github/workflows/upload.yml"
+      - "!serverless/**"
+      - "!scheduler.py"
+      - "!ql_update.py"
 
 concurrency:
   group: upload-workflow
@@ -9,6 +20,7 @@ concurrency:
 
 jobs:
   upload-files:
+    if: github.repository == 'chen310/NeteaseCloudMusicTasks'
     name: upload
     runs-on: ubuntu-latest
     steps:
