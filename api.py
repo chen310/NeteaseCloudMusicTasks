@@ -517,3 +517,8 @@ class NetEase(object):
         path = "/weapi/circle/get"
         params = dict(circleId=circleId)
         return self.request("POST", path, params)        
+
+    def vipcenter_task_external(self, type):
+        path = "/weapi/vipnewcenter/app/level/task/external"
+        params = dict(type=type)
+        return self.request("POST", path, params)             

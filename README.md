@@ -250,6 +250,11 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
             "taskName": "分享歌曲/歌单",
             "module": "share",
             "enable": false
+        },
+        "656007": {
+            "taskName": "浏览会员中心",
+            "module": "visitVipCenter",
+            "enable": false
         }
     },
     // ...
@@ -265,6 +270,8 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
 `发布Mlog` 根据填写的歌曲 ID，自动下载歌曲对应的专辑图片，并上传。`songId` 填写歌曲 id，如`[65528, 64634]`，`text` 填写动态内容
 
 `分享歌曲/歌单`任务并不会真的分享，将 `enable` 设为 `true` 即可开启任务
+
+`浏览会员中心`将 `enable` 设为 `true` 即可开启任务
 
 #### 音乐人任务
 

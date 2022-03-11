@@ -172,6 +172,13 @@
                 "module": "share",
                 /* 是否开启任务 */
                 "enable": false
+            },
+            /* 浏览会员中心 */
+            "656007": {
+                "taskName": "浏览会员中心",
+                "module": "visitVipCenter",
+                /* 是否开启任务 */
+                "enable": false
             }
         },
         /* 音乐人任务，登录音乐人中心默认开启，其他按需开启 */
