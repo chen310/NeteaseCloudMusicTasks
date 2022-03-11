@@ -26,7 +26,7 @@ jobs:
     steps:
       - name: Clone local repository
         uses: actions/checkout@v2
-      - name: Create config gile
+      - name: Create config file
         run: cp config.example.json config.json
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
