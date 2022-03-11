@@ -671,7 +671,7 @@ git pull
 然后更新配置文件
 
 ```shell
-python3 ./serverless/loadconfig.py config.example.json config.json config.json
+python3 ./updateconfig.py config.example.json config.json config.json
 ```
 
 ## 四、使用`docker`部署

@@ -31,7 +31,7 @@ else
 		# 备份配置文件
 		mv ./code/config.json $old_config_file
 		# 将旧配置文件中的数据转移到新配置文件中
-		python ./serverless/loadconfig.py $example_config_file $old_config_file $config_file
+		python ./updateconfig.py $example_config_file $old_config_file $config_file
 		if [ $? -ne 0 ]; then
 			echo "配置文件复制错误，请检查 config.json 文件是否填写正确"
 			echo -e "\033[1;31m部署失败 \033[0m"
