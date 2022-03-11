@@ -672,6 +672,7 @@ git pull
 
 ```shell
 python3 ./serverless/loadconfig.py config.example.json config.json config.json
+```
 
 ## 四、使用`docker`部署
 
