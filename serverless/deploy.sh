@@ -1,8 +1,3 @@
-if [ -z "$TENCENT_SECRET_ID" ] || [ -z "$TENCENT_SECRET_KEY" ]; then
-	echo "请配置 SECRET_ID 和 SECRET_KEY 两个 secrets"
-	echo -e "\033[1;31m部署失败 \033[0m"
-	exit 1
-fi
 # 复制模板文件为配置文件
 cp config.example.json config.json
 url=$(python serverless/geturl.py)
