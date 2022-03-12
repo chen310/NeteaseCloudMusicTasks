@@ -27,11 +27,15 @@ jobs:
       - name: Clone local repository
         uses: actions/checkout@v2
       - name: Create config file
-        run: cp config.example.json config.json
+        run: mv config.example.json config.json
+      - name: Setting environment variable
+        run: | 
+          ver=$(cat config.json | grep version | grep -o "[\.0-9]*")
+          echo "VERSION=$ver" >> $GITHUB_ENV
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
-          name: code
+          name: code_${{ env.VERSION }}
           path: |
             ./
             !./.git/
