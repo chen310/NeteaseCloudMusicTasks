@@ -606,19 +606,52 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
 
 ## 二、部署到青龙面板
 
-### 拉取仓库
+### 进入容器
 
 ```shell
-ql repo https://github.com/chen310/NeteaseCloudMusicTasks.git "index.py" "" "py" && task chen310_NeteaseCloudMusicTasks/ql_update.py
+docker exec -it qinglong bash
 ```
 
-第一次使用需要安装依赖，时间可能会长一些
+如果容器名称不是 `qinglong` 则需要修改。
 
-更新代码同样也是用上面的命令
+### 拉取代码
+
+```shell
+ql repo https://github.com/chen310/NeteaseCloudMusicTasks.git "index.py" "" "py"
+```
+
+### 生成配置文件
+
+```shell
+task chen310_NeteaseCloudMusicTasks/ql_update.py
+```
+
+### 安装依赖
+
+```shell
+apk add python3-dev gcc libc-dev
+pip3 install json5 pycryptodomex
+```
 
 ### 修改配置文件
 
 对配置文件 `config.json` 进行修改
+
+### 更新代码
+
+如果需要更新代码则同样先进入容器
+
+```shell
+docker exec -it qinglong bash
+```
+
+然后再更新
+
+```shell
+ql repo https://github.com/chen310/NeteaseCloudMusicTasks.git "index.py" "" "py"
+task chen310_NeteaseCloudMusicTasks/ql_update.py
+
+```
 
 ## 三、本地运行
 

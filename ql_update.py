@@ -30,14 +30,3 @@ if __name__ == "__main__":
         os.system('cp {} {}'.format(repo_config, scripts_config))
         print('复制配置示例文件...')
         os.system('cp -f {} {}'.format(repo_config, example_config))
-
-    try:
-        import requests
-        import json5
-        from Cryptodome.Cipher import AES
-    except:
-        print('安装依赖...')
-        os.system('apk update')
-        os.system('apk upgrade')
-        os.system('apk add gcc libc-dev')
-        os.system('pip3 install -r {}'.format(dependencies))
