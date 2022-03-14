@@ -1,5 +1,5 @@
 .vscode
-tempCodeRunnerFile.py
+tempCodeRunnerFile*
 __pycache__/
 .user_data/
 *test.py
