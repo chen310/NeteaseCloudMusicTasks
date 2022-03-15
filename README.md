@@ -1,4 +1,4 @@
-# 网易云打卡升级
+# 网易云音乐自动任务
 
 <p>
   <a href="https://music.163.com/#/user/home?id=347837981"><img alt="网易云音乐关注数" src="https://img.shields.io/badge/dynamic/json?color=e60026&label=%E7%BD%91%E6%98%93%E4%BA%91%E9%9F%B3%E4%B9%90&query=%24.profile.followeds&url=http%3A%2F%2Fmusic.163.com%2Fapi%2Fv1%2Fuser%2Fdetail%2F347837981"></a>
@@ -13,12 +13,21 @@
 4. 刷指定歌曲的播放量
 5. 音乐人自动签到领取云豆
 6. 音乐人自动完成任务，并领取云豆
-7. 自动领取 vip 成长值（任务需自己完成）
+7. 自动领取 vip 成长值
 8. 多种推送方式
 9. 支持多账号
-10. 支持[腾讯云函数](#一部署到腾讯云函数) & [青龙面板](#二部署到青龙面板) & [本地运行](#三本地运行)
+10. 支持[腾讯云函数](#一部署到腾讯云函数) & [青龙面板](#二部署到青龙面板) & [本地运行](#三本地运行) & [docker 部署](#四使用docker部署)
 
 > 开发不易，如果你觉得本项目对你有用，可以点个 star，也可以到底部给个[赞赏](#赞赏)
+
+## 注意事项
+
+- 默认会在网易云音乐中关注作者，如果不想关注，可以在配置文件里[修改](#关注作者)
+- 提 issue 之前看看是否有重复的 issue。
+- 不要直接在 GitHub 上修改配置文件。已经修改了的，尽快覆盖，并修改密码。
+- 转载请注明出处，并保留原作者信息。
+- 禁止将代码用于商业用途，包括打包售卖，收费代挂等。
+- 为了账号安全考虑，请勿将账号密码交给他人代挂。
 
 ## 一、部署到腾讯云函数
 
@@ -32,47 +41,115 @@
 
 在腾讯云[API 密钥管理](https://console.cloud.tencent.com/cam/capi)新建密钥，获取 SecretId 和 SecretKey
 
+![Fork](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/getsecret.png)
+
 ### fork 本项目
 
 在 GitHub 上 fork [本项目](https://github.com/chen310/NeteaseCloudMusicTasks)
 
+![Fork](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/fork.png)
+
 ### 创建 Secrets
 
-fork 之后，点击右上方 `settings`，在页面点击 `Secrets`，点击 `Actions`，然后点击 `New repository secret` 创建新的 secret。一共有 5 个 secret，前 2 个是必须要创建的，后 3 个可不创建
+fork 之后，点击右上方 `settings`
+
+![Settings](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/settings.png)
+
+在页面点击 `Secrets`，点击 `Actions`，然后点击 `New repository secret` 创建新的 secret。
+
+![NewSecrets](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/newsecrets.png)
 
 | Name          | Value                     | 是否必填 |
 | :------------ | :------------------------ | :------- |
 | SECRET_ID     | 填写之前获取的 SecretId   | 必填     |
 | SECRET_KEY    | 填写之前获取的 SecretKey  | 必填     |
-| FUNCTION_NAME | 自定义函数名              | 选填     |
 | CRON          | 定时触发器的时间          | 选填     |
+| FUNCTION_NAME | 自定义函数名              | 选填     |
 | REGION        | 地域，默认为 ap-guangzhou | 选填     |
+
+先填写先前获取的 SECRET_ID
+
+![SECRET_ID](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/secretid.png)
+
+同理，填写先前获取的 SECRET_KEY
+
+![SECRET_KEY](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/secretkey.png)
+
+CRON 默认为 `0 30 0 * * * *` 表示每天 0 点 30 分触发。如需更改，则如下图所示创建此 secret，。比如：`0 20 12 * * * *` 表示每天 12 点 20 分触发，`0 0 12,16 * * * *` 表示每天 12 点和 16 点各触发一次。
+
+![Cron](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/cron.png)
 
 FUNCTION_NAME 为函数名，不填写默认为 `NeteaseCloudMusicTasks`。如需更改，则创建此 secret，并填写自定义的函数名，命名规则：只能包含字母、数字、下划线、连字符，以字母开头，以数字或字母结尾，2~60 个字符。
 
-如果之前在腾讯云函数里用上传压缩包的方式创建过该项目对应的函数，那么可以在 FUNCTION_NAME 里填写先前创建的函数名，更新会提交到先前的函数中，并自动同步配置文件。
-
-CRON 默认为 `0 30 0 * * * *` 表示每天 0 点 30 分触发，可自行更改。比如：`0 20 12 * * * *` 表示每天 12 点 20 分触发，`0 0 12,16 * * * *` 表示每天 12 点和 16 点各触发一次。
-
 REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://cloud.tencent.com/document/product/583/17238#.E5.9C.B0.E5.9F.9F.E5.88.97.E8.A1.A8)。
+
+添加完毕可以看到
+
+![Cron](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/secretlist.png)
 
 ### 部署
 
-#### 自动部署
+击项目上方的 `Actions`
 
-更新代码后将会自动触发 workflow，部署到腾讯云函数。到 `Actions` 中可以查看部署进度。
+![Actions](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/actions.png)
 
-#### 手动部署
+点击 `All workflows` 下方的 `deploy`（移动端要先点击 `Select workflow`），再点击右侧 `Run workflow`，在弹出的页面再次点击 `Run workflow`，将会运行新的 workflow
 
-更新了 `Secrets` 之后不会自动部署，此时需要手动部署。击项目上方的 `Actions`，点击 `All workflows` 下方的 `deploy`（移动端要先点击 `Select workflow`），再点击右侧 `Run workflow`，在弹出的页面再次点击 `Run workflow`，将会运行新的 workflow，点进这个 workflow，可以查看部署进度。
+![RunWorkflow](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/runworkflow.png)
+
+运行后如果不显示，刷新一下页面即可看到正在运行的 workflow。
+
+![Workflow](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/workflow.png)
+
+等到标志变成 ✅，表示已经部署成功。
+
+![Success](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/success.png)
+
+如果发现标志变成 ❌，则表示部署失败。
+
+![Failure](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/failure.png)
+
+可以点进这个 workflow 查看失败原因。
+
+![Failue](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/failure2.png)
 
 ### 添加依赖
 
-下载[依赖文件](https://chen10.lanzouo.com/igHXzxf8wjc) ，也可以自己用 pip 下载依赖，然后打包。然后在[高级能力](https://console.cloud.tencent.com/scf/layer)新建`层`，`层名称`可以自己任意填写，然后上传刚刚下载的压缩包，点击`添加运行环境`，选择 `Python3.6`。在[函数服务](https://console.cloud.tencent.com/scf/list)点进刚刚创建的函数，点击上方的`层管理`，点击`绑定`，选择刚刚创建的层。
+下载[依赖文件](https://chen10.lanzouo.com/igHXzxf8wjc) ，也可以自己用 pip 下载依赖，然后打包。然后在[高级能力](https://console.cloud.tencent.com/scf/layer)新建`层`
+
+![Layer](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/layer.png)
+
+`层名称`可以自己任意填写，然后上传刚刚下载的压缩包，点击`添加运行环境`，选择 `Python3.6`。
+
+![Dependence](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/dependence.png)
+
+在[函数服务](https://console.cloud.tencent.com/scf/list)点进刚刚创建的函数
+
+![Function](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/function.png)
+
+点击上方的`层管理`，点击`绑定`
+
+![Bind](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/bind1.png)
+
+选择刚刚创建的层。
+
+![Bind](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/bind2.png)
 
 ### 修改配置
 
-在[函数服务](https://console.cloud.tencent.com/scf/list)点进刚刚创建的函数，在编辑器里点击 `config.json` 这个文件进行配置，可以看到文件中有红色波浪线的错误提示，可以忽略不管，也可以下拉到编辑器的右下角，点击 `JSON` 来更改语言模式，选择 `JSON with Comments`，这样就可以消除错误提示。在 `config.json` 里进行如下的账号配置。运行之后如果发现有些任务没有完成，可能是因为没有开启，将任务对应的 `enable` 字段设置为 `true` 即可开启。
+在[函数服务](https://console.cloud.tencent.com/scf/list)点进刚刚创建的函数
+
+![Function](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/function.png)
+
+在编辑器里点击 `config.json` 这个文件进行配置
+
+![Config](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/config.png)
+
+可以看到文件中有红色波浪线的错误提示，可以忽略不管，也可以下拉到编辑器的右下角，点击 `JSON` 来更改语言模式，选择 `JSON with Comments`，这样就可以消除错误提示。
+
+![Style](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/style.png)
+
+在 `config.json` 里进行如下的账号配置。运行之后如果发现有些任务没有完成，可能是因为没有开启，将任务对应的 `enable` 字段设置为 `true` 即可开启。
 
 #### 账号密码
 
@@ -89,7 +166,7 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
 // ...
 ```
 
-`username` 里填写手机号或邮箱，`password` 里填写账号密码或 32 位 md5 加密后的密码，`countrycode` 为手机号前缀，使用非中国大陆的手机号登录需填写。`X-Real-IP` 里填写国内任意 IP，否则可能会有无法登录等情况出现，可填写本机 IP，查看方法为：百度搜索 ip，填写显示的 ip 即可。如果是在本地环境运行，则不需要填写 IP。`enable` 为该账号的开关，设置为 `false` 表示不运行该账号的任务。
+`username` 里填写手机号或邮箱，`password` 里填写账号密码或 32 位 md5 加密后的密码，`countrycode` 为手机号前缀，使用非中国大陆的手机号登录需填写。`X-Real-IP` 里填写国内 IP，否则可能会有无法登录等情况出现，可填写本机 IP，[点击](https://www.ip138.com/)可查看本机 IP，填写显示的 ip 即可。`enable` 为该账号的开关，设置为 `false` 表示不运行该账号的任务。
 
 #### 签到
 
@@ -173,6 +250,11 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
             "taskName": "分享歌曲/歌单",
             "module": "share",
             "enable": false
+        },
+        "656007": {
+            "taskName": "浏览会员中心",
+            "module": "visitVipCenter",
+            "enable": false
         }
     },
     // ...
@@ -189,18 +271,20 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
 
 `分享歌曲/歌单`任务并不会真的分享，将 `enable` 设为 `true` 即可开启任务
 
+`浏览会员中心`将 `enable` 设为 `true` 即可开启任务
+
 #### 音乐人任务
 
 ```json5
 "setting": {
     // ...
     "musician_task": {
-        "399000": {
-            "taskName": "登录音乐人中心",
+        "749006": {
+            "taskName": "音乐人中心签到",
             "module": "musicianSignin",
             "enable": true
         },
-        "398000": {
+        "740004": {
             "taskName": "发布动态",
             "module": "publishEvent",
             "enable": false,
@@ -209,7 +293,7 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
             "msg": ["每日分享","今日分享","分享歌单"],
             "delete": true
         },
-        "396002": {
+        "755000": {
             "taskName": "发布主创说",
             "module": "publishComment",
             "enable": false,
@@ -218,7 +302,7 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
             "msg": ["感谢大家收听"],
             "delete": true
         },
-        "393001": {
+        "732004": {
             "taskName": "回复粉丝评论",
             "module": "replyComment",
             "enable": false,
@@ -227,14 +311,40 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
             "msg": ["感谢收听"],
             "delete": true
         },
-        "395002": {
+        "755001": {
             "taskName": "回复粉丝私信",
             "module": "sendPrivateMsg",
             "enable": false,
             // 填写粉丝的用户id，如有多个用,隔开，随机挑选一个进行回复,可以用自己的小号
             "id": [],
             "msg": ["你好"]
-        }
+        },
+        "739008": {
+            "taskName": "观看课程",
+            "module": "watchCollegeLesson",
+            "enable": false
+        },
+        "740005": {
+            "taskName": "访问自己的云圈",
+            "module": "visitMyCircle",
+            "enable": false
+        },
+        "744005": {
+            "taskName": "发布mlog",
+            "module": "publishMlog",
+            "enable": false,
+            // 填写歌曲ID
+            "songId": [],
+            /* 动态内容，随机选取一个，其中$artist会被替换为歌手名，$song会被替换为歌曲名 */
+            "text": [
+                "分享$artist的歌曲: $song",
+                "分享歌曲: $song"
+            ],
+            /* 图片大小，越大则消耗的外网出流量越多 */
+            "size": 500,
+            /* 发布成功后是否自动删除该动态 */
+            "delete": true
+        },
     },
     // ...
 }
@@ -248,10 +358,10 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
 "setting": {
     // ...
     "vip_task": {
-        "创建共享歌单": {
-            /* 是否开启任务 */
-            "enable": false,
+        "816": {
             "taskName": "创建共享歌单",
+            "module": "createSharedPlaylist",
+            "enable": false,
             /* 自定义歌单名，用逗号隔开，随机选取一个 */
             "name": [
                 "歌单",
@@ -269,27 +379,30 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
 
 #### 推送
 
-支持四种推送方式，建议使用企业微信进行推送
+支持多种推送方式，建议使用企业微信进行推送
 
 1. 企业微信
-2. server 酱
+2. [server 酱](https://sct.ftqq.com/)
 3. 酷推
-4. pushPlus
+4. [pushPlus](https://www.pushplus.plus)
+5. Telegram
+6. [Bark](https://github.com/Finb/Bark)
+
+要使用推送的话将相应的 `enable` 设为 `true`，并填写配置
 
 ##### 企业微信
 
 ```json5
-"setting": {
-    // ...
-    "WeCom": {
-        "enable": true,
-        "corpid": "",
-        "agentid": "",
-        "secret": "",
-        "userid": "@all",
-        "msgtype": "text"
-    },
-    // ...
+"WeCom": {
+    "module": "WeCom",
+    "enable": false,
+    "corpid": "",
+    "agentid": "",
+    "secret": "",
+    "userid": "@all",
+    "msgtype": "text",
+    /* 是否将多个账号的信息合并推送 */
+    "merge": false
 }
 ```
 
@@ -300,13 +413,12 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
 ##### server 酱
 
 ```json5
-"setting": {
-    // ...
-    "serverChan": {
-        "enable": true,
-        "KEY": ""
-    },
-    // ...
+"serverChan": {
+    "module": "serverChan",
+    "enable": false,
+    "KEY": "",
+    /* 是否将多个账号的信息合并推送 */
+    "merge": true
 }
 ```
 
@@ -315,14 +427,14 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
 ##### 酷推
 
 ```json5
-"setting": {
-    // ...
-    "CoolPush": {
-        "enable": true,
-        "method": ["send"],
-        "Skey": ""
-    },
-    // ...
+"CoolPush": {
+    "module": "CoolPush",
+    "enable": false,
+    /* 推送方式: send QQ号私人推送 | group QQ群推送 | wx 微信推送 | email 邮件推送 */
+    "method": "send",
+    "Skey": "",
+    /* 是否将多个账号的信息合并推送 */
+    "merge": true
 }
 ```
 
@@ -331,17 +443,55 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
 ##### pushPlus 微信推送
 
 ```json5
-"setting": {
-    // ...
-    "pushPlus": {
-        "enable": true,
-        "pushToken": ""
-    }
-    // ...
+"pushPlus": {
+    "module": "pushPlus",
+    "enable": false,
+    "pushToken": "",
+    /* 消息模板:  markdown | html | txt | json */
+    "template": "markdown",
+    /* 群组编码，为空时发给自己 */
+    "topic": "",
+    /* 是否将多个账号的信息合并推送 */
+    "merge": true
 }
 ```
 
 要使用酷推的话需要填写 `pushToken`。
+
+##### Telegram 推送
+
+```json5
+"Telegram": {
+    "module": "Telegram",
+    "enable": false,
+    /* Telegram账号ID */
+    "userId": "",
+    /* TG机器人token */
+    "botToken": "",
+    /* 是否将多个账号的信息合并推送 */
+    "merge": true
+}
+```
+
+要使用 Telegram 的话需要填写 `userId` 和 `botToken`。
+
+##### Bark 推送
+
+```json5
+"Bark": {
+    "module": "Bark",
+    /* 是否启用Bark推送 */
+    "enable": false,
+    /* Bark的地址 */
+    "Bark_url": "",
+    /* Bark的API key */
+    "Bark_key": "",
+    /* 是否将多个账号的信息合并推送, 建议为false，iOS推送消息过长可能会失败 */
+    "merge": false
+}
+```
+
+要使用 Bark 的话需要填写 `Bark_url` 和 `Bark_key`。可以使用 Bark 官方 API 或者自行搭建。
 
 #### 刷单曲播放量
 
@@ -370,13 +520,17 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
 "users": [
     {
         "username": "188xxxx8888",
-        "md5": false,
-        "password": "mypassword"
+        "countrycode": "",
+        "password": "mypassword",
+        "X-Real-IP": "",
+        "enable": true
     },
     {
         "username": "166xxxx6666",
-        "md5": false,
-        "password": "anotherpassword"
+        "countrycode": "",
+        "password": "anotherpassword",
+        "X-Real-IP": "",
+        "enable": true,
     }
 ],
 // ...
@@ -390,19 +544,25 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
 "users": [
     {
         "username": "188xxxx8888",
-        "md5": false,
-        "password": "mypassword"
+        "countrycode": "",
+        "password": "mypassword",
+        "X-Real-IP": "",
+        "enable": true
     },
     {
         "username": "166xxxx6666",
-        "md5": false,
+        "countrycode": "",
         "password": "anotherpassword",
+        "X-Real-IP": "",
+        "enable": true,
         "setting": {
-            "serverChan": {
-                "KEY": "xxxxxxxxxx"
+            "push": {
+                "serverChan": {
+                    "KEY": "xxxxxxxxxx"
+                }
             },
             "yunbei_task": {
-                "云贝推歌": {
+                "200002": {
                     "songId": [25707139],
                 }
             },
@@ -424,39 +584,80 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
 }
 ```
 
-默认会在网易云音乐中关注我，不喜欢的可自行取消。
+默认会在网易云音乐中关注作者，不想关注可将 `true` 改为 `false`。已经关注了的可到网易云音乐 APP 里取消关注。
 
 ### 测试
 
 修改完代码后，按 ctrl+s 保存代码，然后点击编辑器右上角的`部署`（每次修改完都要重新部署），左下角的`部署`也行。部署完成后点击部署旁边的测试按钮，观察结果，如果失败则检查修改代码。
 
+![Test](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/test.png)
+
 [计费方式](https://cloud.tencent.com/document/product/628/39300)
 
 ### 更新代码
 
-在 GitHub 项目页面点击 `Fetch upstream` - `Fetch and merge`，然后再到 `Actions` 中[部署](#部署)。重新部署之后，配置文件自动同步，无需再次填写，但注释会被删除，如果需要修改配置文件，可以参考 `config.example.json` 文件中的注释。进入到云函数中时，如果提醒“检测到当前工作区函数和已部署函数不一致，重新加载已部署函数?”，点击`确认`即可。
+在 GitHub 项目页面点击 `Fetch upstream` - `Fetch and merge`
 
-更新代码后将会自动部署到腾讯云函数，但修改了 Secrets 之后需要手动部署，详见[部署](#部署)。
+![Update](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/update.png)
+
+此时，更新后的代码会自动部署到腾讯云函数中，可以到 `Actions` 中查看部署进度。更新后，配置文件自动同步，无需再次填写，但注释会被删除，如果需要修改配置文件，可以参考 `config.example.json` 文件中的注释。进入到云函数中时，如果提醒“检测到当前工作区函数和已部署函数不一致，重新加载已部署函数?”，点击`确认`即可。
+
+如果修改了 Secrets，需要手动部署才会生效，详见[部署](#部署)。
 
 ## 二、部署到青龙面板
 
-### 拉取仓库
+### 进入容器
 
 ```shell
-ql repo https://github.com/chen310/NeteaseCloudMusicTasks.git "index.py" "" "py" && task /ql/scripts/chen310_NeteaseCloudMusicTasks/ql_update.py
+docker exec -it qinglong bash
 ```
 
-第一次使用需要安装依赖，时间可能会长一些
+如果容器名称不是 `qinglong` 则需要修改。
 
-更新代码同样也是用上面的命令
+### 拉取代码
+
+```shell
+ql repo https://github.com/chen310/NeteaseCloudMusicTasks.git "index.py" "" "py"
+```
+
+### 生成配置文件
+
+```shell
+task chen310_NeteaseCloudMusicTasks/ql_update.py
+```
+
+### 安装依赖
+
+```shell
+apk add python3-dev gcc libc-dev
+pip3 install requests json5 pycryptodomex
+```
 
 ### 修改配置文件
 
-对配置文件 `config.json` 文件进行修改
+对配置文件 `config.json` 进行修改
+
+### 更新代码
+
+如果需要更新代码则同样先进入容器
+
+```shell
+docker exec -it qinglong bash
+```
+
+然后再更新
+
+```shell
+ql repo https://github.com/chen310/NeteaseCloudMusicTasks.git "index.py" "" "py"
+task chen310_NeteaseCloudMusicTasks/ql_update.py
+
+```
 
 ## 三、本地运行
 
 ### 下载
+
+拉取代码
 
 ```shell
 git clone https://github.com/chen310/NeteaseCloudMusicTasks.git
@@ -464,14 +665,77 @@ git clone https://github.com/chen310/NeteaseCloudMusicTasks.git
 
 ### 安装依赖
 
+切换到项目目录
+
+```shell
+cd NeteaseCloudMusicTasks
+```
+
+然后安装依赖
+
 ```shell
 pip install -r requirements.txt
 ```
 
+### 修改配置文件
+
+首先将 `config.example.json` 文件复制为 `config.json` 文件
+
+```shell
+cp config.example.json config.json
+```
+
+然后对配置文件 `config.json` 进行修改。
+
 ### 运行
 
 ```shell
-python index.py
+python3 index.py
+```
+
+### 更新代码
+
+首先更新代码
+
+```shell
+git pull
+```
+
+然后更新配置文件
+
+```shell
+python3 ./updateconfig.py config.example.json config.json config.json
+```
+
+## 四、使用`docker`部署
+
+> 1. 支持 ARM64/AMD64 docker 镜像
+> 2. 支持指定时间定时执行
+> 3. 未指定定时执行时间，每次重启随机设定执行时间
+
+### 下载并配置 `config.json`
+
+```shell
+curl -fsSL -o config.json https://raw.githubusercontent.com/chen310/NeteaseCloudMusicTasks/main/config.example.json
+```
+
+### 随机时间执行
+
+```shell
+docker run -itd --restart=on-failure \
+    -v $(pwd)/config.json:/root/config.json \
+    --name netease-cloud-music-tasks \
+    enwaiax/netease-cloud-music-tasks:latest
+```
+
+### 指定时间执行
+
+```shell
+docker run -itd --restart=on-failure \
+    -v $(pwd)/config.json:/root/config.json \
+    -e "SCHEDULER_HOUR=8" -e "SCHEDULER_MINUTE=30" \
+    --name netease-cloud-music-tasks \
+    enwaiax/netease-cloud-music-tasks:latest
 ```
 
 ## 其他
@@ -492,10 +756,6 @@ python index.py
 
 <p align="left">支付宝</p> <img width="300" height="300" src="https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/alipay.png" />
 
-<p align="left">支付宝领红包</p> <img width="300" height="300" src="https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/alipayhb.png" />
-
-<p align="left">饿了么领红包</p> <img width="300" height="300" src="https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/eleme.png" />
-
 ### star 数
 
 [![Stargazers over time](https://starchart.cc/chen310/NeteaseCloudMusicTasks.svg)](https://starchart.cc/chen310/NeteaseCloudMusicTasks)
@@ -503,6 +763,7 @@ python index.py
 ### 声明
 
 - 本仓库中的脚本仅用于测试和学习目的，请勿用于商业或非法目的，否则后果自负
+- 转载请注明出处，并保留原作者信息。
 - 如果您认为该项目的脚本可能涉嫌侵犯您的权利，请及时通知，我们将在确认后及时删除
 
 ### 灵感来源

@@ -12,7 +12,7 @@ def start(user, task={}):
     else:
         if len(task['id']) > 0:
             # 发布主创说
-            publishComment.start(user, user.user_setting['musician_task']['396002'])
+            publishComment.start(user, user.user_setting['musician_task']['755000'])
         else:
             return
     time.sleep(5)

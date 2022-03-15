@@ -1,5 +1,6 @@
 {
-    "version": "2.10",
+    /* 开源地址: https://github.com/chen310/NeteaseCloudMusicTasks */
+    "version": "2.19",
     "users": [
         {
             /* 填写手机号或邮箱 */
@@ -8,9 +9,8 @@
             "countrycode": "",
             /* 填写密码或 32 位 md5 加密后的密码 */
             "password": "",
-            /* 填写任意国内IP，否则可能会有无法登录等问题出现，多个账号最好设置不同的IP */
-            /* 如果是在本地环境运行，则不需要填写 */
-            /* 可填写本机IP，查看方法为：百度搜索ip，填写显示的ip即可 */
+            /* 填写国内IP，否则可能会有无法登录等问题出现，多个账号最好设置不同的IP */
+            /* 可填写本机IP，查看方法：https://www.ip138.com/ 填写显示的ip即可 */
             "X-Real-IP": "",
             /* 是否运行该账号的任务 */
             "enable": true
@@ -37,7 +37,7 @@
                 /* 是否将多个账号的信息合并推送 */
                 "merge": true
             },
-            /* 官网 http://www.pushplus.plus */
+            /* 官网 https://www.pushplus.plus */
             "pushPlus": {
                 "module": "pushPlus",
                 /* 是否启用pushplus微信推送 */
@@ -90,6 +90,18 @@
                 "botToken": "",
                 /* 是否将多个账号的信息合并推送 */
                 "merge": true
+            },
+            "Bark": {
+                /* 项目地址： https://github.com/Finb/Bark */
+                "module": "Bark",
+                /* 是否启用Bark推送 */
+                "enable": false,
+                /* Bark的地址 */
+                "Bark_url": "",
+                /* Bark的API key */
+                "Bark_key": "",
+                /* 是否将多个账号的信息合并推送, 建议为false，iOS推送消息过长可能会失败 */
+                "merge": false
             }
         },
         /* 签到 */
@@ -160,18 +172,25 @@
                 "module": "share",
                 /* 是否开启任务 */
                 "enable": false
+            },
+            /* 浏览会员中心 */
+            "656007": {
+                "taskName": "浏览会员中心",
+                "module": "visitVipCenter",
+                /* 是否开启任务 */
+                "enable": false
             }
         },
         /* 音乐人任务，登录音乐人中心默认开启，其他按需开启 */
         "musician_task": {
             /* 登录音乐人中心 */
-            "399000": {
-                "taskName": "登录音乐人中心",
+            "749006": {
+                "taskName": "音乐人中心签到",
                 "module": "musicianSignin",
                 "enable": true
             },
             /* 发布3条动态 */
-            "398000": {
+            "740004": {
                 "taskName": "发布动态",
                 "module": "publishEvent",
                 "enable": false,
@@ -186,7 +205,7 @@
                 /* 发布后自动删除 */
                 "delete": true
             },
-            "396002": {
+            "755000": {
                 "taskName": "发布主创说",
                 "module": "publishComment",
                 "enable": false,
@@ -199,7 +218,7 @@
                 /* 发布后自动删除 */
                 "delete": true
             },
-            "393001": {
+            "732004": {
                 "taskName": "回复粉丝评论",
                 "module": "replyComment",
                 "enable": false,
@@ -212,7 +231,7 @@
                 /* 发布后自动删除 */
                 "delete": true
             },
-            "395002": {
+            "755001": {
                 "taskName": "回复粉丝私信",
                 "module": "sendPrivateMsg",
                 "enable": false,
@@ -222,11 +241,41 @@
                 "msg": [
                     "你好"
                 ]
+            },
+            "739008": {
+                "taskName": "观看课程",
+                "module": "watchCollegeLesson",
+                "enable": false
+            },
+            "740005": {
+                "taskName": "访问自己的云圈",
+                "module": "visitMyCircle",
+                "enable": false,
+                /* 自己的云圈ID，可不填写，如果提示 resourceID 获取失败，则需要手动填写 */
+                "circleId": ""
+            },
+            /* 发布Mlog：根据填写的歌曲ID，自动下载歌曲的专辑图，并上传 */
+            "744005": {
+                "taskName": "发布mlog",
+                "module": "publishMlog",
+                /* 是否开启任务 */
+                "enable": false,
+                /* 填写歌曲id，随机选取一个，如[65528, 64634] */
+                "songId": [],
+                /* 动态内容，随机选取一个，其中$artist会被替换为歌手名，$song会被替换为歌曲名 */
+                "text": [
+                    "分享$artist的歌曲: $song",
+                    "分享歌曲: $song"
+                ],
+                /* 图片大小，越大则消耗的外网出流量越多 */
+                "size": 500,
+                /* 发布成功后是否自动删除该动态 */
+                "delete": true
             }
         },
         /* VIP 成长值任务 */
         "vip_task": {
-            "709004": {
+            "816": {
                 "taskName": "创建共享歌单",
                 "module": "createSharedPlaylist",
                 "enable": false,

@@ -1,9 +1,6 @@
-if [ -z "$TENCENT_SECRET_ID" ] || [ -z "$TENCENT_SECRET_KEY" ]; then
-	echo "请配置SECRET_ID和SECRET_KEY两个secrets"
-	echo -e "\033[1;31m部署失败 \033[0m"
-	exit 1
-fi
-url=$(python ./serverless/geturl.py)
+# 复制模板文件为配置文件
+cp config.example.json config.json
+url=$(python serverless/geturl.py)
 if [[ $url == *ERROR* ]]; then
 	# 未部署函数
 	if [[ $url == *ResourceNotFound* ]]; then
@@ -22,37 +19,40 @@ else
 	echo "正在解压"
 	unzip -o code.zip -d code/ >>/dev/null
 	rm -f code.zip
-	config_file="./config.json"
-	old_config_file="./config.old.json"
-	example_config_file="./config.example.json"
-	if [ -e "./code/config.json" ]; then
-		sudo mv ./code/config.json $old_config_file
-		sudo cp $config_file $example_config_file
-		python ./serverless/loadconfig.py $config_file $old_config_file $config_file
+	config_file="config.json"
+	old_config_file="config.old.json"
+	example_config_file="config.example.json"
+	# 复制模板文件为配置文件
+	cp $example_config_file $config_file
+	if [ -e "code/config.json" ]; then
+		# 备份配置文件
+		mv code/config.json $old_config_file
+		# 将旧配置文件中的数据转移到新配置文件中
+		python updateconfig.py $example_config_file $old_config_file $config_file
 		if [ $? -ne 0 ]; then
-			echo "配置文件复制错误，请检查config.json文件是否填写正确"
+			echo "配置文件复制错误，请检查 config.json 文件是否填写正确"
 			echo -e "\033[1;31m部署失败 \033[0m"
 			exit 1
 		fi
 		echo "已加载配置文件"
 		export DEPLOY_TYPE="update"
 	else
-		echo "配置文件不存在，请检查FUNCTION_NAME填写是否正确，避免覆盖其他函数"
+		echo "配置文件不存在，请检查 FUNCTION_NAME 填写是否正确，避免覆盖其他函数"
 		echo -e "\033[1;31m部署失败 \033[0m"
 		exit 1
 	fi
 fi
 
-echo "开始安装ServerlessFramework"
+echo "开始安装 ServerlessFramework"
 sudo npm install -g serverless >>/dev/null
 sudo mkdir tmp/
 shopt -s extglob
-sudo mv !(tmp|serverless|public|code|.github|.git) ./tmp
+sudo mv !(tmp|serverless|public|code|.github|.git|ql_update.py|__pycache__|Dockerfile|.dockerignore|scheduler.py) tmp
 
-python ./serverless/createyml.py
-sudo mv ./serverless.yml ./tmp
+python serverless/createyml.py
+sudo mv serverless.yml tmp
 
-cd ./tmp
+cd tmp
 echo "开始部署到腾讯云函数"
 result=$(sls deploy --debug)
 if [[ $result == *执行成功* ]]; then

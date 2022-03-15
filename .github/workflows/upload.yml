@@ -1,0 +1,50 @@
+name: "upload"
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "**.py"
+      - "**.json"
+      - "README.md"
+      - ".github/workflows/upload.yml"
+      - "!serverless/**"
+      - "!scheduler.py"
+      - "!ql_update.py"
+
+concurrency:
+  group: upload-workflow
+  cancel-in-progress: true
+
+jobs:
+  upload-files:
+    if: github.repository == 'chen310/NeteaseCloudMusicTasks'
+    name: upload
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone local repository
+        uses: actions/checkout@v2
+      - name: Create config file
+        run: mv config.example.json config.json
+      - name: Setting environment variable
+        run: | 
+          ver=$(cat config.json | grep version | grep -o "[\.0-9]*")
+          echo "VERSION=$ver" >> $GITHUB_ENV
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: code_${{ env.VERSION }}
+          path: |
+            ./
+            !./.git/
+            !./.github/
+            !./public/
+            !./serverless/
+            !./.dockerignore
+            !./.gitignore
+            !./requirements.txt
+            !./Dockerfile
+            !./ql_update.py
+            !./scheduler.py
