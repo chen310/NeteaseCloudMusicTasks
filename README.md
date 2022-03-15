@@ -630,7 +630,7 @@ task chen310_NeteaseCloudMusicTasks/ql_update.py
 
 ```shell
 apk add python3-dev gcc libc-dev
-pip3 install json5 pycryptodomex
+pip3 install requests json5 pycryptodomex
 ```
 
 ### 修改配置文件
