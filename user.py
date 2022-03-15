@@ -103,6 +103,7 @@ class User(object):
                 return music
             login_resp = music.login(username, pwd, countrycode)
             if login_resp['code'] == 200:
+                time.sleep(3)
                 level_resp = music.user_level()
                 if level_resp['code'] == 301:
                     music.loginerror = str(login_resp['profile']['userId']) + ' 运行失败，请尝试删除云函数后重新部署'
@@ -599,7 +600,7 @@ class User(object):
                     else:
                         print('回复删除失败')
 
-        time.sleep(5)
+        time.sleep(7)
         mission_list = self.get_missions()
         if len(mission_list) > 0:        
             for mission in mission_list:
