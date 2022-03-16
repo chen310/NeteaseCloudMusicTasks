@@ -125,7 +125,7 @@ class NetEase(object):
     def login(self, username, password, countrycode='86'):
         username = str(username)
         cookie_file = self.get_cookie_file(username)
-        if len(cookie_file) > 0:
+        if cookie_file:
             if self.username != username:
                 cookie_jar = LWPCookieJar(cookie_file)
                 cookie_jar.load()
@@ -150,7 +150,7 @@ class NetEase(object):
                           rememberLogin="true", clientToken=client_token)
         data = self.request("POST", path, params)
 
-        if len(cookie_file) > 0:
+        if cookie_file:
             self.session.cookies.save()
         return data
 
