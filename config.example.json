@@ -10,9 +10,9 @@
             "countrycode": "",
             /* 填写密码或 32 位 md5 加密后的密码 */
             "password": "",
-            /* 若都填写了账号密码和 cookie，优先使用 cookie */
+            /* 若都填写了账号密码和 cookie，会优先使用 cookie */
             /* cookie 失效后才会使用账号密码登录 */
-            /* cookie 的格式为 MUSIC_U=xxxxxxxx; */
+            /* 填写方式详见 https://github.com/chen310/NeteaseCloudMusicTasks#%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81 */
             "cookie": "",
             /* 填写国内IP，否则可能会有无法登录等问题出现，多个账号最好设置不同的IP */
             /* 可填写本机IP，查看方法：https://www.ip138.com/ 填写显示的ip即可 */

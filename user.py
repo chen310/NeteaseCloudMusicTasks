@@ -167,6 +167,8 @@ class User(object):
                 music.nickname = ''
                 if login_resp['code'] == -1:
                     music.loginerror = ''
+                elif login_resp['code'] == -462:
+                    music.loginerror = '暂时无法通过账号密码登录，请在配置文件中填写 cookie 进行登录'
                 else:
                     music.loginerror = login_resp.get('msg', str(login_resp))
 
