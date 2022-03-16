@@ -40,12 +40,12 @@ class User(object):
             return str(data)
 
     def setUser(self, user_config, user_setting):
-        if len(user_config['username']) == 0:
-            self.title += ': 请填写账号密码'
+        if len(user_config['username']) == 0 and len(user_config['cookie']) == 0:
+            self.title += ': 请填写账号密码或cookie'
             self.taskTitle('用户信息')
-            self.taskInfo('登录失败，请填写账号密码')
-            raise Exception('请填写账号密码')
-        self.music = self.login_check(user_config['username'], user_config['password'], user_config.get(
+            self.taskInfo('登录失败，请填写账号密码或cookie')
+            raise Exception('请填写账号密码或cookie')
+        self.music = self.login_check(user_config['username'], user_config['password'], user_config['cookie'], user_config.get(
             'countrycode', ''), user_config['X-Real-IP'])
         if self.music.uid != 0:
             self.isLogined = True
@@ -61,25 +61,55 @@ class User(object):
             self.taskTitle('用户信息')
             self.taskInfo('登录失败，' + msg)
             self.finishTask()
+    def set_cookies(self, cookie, music):
+        cookies = {}
+        sp = cookie.split(";")
+        cookies = {}
+        for c in sp:
+            t = []
+            if ':' in c:
+                t = c.split(':')
+            elif '=' in c:
+                t = c.split('=')
+            if len(t) == 2:
+                cookies[t[0]] = t[1]
+        if len(cookies) > 0:
+            cookies['__remember_me'] = 'true'
+            for key, value in cookies.items():
+                c = music.make_cookie(key, value)
+                music.session.cookies.set_cookie(c)
 
-    def login_check(self, username, pwd='', countrycode='', ip=''):
+    def login_check(self, username, pwd='', cookie='', countrycode='', ip=''):
         music = NetEase(username)
         if len(ip) > 0:
             music.header["X-Real-IP"] = ip
+
+        if len(cookie) > 0:
+            self.set_cookies(cookie, music)
+            resp = music.user_level()
+            if resp['code'] == 200:
+                print('已通过配置文件中的 cookie 登录')
+                music.uid = resp['data']['userId']
+                user_resp = music.user_detail(music.uid)
+                if 'artistId' in user_resp['profile']:
+                    self.artistId = user_resp['profile']['artistId']
+                self.listenSongs = user_resp['listenSongs']
+                music.nickname = user_resp['profile']['nickname']
+                music.userType = user_resp['profile']['userType']
+                if music.userType != 0 and music.userType != 4:
+                    for authtype in user_resp['profile'].get('allAuthTypes', []):
+                        if authtype['type'] == 4:
+                            music.userType = 4
+                            break
+                return music
+            else:
+                print('配置文件中的 cookie 填写错误或已失效')
+                music.session.cookies.clear()
+
         if self.runtime == 'tencent-scf':
             var_name = 'COOKIE_' + re.sub('[^a-zA-Z0-9]', '_', username)
             if var_name in os.environ:
-                sp = os.environ.get(var_name).split(";")
-                cookies = {}
-                for c in sp:
-                    t = c.split(':')
-                    if len(t) == 2:
-                        cookies[t[0]] = t[1]
-                if len(cookies) > 0:
-                    music.session = requests.Session()
-                    cookies['__remember_me'] = 'true'
-                    requests.utils.add_dict_to_cookiejar(
-                        music.session.cookies, cookies)
+                self.set_cookies(os.environ.get(var_name), music)
         resp = music.user_level()
         if resp['code'] == 200:
             print('已通过 cookie 登录')
