@@ -159,6 +159,7 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
         "username": "188xxxx8888",
         "countrycode": "",
         "password": "mypassword",
+        "cookie": "MUSIC_U=xxxxxxxxx;",
         "X-Real-IP": "",
         "enable": true
     }
@@ -167,6 +168,12 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
 ```
 
 `username` 里填写手机号或邮箱，`password` 里填写账号密码或 32 位 md5 加密后的密码，`countrycode` 为手机号前缀，使用非中国大陆的手机号登录需填写。`X-Real-IP` 里填写国内 IP，否则可能会有无法登录等情况出现，可填写本机 IP，[点击](https://www.ip138.com/)可查看本机 IP，填写显示的 ip 即可。`enable` 为该账号的开关，设置为 `false` 表示不运行该账号的任务。
+
+如果同时填写了账号密码和 `cookie`， 会优先使用 cookie 登录，如果 cookie 填写有误或失效，会尝试使用账号密码登录。
+
+cookie 获取方式：首先在网页登录[网易云音乐](https://music.163.com/)，然后按 `F12` 来获取 cookie，可以只复制 `MUSIC_U` 的那部分
+
+![Cookie](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/cookie.png)
 
 #### 签到
 
@@ -536,11 +543,7 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
 ],
 // ...
 ```
-在 `users` 内填写多个账号，不同账号之间要用逗号 `,` 隔开。如果同时填写了账号密码和 `cookie`， 会优先使用 cookie 登录，如果 cookie 填写有误或失效，会尝试使用账号密码登录。
-
-cookie 获取方式：首先在网页登录[网易云音乐](https://music.163.com/)，然后按 `F12` 来获取 cookie，可以只复制 `MUSIC_U` 的那部分
-
-![Cookie](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/cookie.png)
+在 `users` 内填写多个账号，不同账号之间要用逗号 `,` 隔开。
 
 假如多个账号配置不同可以参照下面
 
