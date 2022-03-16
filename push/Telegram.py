@@ -16,7 +16,7 @@ def push(title, mdmsg, mdmsg_compat, textmsg, config):
         return
 
     url = 'https://api.telegram.org/bot' + config['botToken'] + '/sendMessage'
-    ret = requests.post(url, data={'chat_id': config['userId'], 'text': msg, 'parse_mode': "MarkdownV2"}, headers={
+    ret = requests.post(url, data={'chat_id': config['userId'], 'text': msg, 'parse_mode': "Markdown"}, headers={
                   'Content-Type': 'application/x-www-form-urlencoded'})
     print('Telegram response: \n', ret.status_code)
     if ret.status_code != 200:
