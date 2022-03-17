@@ -171,7 +171,7 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
 
 如果同时填写了账号密码和 `cookie`， 会优先使用 cookie 登录，如果 cookie 填写有误或失效，会尝试使用账号密码登录。
 
-cookie 获取方式：首先在网页登录[网易云音乐](https://music.163.com/)，然后按 `F12` 来获取 cookie，可以只复制 `MUSIC_U` 的那部分
+cookie 获取方式：首先在网页登录[网易云音乐](https://music.163.com/)，然后按 `F12` 打开开发人员工具，再按 `F5` 刷新页面，最后按照以下步骤来获取 cookie，可以只复制 `MUSIC_U` 的那部分
 
 ![Cookie](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/cookie.png)
 
