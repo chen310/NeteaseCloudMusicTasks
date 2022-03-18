@@ -61,6 +61,9 @@ def processSetting(setting, template):
 
 
 def before(src, dst):
+    if 'sha' in src:
+        del src['sha']
+
     for user in src['users']:
         if 'md5' in user:
             del user['md5']
