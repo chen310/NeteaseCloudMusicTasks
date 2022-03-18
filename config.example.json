@@ -98,6 +98,18 @@
                 "Bark_key": "",
                 /* 是否将多个账号的信息合并推送, 建议为false，iOS推送消息过长可能会失败 */
                 "merge": false
+            },
+            /* https://github.com/easychen/pushdeer */
+            "pushdeer": {
+                "module": "pushdeer",
+                /* 是否启用推送 */
+                "enable": false,
+                /* 服务器地址，放空则使用官方服务器: https://api2.pushdeer.com */
+                "server": "",
+                /* pushkey */
+                "pushkey": "",
+                /* 是否将多个账号的信息合并推送 */
+                "merge": false
             }
         },
         /* 签到 */
