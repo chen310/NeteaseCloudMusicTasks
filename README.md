@@ -141,6 +141,8 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
 
 ![Function](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/function.png)
 
+如果在函数服务里找不到刚刚部署的函数，先到 GitHub Actions 中确认是否部署成功。如果部署成功，则确认页面左上角的地域选择是否正确，默认地域应为广州。如果在 Secrets 中设置了 REGION，则根据自己设置的 REGION 选择相应的地域。
+
 在编辑器里点击 `config.json` 这个文件进行配置
 
 ![Config](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/config.png)
