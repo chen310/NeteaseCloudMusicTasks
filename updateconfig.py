@@ -68,7 +68,7 @@ def before(src, dst):
     if 'sha' in dst and dst['sha'] == 'commitId':
         result = os.popen('git rev-parse HEAD').read().strip()
         if len(result) == 40 and ' ' not in result:
-            dst['sha'] =result
+            dst['sha'] = result
         else:
             del dst['sha']
 
