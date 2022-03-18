@@ -22,6 +22,7 @@ else
 	config_file="config.json"
 	old_config_file="config.old.json"
 	example_config_file="config.example.json"
+	sed -i "s/commitId/$SHA/g" $example_config_file
 	# 复制模板文件为配置文件
 	cp $example_config_file $config_file
 	if [ -e "code/config.json" ]; then

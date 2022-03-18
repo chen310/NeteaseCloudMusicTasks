@@ -1,5 +1,6 @@
 import json5
 import sys
+import os
 from utils import jsonDumps
 from utils import updateConfig
 
@@ -61,6 +62,16 @@ def processSetting(setting, template):
 
 
 def before(src, dst):
+    if 'sha' in src:
+        del src['sha']
+
+    if 'sha' in dst and dst['sha'] == 'commitId':
+        result = os.popen('git rev-parse HEAD').read().strip()
+        if len(result) == 40 and ' ' not in result:
+            dst['sha'] = result
+        else:
+            del dst['sha']
+
     for user in src['users']:
         if 'md5' in user:
             del user['md5']

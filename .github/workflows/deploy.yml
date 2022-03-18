@@ -56,3 +56,5 @@ jobs:
           DEFAULT_CRON: "0 30 0 * * * *"
           DEFAULT_REGION: "ap-guangzhou"
           DEFAULT_FUNCTION_NAME: "NeteaseCloudMusicTasks"
+
+          SHA: ${{ github.sha }}

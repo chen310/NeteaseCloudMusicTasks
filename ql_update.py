@@ -1,5 +1,19 @@
 import os
 
+
+def writeSha(path, file):
+    cur = os.getcwd()
+    os.chdir(path)
+    result = os.popen('git rev-parse HEAD').read().strip()
+    os.chdir(cur)
+
+    if len(result) == 40 and ' ' not in result:
+        os.system('sed -i "s/commitId/{}/g" {}'.format(result, file))
+        print('已写入 commit id')
+    else:
+        print('commit id 获取失败')
+
+
 if __name__ == "__main__":
     github_url = 'https://github.com/chen310/NeteaseCloudMusicTasks.git'
 
@@ -21,12 +35,15 @@ if __name__ == "__main__":
         os.system('cp -f {} {}'.format(scripts_config, old_config))
         print('复制配置示例文件...')
         os.system('cp -f {} {}'.format(repo_config, example_config))
+        writeSha(os.path.dirname(repo_config), example_config)
         print('更新配置文件...')
         os.system('python3 {}scripts/chen310_NeteaseCloudMusicTasks/updateconfig.py {} {} {}'.format(
-            data_path, repo_config, scripts_config, scripts_config))
+            data_path, example_config, scripts_config, scripts_config))
         print('更新完成')
     else:
-        print('复制配置文件')
-        os.system('cp {} {}'.format(repo_config, scripts_config))
         print('复制配置示例文件...')
         os.system('cp -f {} {}'.format(repo_config, example_config))
+        writeSha(os.path.dirname(repo_config), example_config)
+        print('复制配置文件...')
+        os.system('cp {} {}'.format(example_config, scripts_config))
+
