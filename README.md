@@ -14,7 +14,7 @@
 5. 音乐人自动签到领取云豆
 6. 音乐人自动完成任务，并领取云豆
 7. 自动领取 vip 成长值
-8. 多种推送方式
+8. 多种[推送方式](#推送)
 9. 支持多账号
 10. 支持[腾讯云函数](#一部署到腾讯云函数) & [青龙面板](#二部署到青龙面板) & [本地运行](#三本地运行) & [docker 部署](#四使用docker部署)
 
@@ -394,6 +394,7 @@ cookie 获取方式：首先在网页登录[网易云音乐](https://music.163.c
 4. [pushPlus](https://www.pushplus.plus)
 5. Telegram
 6. [Bark](https://github.com/Finb/Bark)
+7. [pushdeer](https://github.com/easychen/pushdeer)
 
 要使用推送的话将相应的 `enable` 设为 `true`，并填写配置
 
@@ -499,6 +500,24 @@ cookie 获取方式：首先在网页登录[网易云音乐](https://music.163.c
 ```
 
 要使用 Bark 的话需要填写 `Bark_url` 和 `Bark_key`。可以使用 Bark 官方 API 或者自行搭建。
+
+##### pushdeer
+
+```json5
+"pushdeer": {
+    "module": "pushdeer",
+    /* 是否启用推送 */
+    "enable": false,
+    /* 服务器地址，放空则使用官方服务器: https://api2.pushdeer.com */
+    "server": "",
+    /* pushkey */
+    "pushkey": "",
+    /* 是否将多个账号的信息合并推送 */
+    "merge": false
+}
+```
+
+要使用 pushdeer 的话需要填写 `pushkey`。如果使用自己搭建的服务器，请填写 `server`。
 
 #### 刷单曲播放量
 
