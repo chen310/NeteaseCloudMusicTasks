@@ -173,7 +173,7 @@ REGION 默认为 `ap-guangzhou` ，可选的地域详见[地域列表](https://c
 
 如果同时填写了账号密码和 `cookie`， 会优先使用 cookie 登录，如果 cookie 填写有误或失效，会尝试使用账号密码登录。
 
-cookie 获取方式：首先在网页登录[网易云音乐](https://music.163.com/)，然后按 `F12` 打开开发人员工具，再按 `F5` 刷新页面，最后按照以下步骤来获取 cookie，可以只复制 `MUSIC_U` 的那部分
+cookie 获取方式：首先在网页登录[网易云音乐](https://music.163.com/)，然后按 <kbd>F12</kbd> 打开开发人员工具，再按 <kbd>F5</kbd> 刷新页面，最后按照以下步骤来获取 cookie，可以只复制 `MUSIC_U` 的那部分
 
 ![Cookie](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/cookie.png)
 
@@ -564,6 +564,7 @@ cookie 获取方式：首先在网页登录[网易云音乐](https://music.163.c
 ],
 // ...
 ```
+
 在 `users` 内填写多个账号，不同账号之间要用逗号 `,` 隔开。
 
 假如多个账号配置不同可以参照下面
@@ -622,15 +623,13 @@ cookie 获取方式：首先在网页登录[网易云音乐](https://music.163.c
 
 ![Test](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/test.png)
 
-[计费方式](https://cloud.tencent.com/document/product/628/39300)
-
 ### 更新代码
 
-在 GitHub 项目页面点击 `Fetch upstream` - `Fetch and merge`
+在 fork 后的 GitHub 项目页面点击 `Fetch upstream` - `Fetch and merge`
 
 ![Update](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/update.png)
 
-此时，更新后的代码会自动部署到腾讯云函数中，可以到 `Actions` 中查看部署进度。更新后，配置文件自动同步，无需再次填写，但注释会被删除，如果需要修改配置文件，可以参考 `config.example.json` 文件中的注释。进入到云函数中时，如果提醒“检测到当前工作区函数和已部署函数不一致，重新加载已部署函数?”，点击`确认`即可。
+此时，更新后的代码会自动部署到腾讯云函数中，可以到 `Actions` 中查看部署进度。更新后，配置文件自动同步，无需再次填写，但注释会被删除。如果需要修改配置文件，可以参考 `config.example.json` 文件中的注释，对 `config.json` 文件进行修改。进入到云函数中时，如果提醒“检测到当前工作区函数和已部署函数不一致，重新加载已部署函数?”，点击`确认`即可。
 
 如果修改了 Secrets，需要手动部署才会生效，详见[部署](#部署)。
 
@@ -665,7 +664,7 @@ pip3 install requests json5 pycryptodomex
 
 ### 修改配置文件
 
-对配置文件 `config.json` 进行修改
+对配置文件 `config.json` 进行修改，修改方式可以参考[修改配置](#账号密码)
 
 ### 更新代码
 
@@ -715,7 +714,7 @@ pip install -r requirements.txt
 cp config.example.json config.json
 ```
 
-然后对配置文件 `config.json` 进行修改。
+然后对配置文件 `config.json` 进行修改，修改方式可以参考[修改配置](#账号密码)
 
 ### 运行
 
