@@ -75,7 +75,7 @@ fork 之后，点击右上方 `settings`
 
 ![SECRET_KEY](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/secretkey.png)
 
-CRON 默认为 `0 30 0 * * * *` 表示每天 0 点 30 分触发。如需更改，则如下图所示创建此 secret，。比如：`0 20 12 * * * *` 表示每天 12 点 20 分触发，`0 0 12,16 * * * *` 表示每天 12 点和 16 点各触发一次。
+CRON 默认为 `0 35 8 * * * *` 表示每天 8 点 35 分触发。如需更改，则如下图所示创建此 secret，。比如：`0 20 12 * * * *` 表示每天 12 点 20 分触发，`0 0 12,16 * * * *` 表示每天 12 点和 16 点各触发一次。
 
 ![Cron](https://cdn.jsdelivr.net/gh/chen310/NeteaseCloudMusicTasks/public/img/cron.png)
 
