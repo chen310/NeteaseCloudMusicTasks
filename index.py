@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+"""
+cron: 35 8 * * *
+new Env('网易云音乐自动任务');
+"""
 from utils import updateConfig
 import time
 import requests
@@ -24,10 +28,12 @@ def md2text(data):
     data = re.sub(r'`', r'', data)
     return data
 
+
 def md2fullMd(data):
     data = re.sub(r'\*\*(.*?)\*\*\n', r'#### \1\n', data)
     data = re.sub(r'\t', r'- ', data)
     return data
+
 
 def getSongNumber():
     res = {}
