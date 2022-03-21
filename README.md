@@ -336,7 +336,10 @@ cookie 获取方式：首先在网页登录[网易云音乐](https://music.163.c
         "740005": {
             "taskName": "访问自己的云圈",
             "module": "visitMyCircle",
-            "enable": false
+            "enable": false,
+            /* 自己的云圈ID，可不填写，如果提示 resourceID 获取失败，则需要手动填写 */
+            /* 获取方式: 云圈右上角分享，链接中 circleId= 后得参数即为云圈 id */
+            "circleId": ""
         },
         "744005": {
             "taskName": "发布mlog",
@@ -359,7 +362,7 @@ cookie 获取方式：首先在网页登录[网易云音乐](https://music.163.c
 }
 ```
 
-需要是音乐人才能执行，想要开启相应的任务，需要将 `enable` 由 `false` 改为 `true`，`登录音乐人中心`自动开启，其他任务根据实际情况开启。`登录音乐人中心`即签到获取云豆；`发布动态`即转发歌单；`发布主创说`即在自己的歌曲评论区留言；`回复粉丝评论`即在自己歌曲的评论区回复粉丝留言，该任务是通过回复自己的留言实现的；`回复粉丝私信`需要填写粉丝 id，可用小号。
+需要是音乐人才能执行，想要开启相应的任务，需要将 `enable` 由 `false` 改为 `true`，`登录音乐人中心`自动开启，其他任务根据实际情况开启。`音乐人中心签到`即签到获取云豆；`发布动态`即转发歌单；`发布主创说`即在自己的歌曲评论区留言；`回复粉丝评论`即在自己歌曲的评论区回复粉丝留言，该任务是通过回复自己的留言实现的；`回复粉丝私信`需要填写粉丝 id，可用小号。
 
 #### VIP 成长值任务
 
@@ -390,11 +393,11 @@ cookie 获取方式：首先在网页登录[网易云音乐](https://music.163.c
 
 支持多种推送方式，建议使用企业微信进行推送
 
-1. 企业微信
+1. [企业微信](https://work.weixin.qq.com/)
 2. [server 酱](https://sct.ftqq.com/)
-3. 酷推
+3. [酷推](https://cp.xuthus.cc/)
 4. [pushPlus](https://www.pushplus.plus)
-5. Telegram
+5. [Telegram](https://telegram.org/)
 6. [Bark](https://github.com/Finb/Bark)
 7. [pushdeer](https://github.com/easychen/pushdeer)
 
@@ -415,8 +418,6 @@ cookie 获取方式：首先在网页登录[网易云音乐](https://music.163.c
     "merge": false
 }
 ```
-
-注册企业微信账号可参考[这里](https://sct.ftqq.com/forward)
 
 `corpid` 为企业 ID，登录企业微信后在管理后台`我的企业`－`企业信息`下查看；`agentid` 为应用 ID，在`应用管理`里，点进相应的应用可查看；`secret` 为应用密钥，在`应用管理`里，点进相应的应用可查看；`userid` 默认为`@all`，会向该企业应用的全部成员发送；`msgtype` 为消息类型，可填写文本消息 `text`、文本卡片消息 `textcard` 或 markdown 消息 `markdown`，markdown 消息不能在微信里查看，只能在企业微信里查看。
 

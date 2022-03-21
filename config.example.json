@@ -261,6 +261,7 @@
                 "module": "visitMyCircle",
                 "enable": false,
                 /* 自己的云圈ID，可不填写，如果提示 resourceID 获取失败，则需要手动填写 */
+                /* 获取方式: 云圈右上角分享，链接中 circleId= 后得参数即为云圈 id */
                 "circleId": ""
             },
             /* 发布Mlog：根据填写的歌曲ID，自动下载歌曲的专辑图，并上传 */
