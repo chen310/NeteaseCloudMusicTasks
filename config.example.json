@@ -1,6 +1,6 @@
 {
     /* 开源地址: https://github.com/chen310/NeteaseCloudMusicTasks */
-    "version": "2.20",
+    "version": "2.21",
     "sha": "commitId",
     /* 多账号的配置详见 https://github.com/chen310/NeteaseCloudMusicTasks#%E5%A4%9A%E8%B4%A6%E5%8F%B7 */
     "users": [
