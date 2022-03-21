@@ -675,13 +675,19 @@ pip3 install requests json5 pycryptodomex
 docker exec -it qinglong bash
 ```
 
-然后再更新
+然后更新代码
 
 ```shell
 ql repo https://github.com/chen310/NeteaseCloudMusicTasks.git "index.py" "" "py"
-task chen310_NeteaseCloudMusicTasks/ql_update.py
-
 ```
+
+再更新配置文件
+
+```shell
+task chen310_NeteaseCloudMusicTasks/ql_update.py
+```
+
+每次更新完代码后一定要更新配置文件，否则可能会出错
 
 ## 三、本地运行
 
@@ -734,8 +740,10 @@ git pull
 然后更新配置文件
 
 ```shell
-python3 ./updateconfig.py config.example.json config.json config.json
+python3 updateconfig.py config.example.json config.json config.json
 ```
+
+每次更新完代码后一定要更新配置文件，否则可能会出错
 
 ## 四、使用`docker`部署
 
