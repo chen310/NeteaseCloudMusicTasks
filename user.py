@@ -578,12 +578,20 @@ class User(object):
 
     def get_missions(self):
         cycle_result = self.music.mission_cycle_get()
+        if cycle_result['code'] != 200:
+            time.sleep(0.2)
+            cycle_result = self.music.mission_cycle_get()
         time.sleep(0.5)
         stage_result = self.music.mission_stage_get()
+        if stage_result['code'] != 200:
+            time.sleep(0.2)
+            stage_result = self.music.mission_stage_get()
 
         missions = []
         if cycle_result['code'] == 200:
             missions.extend(cycle_result.get('data', {}).get('list', []))
+        else:
+            print('每日任务获取失败:', self.errMsg(cycle_result))
         if stage_result['code'] == 200:
             for mission in stage_result['data']['list']:
                 for target in  mission['userStageTargetList']:
@@ -595,7 +603,8 @@ class User(object):
                     if 'userMissionId' in target:
                         m['userMissionId'] = target['userMissionId']
                     missions.append(m)
-
+        else:
+            print('每周任务获取失败:', self.errMsg(stage_result))
         return missions
 
     def musician_task(self):
