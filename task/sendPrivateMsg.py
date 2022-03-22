@@ -16,3 +16,5 @@ def start(user, task={}):
             user.taskInfo(task['taskName'], '发送成功')
         else:
             user.taskInfo(task['taskName'], user.errMsg(resp))
+    else:
+        user.taskInfo(task['taskName'], '请填写用户 ID')

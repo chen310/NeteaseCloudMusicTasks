@@ -1,5 +1,8 @@
 {
-    "version": "2.16",
+    /* 开源地址: https://github.com/chen310/NeteaseCloudMusicTasks */
+    "version": "2.21",
+    "sha": "commitId",
+    /* 多账号的配置详见 https://github.com/chen310/NeteaseCloudMusicTasks#%E5%A4%9A%E8%B4%A6%E5%8F%B7 */
     "users": [
         {
             /* 填写手机号或邮箱 */
@@ -8,21 +11,16 @@
             "countrycode": "",
             /* 填写密码或 32 位 md5 加密后的密码 */
             "password": "",
+            /* 若都填写了账号密码和 cookie，会优先使用 cookie */
+            /* cookie 失效后才会使用账号密码登录 */
+            /* 填写方式详见 https://github.com/chen310/NeteaseCloudMusicTasks#%E8%B4%A6%E5%8F%B7%E5%AF%86%E7%A0%81 */
+            "cookie": "",
             /* 填写国内IP，否则可能会有无法登录等问题出现，多个账号最好设置不同的IP */
             /* 可填写本机IP，查看方法：https://www.ip138.com/ 填写显示的ip即可 */
             "X-Real-IP": "",
             /* 是否运行该账号的任务 */
             "enable": true
-            /* 若每个账号的任务设置不同,请在下方单独设置 */
-            /* ,"setting":{} */
-        } /*,{
-            "username":"",
-            "countrycode": "",
-            "password":"",
-            "X-Real-IP":"",
-            "enable": true
-        }*/
-        /* 多个账号删除上面的注释，以此类推 */
+        } 
     ],
     "setting": {
         /* 推送 */
@@ -101,6 +99,18 @@
                 "Bark_key": "",
                 /* 是否将多个账号的信息合并推送, 建议为false，iOS推送消息过长可能会失败 */
                 "merge": false
+            },
+            /* https://github.com/easychen/pushdeer */
+            "pushdeer": {
+                "module": "pushdeer",
+                /* 是否启用推送 */
+                "enable": false,
+                /* 服务器地址，放空则使用官方服务器: https://api2.pushdeer.com */
+                "server": "",
+                /* pushkey */
+                "pushkey": "",
+                /* 是否将多个账号的信息合并推送 */
+                "merge": false
             }
         },
         /* 签到 */
@@ -171,6 +181,13 @@
                 "module": "share",
                 /* 是否开启任务 */
                 "enable": false
+            },
+            /* 浏览会员中心 */
+            "656007": {
+                "taskName": "浏览会员中心",
+                "module": "visitVipCenter",
+                /* 是否开启任务 */
+                "enable": false
             }
         },
         /* 音乐人任务，登录音乐人中心默认开启，其他按需开启 */
@@ -238,6 +255,32 @@
                 "taskName": "观看课程",
                 "module": "watchCollegeLesson",
                 "enable": false
+            },
+            "740005": {
+                "taskName": "访问自己的云圈",
+                "module": "visitMyCircle",
+                "enable": false,
+                /* 自己的云圈ID，可不填写，如果提示 resourceID 获取失败，则需要手动填写 */
+                /* 获取方式: 云圈右上角分享，链接中 circleId= 后得参数即为云圈 id */
+                "circleId": ""
+            },
+            /* 发布Mlog：根据填写的歌曲ID，自动下载歌曲的专辑图，并上传 */
+            "744005": {
+                "taskName": "发布mlog",
+                "module": "publishMlog",
+                /* 是否开启任务 */
+                "enable": false,
+                /* 填写歌曲id，随机选取一个，如[65528, 64634] */
+                "songId": [],
+                /* 动态内容，随机选取一个，其中$artist会被替换为歌手名，$song会被替换为歌曲名 */
+                "text": [
+                    "分享$artist的歌曲: $song",
+                    "分享歌曲: $song"
+                ],
+                /* 图片大小，越大则消耗的外网出流量越多 */
+                "size": 500,
+                /* 发布成功后是否自动删除该动态 */
+                "delete": true
             }
         },
         /* VIP 成长值任务 */

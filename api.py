@@ -22,22 +22,25 @@ class NetEase(object):
             "Connection": "keep-alive",
             "Content-Type": "application/x-www-form-urlencoded",
             "Host": "music.163.com",
-            "Referer": "http://music.163.com",
+            "Referer": "https://music.163.com",
             "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36",
         }
         username = str(username)
         self.username = username
         self.session = requests.Session()
-        if len(username) == 0:
-            return
+
         cookie_file = self.get_cookie_file(username)
-        if len(cookie_file) > 0:
+        if username and cookie_file:
             cookie_jar = LWPCookieJar(cookie_file)
             cookie_jar.load()
-            self.session.cookies = cookie_jar
-            self.session.cookies.load()
+        else:
+            cookie_jar = LWPCookieJar()
+        self.session.cookies = cookie_jar
+
 
     def get_cookie_file(self, filename):
+        if len(filename) == 0:
+            return None
         data_dir = os.path.join(os.path.expanduser("."), ".user_data")
         user_path = os.path.join(data_dir, filename)
         cookie_file = os.path.join(user_path, "cookie")
@@ -45,12 +48,12 @@ class NetEase(object):
             try:
                 os.makedirs(data_dir)
             except:
-                return ""
+                return None
         if not os.path.exists(user_path):
             try:
                 os.makedirs(user_path)
             except:
-                return ""
+                return None
 
         if not os.path.exists(cookie_file):
             try:
@@ -58,7 +61,7 @@ class NetEase(object):
                     f.write('#LWP-Cookies-2.0\nSet-Cookie3:')
                     f.close()
             except:
-                return ""
+                return None
 
         return cookie_file
 
@@ -105,11 +108,8 @@ class NetEase(object):
         data = default
 
         for key, value in custom_cookies.items():
-            if isinstance(self.session.cookies, LWPCookieJar):
-                cookie = self.make_cookie(key, value)
-                self.session.cookies.set_cookie(cookie)
-            else:
-                self.session.cookies.set(key, value)
+            cookie = self.make_cookie(key, value)
+            self.session.cookies.set_cookie(cookie)
 
         params = encrypted_request(params)
         try:
@@ -125,13 +125,11 @@ class NetEase(object):
     def login(self, username, password, countrycode='86'):
         username = str(username)
         cookie_file = self.get_cookie_file(username)
-        if len(cookie_file) > 0:
+        if cookie_file:
             if self.username != username:
                 cookie_jar = LWPCookieJar(cookie_file)
                 cookie_jar.load()
                 self.session.cookies = cookie_jar
-                self.session.cookies.load()
-                # self.session.cookies.save()
                 self.username = username
         if len(password) < 32:
             password = md5(password.encode(encoding='UTF-8')).hexdigest()
@@ -152,7 +150,7 @@ class NetEase(object):
                           rememberLogin="true", clientToken=client_token)
         data = self.request("POST", path, params)
 
-        if len(cookie_file) > 0:
+        if cookie_file:
             self.session.cookies.save()
         return data
 
@@ -507,3 +505,18 @@ class NetEase(object):
     def watch_college_lesson(self):
         path = "/weapi/nmusician/workbench/creator/watch/college/lesson"
         return self.request("POST", path)
+
+    def artist_homepage(self, artistId):
+        path = "/weapi/personal/home/page/artist"
+        params = dict(artistId=artistId)
+        return self.request("POST", path, params)
+
+    def circle_get(self, circleId):
+        path = "/weapi/circle/get"
+        params = dict(circleId=circleId)
+        return self.request("POST", path, params)        
+
+    def vipcenter_task_external(self, type):
+        path = "/weapi/vipnewcenter/app/level/task/external"
+        params = dict(type=type)
+        return self.request("POST", path, params)             

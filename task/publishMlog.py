@@ -13,6 +13,7 @@ def start(user, task={}):
 
     songId = random.choice(task['songId'])
     song_resp = music.songs_detail([songId])
+    url = ''
     if song_resp['code'] == 200 and len(song_resp['songs']) > 0:
         song = song_resp['songs'][0]
         songName = song['name']
