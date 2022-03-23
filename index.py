@@ -111,10 +111,9 @@ def setSongNumber():
     with open('config.json', 'r', encoding='utf-8') as f:
         config = json5.load(f)
     setting = config['setting']
-    lastSongNumber = os.environ.get("SONG_NUMBER", "-1")
     songNumber = ""
     timer_enable = False
-    time.sleep(random.randint(10, 50))
+    time.sleep(random.randint(5, 20))
     for user_config in config['users']:
         if not user_config['enable']:
             continue
@@ -143,9 +142,8 @@ def setSongNumber():
     if not timer_enable:
         # TODO
         pass
-    if len(songNumber) == 0:
-        songNumber = "-1"
-    if lastSongNumber == "-1" and songNumber == "-1":
+    if not songNumber:
+        print('未更新歌曲播放数量')
         return
     songNumber = time.strftime(
         "%Y-%m-%d", time.gmtime(time.time()+28800)) + "#" + songNumber
@@ -154,7 +152,7 @@ def setSongNumber():
     if res:
         print("已更新歌曲播放数量")
     else:
-        print("播放量更新失败")
+        print("歌曲播放数量更新失败")
 
 
 def main_handler(event, context):
