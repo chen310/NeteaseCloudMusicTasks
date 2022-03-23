@@ -73,6 +73,7 @@ try:
         f.write("  name: " + getEnv("FUNCTION_NAME",
                 getEnv("DEFAULT_FUNCTION_NAME")) + "\n")
         f.write("  description: 网易云音乐自动任务\n")
+        f.write("  eip: true\n")
         f.write("  src: ./\n")
         f.write("  handler: index.main_handler\n")
         f.write("  runtime: Python3.6\n")
