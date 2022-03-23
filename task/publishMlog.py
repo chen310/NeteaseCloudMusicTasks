@@ -25,9 +25,11 @@ def start(user, task={}):
         url = song.get('al', {}).get('picUrl', '')
     else:
         user.taskInfo(task['taskName'], '歌曲信息获取失败，请检查ID是否正确')
+        return
 
     if len(url) == 0:
         user.taskInfo(task['taskName'], '专辑图片获取失败')
+        return
 
     path = '/tmp'
     if not os.path.exists(path):
