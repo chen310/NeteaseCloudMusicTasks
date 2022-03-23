@@ -70,7 +70,7 @@ def before(src, dst):
         if len(result) == 40 and ' ' not in result:
             dst['sha'] = result
         else:
-            del dst['sha']
+            dst['sha'] = ''
 
     for user in src['users']:
         if 'md5' in user:

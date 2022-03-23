@@ -60,7 +60,8 @@ def start(event={}, context={}):
         config = json5.load(f)
 
     print('Version:', config['version'])
-    print('Commit ID:', config['sha'])
+    if 'sha' in config:
+        print('Commit ID:', config['sha'])
 
     # 公共配置
     setting = config['setting']
