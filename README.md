@@ -475,6 +475,8 @@ cookie 获取方式：首先在网页登录[网易云音乐](https://music.163.c
 "Telegram": {
     "module": "Telegram",
     "enable": false,
+    /* 自定义域名，放空则默认为 https://api.telegram.org */
+    "server": "",    
     /* Telegram账号ID */
     "userId": "",
     /* TG机器人token */

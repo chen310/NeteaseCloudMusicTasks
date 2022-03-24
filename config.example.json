@@ -81,6 +81,8 @@
                 "module": "Telegram",
                 /* 是否启用Telegram推送 */
                 "enable": false,
+                /* 自定义域名，放空则默认为 https://api.telegram.org */
+                "server": "",
                 /* Telegram账号ID */
                 "userId": "",
                 /* TG机器人token */
