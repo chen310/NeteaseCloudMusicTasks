@@ -652,7 +652,7 @@ docker exec -it qinglong bash
 ql repo https://github.com/chen310/NeteaseCloudMusicTasks.git "index.py" "" "py"
 ```
 
-### 生成配置文件
+### 更新配置文件
 
 ```shell
 task chen310_NeteaseCloudMusicTasks/ql_update.py
@@ -660,14 +660,21 @@ task chen310_NeteaseCloudMusicTasks/ql_update.py
 
 ### 安装依赖
 
+安装 Linux 依赖
+
 ```shell
 apk add python3-dev gcc libc-dev
+```
+
+安装 Python 依赖
+
+```shell
 pip3 install requests json5 pycryptodomex
 ```
 
 ### 修改配置文件
 
-对配置文件 `config.json` 进行修改，修改方式可以参考[修改配置](#账号密码)
+在`脚本管理`中找到项目目录，对目录中的配置文件 `config.json` 进行修改，修改方式可以参考[修改配置](#账号密码)
 
 ### 更新代码
 
