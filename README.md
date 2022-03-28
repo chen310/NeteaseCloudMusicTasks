@@ -499,12 +499,18 @@ cookie 获取方式：首先在网页登录[网易云音乐](https://music.163.c
     "Bark_url": "",
     /* Bark的API key */
     "Bark_key": "",
+    /* 铃声 */
+    "sound": "",
+    /* 消息分组 */
+    "group": "",
+    /* 图标链接 */
+    "icon": "",
     /* 是否将多个账号的信息合并推送, 建议为false，iOS推送消息过长可能会失败 */
     "merge": false
 }
 ```
 
-要使用 Bark 的话需要填写 `Bark_url` 和 `Bark_key`。可以使用 Bark 官方 API 或者自行搭建。
+要使用 Bark 的话需要填写 `Bark_url` 和 `Bark_key`，`sound`、`group` 和 `icon` 根据需要选填，如果不清楚如何填写就放空。可以使用 Bark 官方 API 或者自行搭建。
 
 ##### pushdeer
 
