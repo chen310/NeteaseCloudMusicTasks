@@ -8,7 +8,7 @@ for file in os.listdir(os.path.join(os.path.dirname(__file__), 'push')):
 class Pusher():
     def __init__(self):
         self.datas = {}
-        self.separator = '-------------------------\n'
+        self.separator = '-----------------------------------\n\n'
 
     def append(self, data):
         config = data['config']
@@ -17,7 +17,7 @@ class Pusher():
             return
         # 是否合并推送
         if not config['merge']:
-            exec('{}.push(data["title"], data["mdmsg"], data["mdmsg_compat"], data["textmsg"], config)'.format(
+            exec('{}.push(data["title"], data["mdmsg"], data["textmsg"], config)'.format(
                 config['module']))
             return
 
@@ -25,7 +25,7 @@ class Pusher():
         key = eval('{}.getKey(data)'.format(config['module']))
         if key is not None:
             if key in self.datas:
-                for syntax in ['mdmsg', 'mdmsg_compat', 'textmsg']:
+                for syntax in ['mdmsg', 'textmsg']:
                     self.datas[key][syntax] += self.separator
                     self.datas[key][syntax] += data[syntax]
             else:
@@ -33,5 +33,5 @@ class Pusher():
 
     def push(self):
         for data in self.datas.values():
-            exec('{}.push(data["title"], data["mdmsg"], data["mdmsg_compat"], data["textmsg"], data["config"])'.format(
+            exec('{}.push(data["title"], data["mdmsg"], data["textmsg"].strip(), data["config"])'.format(
                 data['config']['module']))

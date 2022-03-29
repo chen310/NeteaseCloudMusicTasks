@@ -9,7 +9,7 @@ def getKey(data):
     return (config['module'], config['Bark_key'], config['Bark_url'], config['sound'], config['group'], config['icon'])
 
 
-def push(title, mdmsg, mdmsg_compat, textmsg, config):
+def push(title, mdmsg, textmsg, config):
     msg = mdmsg
     Bark_key = config['Bark_key']
     Bark_url = config['Bark_url']

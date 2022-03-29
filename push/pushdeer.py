@@ -10,7 +10,7 @@ def getKey(data):
     return (config['module'], config['pushkey'], config['server'])
 
 
-def push(title, mdmsg, mdmsg_compat, textmsg, config):
+def push(title, mdmsg, textmsg, config):
     msg = mdmsg
     pushkey = config['pushkey']
     if len(pushkey) == 0:

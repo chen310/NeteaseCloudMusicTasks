@@ -9,7 +9,7 @@ def getKey(data):
     return (config['module'], config['Skey'], config['method'])
 
 
-def push(title, mdmsg, mdmsg_compat, textmsg, config):
+def push(title, mdmsg, textmsg, config):
     msg = textmsg
     skey = config['Skey']
     method = config['method']

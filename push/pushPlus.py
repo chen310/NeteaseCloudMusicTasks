@@ -10,7 +10,7 @@ def getKey(data):
     return (config['module'], config['pushToken'], config['topic'], config['template'])
 
 
-def push(title, mdmsg, mdmsg_compat, textmsg, config):
+def push(title, mdmsg, textmsg, config):
     msg = mdmsg
     token = config['pushToken']
     topic = config['topic']

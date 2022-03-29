@@ -25,7 +25,7 @@ def get_token(corpid, corpsecret):
         return None
 
 
-def push(title, mdmsg, mdmsg_compat, textmsg, config):    
+def push(title, mdmsg, textmsg, config):    
     msgtype = config['msgtype']
     if msgtype == 'markdown':
         msg = mdmsg
