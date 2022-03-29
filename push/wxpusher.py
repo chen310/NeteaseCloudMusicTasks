@@ -8,7 +8,7 @@ def getKey(data):
     return (config['module'], config['APP_TOKEN'], config['UID'])
 
 
-def push(title, mdmsg, mdmsg_compat, textmsg, config):
+def push(title, mdmsg, textmsg, config):
     data = {
         "appToken": config['APP_TOKEN'],
         "content": mdmsg,

@@ -9,9 +9,9 @@ def getKey(data):
     return (config['module'], config['userId'], config['botToken'])
 
 
-def push(title, mdmsg, mdmsg_compat, textmsg, config):
+def push(title, mdmsg, textmsg, config):
     #deprecate str.replace() funciton since Telegram support ** syntax to bold text.
-    msg = mdmsg_compat # .replace('**', '*')
+    msg = textmsg
     if len(config['userId']) == 0 or len(config['botToken']) == 0:
         return
     server = config['server']
@@ -21,7 +21,7 @@ def push(title, mdmsg, mdmsg_compat, textmsg, config):
     else:
         server = 'https://api.telegram.org'
     url = server +  '/bot' + config['botToken'] + '/sendMessage'
-    ret = requests.post(url, data={'chat_id': config['userId'], 'text': msg, 'parse_mode': "Markdown"}, headers={
+    ret = requests.post(url, data={'chat_id': config['userId'], 'text': msg}, headers={
                   'Content-Type': 'application/x-www-form-urlencoded'})
     print('Telegram response: \n', ret.status_code)
     if ret.status_code != 200:
