@@ -687,7 +687,7 @@ task chen310_NeteaseCloudMusicTasks/ql_update.py
 安装 Linux 依赖
 
 ```shell
-apk add python3-dev gcc libc-dev
+apk add --no-cache python3-dev gcc libc-dev
 ```
 
 安装 Python 依赖
