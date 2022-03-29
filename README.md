@@ -499,12 +499,18 @@ cookie 获取方式：首先在网页登录[网易云音乐](https://music.163.c
     "Bark_url": "",
     /* Bark的API key */
     "Bark_key": "",
+    /* 铃声 */
+    "sound": "",
+    /* 消息分组 */
+    "group": "",
+    /* 图标链接 */
+    "icon": "",
     /* 是否将多个账号的信息合并推送, 建议为false，iOS推送消息过长可能会失败 */
     "merge": false
 }
 ```
 
-要使用 Bark 的话需要填写 `Bark_url` 和 `Bark_key`。可以使用 Bark 官方 API 或者自行搭建。
+要使用 Bark 的话需要填写 `Bark_url` 和 `Bark_key`，`sound`、`group` 和 `icon` 根据需要选填，如果不清楚如何填写就放空。可以使用 Bark 官方 API 或者自行搭建。
 
 ##### pushdeer
 
@@ -652,7 +658,7 @@ docker exec -it qinglong bash
 ql repo https://github.com/chen310/NeteaseCloudMusicTasks.git "index.py" "" "py"
 ```
 
-### 生成配置文件
+### 更新配置文件
 
 ```shell
 task chen310_NeteaseCloudMusicTasks/ql_update.py
@@ -660,14 +666,21 @@ task chen310_NeteaseCloudMusicTasks/ql_update.py
 
 ### 安装依赖
 
+安装 Linux 依赖
+
 ```shell
 apk add python3-dev gcc libc-dev
+```
+
+安装 Python 依赖
+
+```shell
 pip3 install requests json5 pycryptodomex
 ```
 
 ### 修改配置文件
 
-对配置文件 `config.json` 进行修改，修改方式可以参考[修改配置](#账号密码)
+在`脚本管理`中找到项目目录，对目录中的配置文件 `config.json` 进行修改，修改方式可以参考[修改配置](#账号密码)
 
 ### 更新代码
 

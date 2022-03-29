@@ -99,6 +99,12 @@
                 "Bark_url": "",
                 /* Bark的API key */
                 "Bark_key": "",
+                /* 铃声 */
+                "sound": "",
+                /* 消息分组 */
+                "group": "",
+                /* 图标链接 */
+                "icon": "",
                 /* 是否将多个账号的信息合并推送, 建议为false，iOS推送消息过长可能会失败 */
                 "merge": false
             },
