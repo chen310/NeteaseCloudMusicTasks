@@ -400,6 +400,7 @@ cookie 获取方式：首先在网页登录[网易云音乐](https://music.163.c
 5. [Telegram](https://telegram.org/)
 6. [Bark](https://github.com/Finb/Bark)
 7. [pushdeer](https://github.com/easychen/pushdeer)
+8. [wxpusher](https://wxpusher.zjiecode.com)
 
 要使用推送的话将相应的 `enable` 设为 `true`，并填写配置
 
@@ -529,6 +530,23 @@ cookie 获取方式：首先在网页登录[网易云音乐](https://music.163.c
 ```
 
 要使用 pushdeer 的话需要填写 `pushkey`。如果使用自己搭建的服务器，请填写 `server`。
+
+##### wxpusher
+
+```json5
+"wxpusher": {
+    /* https://wxpusher.zjiecode.com */
+    "module": "wxpusher",
+    /* 是否启用推送 */
+    "enable": false,
+    /* 是否将多个账号的信息合并推送 */
+    "merge": false,
+    "APP_TOKEN": "",
+    "UID": ""
+}
+```
+
+要使用 wxpusher 的话需要填写 `APP_TOKEN`和`UID`，点击[wxpusher](http://wxpusher.zjiecode.com/admin) 登陆创建应用获取`APP_TOKEN`，微信扫码后在用户列表获取`UID`
 
 #### 刷单曲播放量
 

@@ -20,7 +20,7 @@
             "X-Real-IP": "",
             /* 是否运行该账号的任务 */
             "enable": true
-        } 
+        }
     ],
     "setting": {
         /* 推送 */
@@ -119,6 +119,16 @@
                 "pushkey": "",
                 /* 是否将多个账号的信息合并推送 */
                 "merge": false
+            },
+            "wxpusher": {
+                /* https://wxpusher.zjiecode.com */
+                "module": "wxpusher",
+                /* 是否启用推送 */
+                "enable": false,
+                /* 是否将多个账号的信息合并推送 */
+                "merge": false,
+                "APP_TOKEN": "",
+                "UID": ""
             }
         },
         /* 签到 */
@@ -303,7 +313,7 @@
                     "我的歌单"
                 ],
                 /* 创建成功后是否自动删除该动态 */
-                "delete": true                
+                "delete": true
             }
         },
         /* 打卡刷歌 */
