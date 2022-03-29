@@ -3,9 +3,9 @@ import requests
 
 def getKey(data):
     config = data['config']
-    if len(config['Bark_key']) == 0:
+    if len(config['APP_TOKEN']) == 0 or len(config['UID']) == 0:
         return None
-    return (config['module'], config['APP_TOKEN'],config['UID'])
+    return (config['module'], config['APP_TOKEN'], config['UID'])
 
 
 def push(title, mdmsg, mdmsg_compat, textmsg, config):
@@ -13,10 +13,10 @@ def push(title, mdmsg, mdmsg_compat, textmsg, config):
         "appToken": config['APP_TOKEN'],
         "content": mdmsg,
         "summary": title,
-        "contentType": 1,
+        "contentType": 3,
         "topicIds": [
         ],
-        "uids":config['UID']
+        "uids": [config['UID']]
         ,
     }
     url = "http://wxpusher.zjiecode.com/api/send/message"

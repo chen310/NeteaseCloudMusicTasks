@@ -127,8 +127,8 @@
                 "enable": false,
                 /* 是否将多个账号的信息合并推送 */
                 "merge": false,
-                "APP_TOKEN": "AT_XXX",
-                "UID": ["UID_xxx","UID_xxx"]
+                "APP_TOKEN": "",
+                "UID": ""
             }
         },
         /* 签到 */
