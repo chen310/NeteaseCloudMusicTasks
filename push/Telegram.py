@@ -10,7 +10,6 @@ def getKey(data):
 
 
 def push(title, mdmsg, textmsg, config):
-    #deprecate str.replace() funciton since Telegram support ** syntax to bold text.
     msg = textmsg
     if len(config['userId']) == 0 or len(config['botToken']) == 0:
         return

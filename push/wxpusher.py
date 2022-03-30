@@ -14,10 +14,8 @@ def push(title, mdmsg, textmsg, config):
         "content": mdmsg,
         "summary": title,
         "contentType": 3,
-        "topicIds": [
-        ],
+        "topicIds": [],
         "uids": [config['UID']]
-        ,
     }
     url = "http://wxpusher.zjiecode.com/api/send/message"
     requests.post(url, json=data)
