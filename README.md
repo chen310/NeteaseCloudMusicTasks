@@ -684,12 +684,6 @@ docker exec -it qinglong bash
 ql repo https://github.com/chen310/NeteaseCloudMusicTasks.git "index.py" "" "py"
 ```
 
-### 更新配置文件
-
-```shell
-task chen310_NeteaseCloudMusicTasks/ql_update.py
-```
-
 ### 安装依赖
 
 安装 Linux 依赖
@@ -702,6 +696,12 @@ apk add --no-cache python3-dev gcc libc-dev
 
 ```shell
 pip3 install requests json5 pycryptodomex
+```
+
+### 更新配置文件
+
+```shell
+task chen310_NeteaseCloudMusicTasks/ql_update.py
 ```
 
 ### 修改配置文件
