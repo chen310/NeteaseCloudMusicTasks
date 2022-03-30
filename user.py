@@ -176,15 +176,18 @@ class User(object):
 
     def taskTitle(self, title):
         self.msg += '#### ' + title + '\n'
-        print('#### ' + title)
+        print('【' + title + '】')
 
-    def taskInfo(self, key, value=''):
+    def taskInfo(self, key, value='', useCodeblock=True):
         if value == '':
             self.msg += '- ' + str(key) + '\n'
-            print('- ' + str(key))
+            print('    • ' + str(key))
+        elif useCodeblock:
+            self.msg += '- ' + str(key) + ': `' + str(value) + '`\n'
+            print('    • ' + str(key) + ': ' + str(value))
         else:
             self.msg += '- ' + str(key) + ': ' + str(value) + '\n'
-            print('- ' + str(key) + ': ' + str(value))
+            print('    • ' + str(key) + ': ' + str(value))
 
 
     def finishTask(self):
@@ -327,7 +330,7 @@ class User(object):
                 self.taskInfo('听歌总数', str(resp['listenSongs']) + '首')
                 if resp['listenSongs'] - self.songnumber < 300:
                     self.taskInfo(
-                        '温馨提示', '数据更新可能有延时，[点击查看最新数据](https://music.163.com/#/user/home?id='+str(self.uid)+')')
+                        '温馨提示', '数据更新可能有延时，[点击查看最新数据](https://music.163.com/#/user/home?id='+str(self.uid)+')', False)
                 return
             else:
                 total = 300 - (resp['listenSongs'] - self.songnumber)
@@ -348,7 +351,7 @@ class User(object):
         self.taskInfo('听歌总数', str(resp['listenSongs']) + '首')
         if resp['listenSongs'] - self.songnumber < 300:
             self.taskInfo(
-                '温馨提示', '数据更新可能有延时，[点击查看最新数据](https://music.163.com/#/user/home?id='+str(self.uid)+')')
+                '温馨提示', '数据更新可能有延时，[点击查看最新数据](https://music.163.com/#/user/home?id='+str(self.uid)+')', False)
         self.finishTask()
 
     def daka(self):
@@ -412,7 +415,7 @@ class User(object):
                 self.taskInfo('听歌总数', str(resp['listenSongs']) + '首')
                 if resp['listenSongs'] - self.listenSongs < 300:
                     self.taskInfo(
-                        '温馨提示', '数据更新可能有延时，[点击查看最新数据](https://music.163.com/#/user/home?id='+str(self.uid)+')')
+                        '温馨提示', '数据更新可能有延时，[点击查看最新数据](https://music.163.com/#/user/home?id='+str(self.uid)+')', False)
                 return
 
         time.sleep(user_setting['daka']['sleep_time'] + 5)
@@ -425,7 +428,7 @@ class User(object):
         self.taskInfo('听歌总数', str(resp['listenSongs']) + '首')
         if resp['listenSongs'] - self.listenSongs < 300:
             self.taskInfo(
-                '温馨提示', '数据更新可能有延时，[点击查看最新数据](https://music.163.com/#/user/home?id='+str(self.uid)+')')
+                '温馨提示', '数据更新可能有延时，[点击查看最新数据](https://music.163.com/#/user/home?id='+str(self.uid)+')', False)
         self.finishTask()
 
     def play_playlists(self):
@@ -527,7 +530,7 @@ class User(object):
                 self.taskInfo('感谢关注', author_nickname)
                 # self.taskInfo('如果不想关注，请在配置文件里修改，并在官方客户端里取消关注')
                 self.taskInfo(
-                    '如果不想关注，请在配置文件里修改，并在[主页](https://music.163.com/#/user/home?id='+str(author_uid)+')里取消关注')
+                    '如果不想关注，请在配置文件里修改，并在[主页](https://music.163.com/#/user/home?id='+str(author_uid)+')里取消关注', False)
                 self.finishTask()
 
     def sign(self):

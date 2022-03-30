@@ -24,6 +24,7 @@ def md2text(data):
     data = re.sub(r'- ', r'   •', data)
     data = re.sub(r'#### (.*?)\n', r'【\1】\n\n', data)
     data = re.sub(r'### ', r'\n', data)
+    data = data.replace('`', '')
     return data
 
 
