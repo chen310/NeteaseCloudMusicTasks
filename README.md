@@ -1,9 +1,6 @@
 # 网易云音乐自动任务
 
-<p>
-  <a href="https://music.163.com/#/user/home?id=347837981"><img alt="网易云音乐关注数" src="https://img.shields.io/badge/dynamic/json?color=e60026&label=%E7%BD%91%E6%98%93%E4%BA%91%E9%9F%B3%E4%B9%90&query=%24.profile.followeds&url=http%3A%2F%2Fmusic.163.com%2Fapi%2Fv1%2Fuser%2Fdetail%2F347837981"></a>
-  <a href="http://www.coolapk.com/u/3189084"><img alt="酷安关注数" src="https://img.shields.io/badge/dynamic/json?color=0eb066&label=%E9%85%B7%E5%AE%89&query=%24.data.totalSubs&url=https%3A%2F%2Fapi.spencerwoo.com%2Fsubstats%2F%3Fsource%3Dcoolapk%26queryKey%3D3189084"></a>
-</p>
+**最近有反馈音乐人被取消资格了的，请谨慎使用❗❗❗**
 
 ## 功能
 
