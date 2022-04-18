@@ -1,6 +1,6 @@
 {
     /* 开源地址: https://github.com/chen310/NeteaseCloudMusicTasks */
-    "version": "2.22",
+    "version": "2.23",
     "sha": "commitId",
     /* 多账号的配置详见 https://github.com/chen310/NeteaseCloudMusicTasks#%E5%A4%9A%E8%B4%A6%E5%8F%B7 */
     "users": [
@@ -314,7 +314,12 @@
                 ],
                 /* 创建成功后是否自动删除该动态 */
                 "delete": true
-            }
+            },
+            "824": {
+                "taskName": "浏览黑胶时光机",
+                "module": "vipTimeMachine",
+                "enable": false
+            }            
         },
         /* 打卡刷歌 */
         "daka": {

@@ -37,7 +37,6 @@ class NetEase(object):
             cookie_jar = LWPCookieJar()
         self.session.cookies = cookie_jar
 
-
     def get_cookie_file(self, filename):
         if len(filename) == 0:
             return None
@@ -323,7 +322,7 @@ class NetEase(object):
     # 获取任务
     def mission_stage_get(self):
         path = '/weapi/nmusician/workbench/mission/stage/list'
-        return self.request("POST", path)           
+        return self.request("POST", path)
 
     # 领取云豆
     def reward_obtain(self, userMissionId, period):
@@ -514,9 +513,14 @@ class NetEase(object):
     def circle_get(self, circleId):
         path = "/weapi/circle/get"
         params = dict(circleId=circleId)
-        return self.request("POST", path, params)        
+        return self.request("POST", path, params)
 
     def vipcenter_task_external(self, type):
         path = "/weapi/vipnewcenter/app/level/task/external"
         params = dict(type=type)
-        return self.request("POST", path, params)             
+        return self.request("POST", path, params)
+
+    def vipcenter_task_handle(self, type):
+        path = "/weapi/vipnewcenter/app/level/task/handle"
+        params = dict(actionType=type)
+        return self.request("POST", path, params)
