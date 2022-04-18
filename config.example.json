@@ -211,13 +211,13 @@
         /* 音乐人任务，登录音乐人中心默认开启，其他按需开启 */
         "musician_task": {
             /* 登录音乐人中心 */
-            "749006": {
+            "800004": {
                 "taskName": "音乐人中心签到",
                 "module": "musicianSignin",
                 "enable": true
             },
             /* 发布3条动态 */
-            "740004": {
+            "801005": {
                 "taskName": "发布动态",
                 "module": "publishEvent",
                 "enable": false,
@@ -258,7 +258,7 @@
                 /* 发布后自动删除 */
                 "delete": true
             },
-            "755001": {
+            "807006": {
                 "taskName": "回复粉丝私信",
                 "module": "sendPrivateMsg",
                 "enable": false,
@@ -274,7 +274,7 @@
                 "module": "watchCollegeLesson",
                 "enable": false
             },
-            "740005": {
+            "797005": {
                 "taskName": "访问自己的云圈",
                 "module": "visitMyCircle",
                 "enable": false,
@@ -283,7 +283,7 @@
                 "circleId": ""
             },
             /* 发布Mlog：根据填写的歌曲ID，自动下载歌曲的专辑图，并上传 */
-            "744005": {
+            "811003": {
                 "taskName": "发布mlog",
                 "module": "publishMlog",
                 /* 是否开启任务 */
